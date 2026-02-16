@@ -13,6 +13,7 @@ import structlog
 
 from app.config import get_settings
 from app.exceptions import MemoryConnectionError, MemoryReadError, MemoryWriteError
+from app.memory import offload as offload_module
 from agent_memory import (
     EpisodicMemoryConfig,
     LongTermMemoryConfig,
@@ -111,6 +112,8 @@ class MemoryManager:
         await self._backend.close()
 
     async def save_short_term(self, session_id: str, data: dict[str, Any]) -> None:
+        if not get_settings().short_term_enabled:
+            return
         try:
             await self._backend.save_short_term(session_id=session_id, data=data)
         except AgentMemoryWriteError as e:
@@ -120,6 +123,8 @@ class MemoryManager:
             raise MemoryWriteError("Failed to save session context.", internal_message=str(e)) from e
 
     async def get_short_term(self, session_id: str) -> dict[str, Any] | None:
+        if not get_settings().short_term_enabled:
+            return None
         try:
             return await self._backend.get_short_term(session_id=session_id)
         except AgentMemoryReadError as e:
@@ -129,6 +134,8 @@ class MemoryManager:
             raise MemoryReadError("Failed to retrieve session context.", internal_message=str(e)) from e
 
     async def save_long_term(self, user_id: str, session_id: str, data: dict[str, Any]) -> None:
+        if not get_settings().long_term_enabled:
+            return
         try:
             await self._backend.save_long_term(user_id=user_id, session_id=session_id, data=data)
         except AgentMemoryWriteError as e:
@@ -138,6 +145,8 @@ class MemoryManager:
             raise MemoryWriteError("Failed to persist conversation.", internal_message=str(e)) from e
 
     async def get_relevant_history(self, user_id: str, query: str, limit: int = 10) -> list[dict[str, Any]]:
+        if not get_settings().long_term_enabled:
+            return []
         try:
             return await self._backend.get_relevant_history(user_id=user_id, query=query, limit=limit)
         except AgentMemoryReadError as e:
@@ -147,6 +156,8 @@ class MemoryManager:
             raise MemoryReadError("Failed to retrieve conversation history.", internal_message=str(e)) from e
 
     async def clear_session(self, session_id: str) -> None:
+        if not get_settings().short_term_enabled:
+            return
         try:
             await self._backend.clear_session(session_id=session_id)
         except AgentMemoryWriteError as e:
@@ -168,6 +179,8 @@ class MemoryManager:
         summary: str | None = None,
         metadata: dict[str, Any] | None = None,
     ) -> str:
+        if not get_settings().episodic_enabled:
+            return ""
         try:
             return await self._backend.add_episode(
                 user_id=user_id,
@@ -189,6 +202,8 @@ class MemoryManager:
         event_type: str | None = None,
         limit: int = 50,
     ) -> list[dict[str, Any]]:
+        if not get_settings().episodic_enabled:
+            return []
         try:
             return await self._backend.get_episodes(
                 user_id=user_id,
@@ -201,18 +216,24 @@ class MemoryManager:
             raise MemoryReadError("Failed to retrieve episodes.", internal_message=str(e)) from e
 
     async def add_fact(self, user_id: str, fact: str, *, metadata: dict[str, Any] | None = None) -> None:
+        if not get_settings().semantic_enabled:
+            return
         try:
             await self._backend.add_fact(user_id=user_id, fact=fact, metadata=metadata)
         except AgentMemoryWriteError as e:
             raise MemoryWriteError("Failed to store fact.", internal_message=str(e)) from e
 
     async def search_facts(self, user_id: str, query: str, limit: int = 10) -> list[dict[str, Any]]:
+        if not get_settings().semantic_enabled:
+            return []
         try:
             return await self._backend.search_facts(user_id=user_id, query=query, limit=limit)
         except AgentMemoryReadError as e:
             raise MemoryReadError("Failed to search facts.", internal_message=str(e)) from e
 
     async def get_all_facts(self, user_id: str, limit: int = 50) -> list[dict[str, Any]]:
+        if not get_settings().semantic_enabled:
+            return []
         try:
             return await self._backend.get_all_facts(user_id=user_id, limit=limit)
         except AgentMemoryReadError as e:
@@ -228,6 +249,8 @@ class MemoryManager:
         conditions: list[str] | None = None,
         metadata: dict[str, Any] | None = None,
     ) -> str:
+        if not get_settings().procedural_enabled:
+            return ""
         try:
             return await self._backend.add_procedure(
                 user_id=user_id,
@@ -241,6 +264,8 @@ class MemoryManager:
             raise MemoryWriteError("Failed to store procedure.", internal_message=str(e)) from e
 
     async def get_procedure(self, user_id: str, name: str) -> dict[str, Any] | None:
+        if not get_settings().procedural_enabled:
+            return None
         try:
             return await self._backend.get_procedure(user_id=user_id, name=name)
         except AgentMemoryReadError as e:
@@ -253,6 +278,8 @@ class MemoryManager:
         *,
         include_docs: bool = False,
     ) -> list[dict[str, Any]]:
+        if not get_settings().procedural_enabled:
+            return []
         try:
             return await self._backend.list_procedures(
                 user_id=user_id,
@@ -261,3 +288,19 @@ class MemoryManager:
             )
         except AgentMemoryReadError as e:
             raise MemoryReadError("Failed to list procedures.", internal_message=str(e)) from e
+
+    async def offload_context(
+        self, user_id: str, session_id: str, messages: list[dict[str, Any]]
+    ) -> None:
+        """Persist old messages to MongoDB (offloaded context). Best effort; does not raise."""
+        settings = get_settings()
+        if not settings.short_term_enabled:
+            return
+        await offload_module.offload_messages(
+            mongodb_url=settings.mongodb_url,
+            mongodb_db=settings.mongodb_db,
+            collection=settings.offloaded_context_collection,
+            user_id=user_id,
+            session_id=session_id,
+            messages=messages,
+        )

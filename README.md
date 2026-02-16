@@ -16,6 +16,13 @@ Production-ready multi-agent system using **ADK (Agent Development Kit)** in Pyt
 - **Semantic**: mem0 — one fact per turn (user message + intent).
 - **Procedural**: MongoDB — saved how-to procedures (name, steps, description). Filled when the user says "remember this procedure" (ProcedureAgent); injected into context so the assistant can recall steps when the user asks "how do I do X?".
 
+**Context management** (configurable via env):
+
+- **Context offloading**: When short-term message count exceeds `CONTEXT_OFFLOAD_MESSAGE_THRESHOLD`, the oldest messages are written to MongoDB (`agent_offloaded_context`) and only the last `CONTEXT_OFFLOAD_KEEP_RECENT` messages are kept in Redis.
+- **Context filtering**: Limits on how much is included: `CONTEXT_LONG_TERM_MAX_ITEMS`, `CONTEXT_LONG_TERM_MIN_SCORE` (optional), `CONTEXT_PROCEDURE_MAX_ITEMS`, `CONTEXT_SHORT_TERM_RECENT_N`.
+- **Context caching**: Redis cache for long-term and procedure lookups (keyed by `user_id` and optionally message hash) with `CONTEXT_CACHE_TTL_SECONDS`. Procedure cache is invalidated when a new procedure is saved.
+- **Context compaction**: Truncates each context part to `CONTEXT_COMPACTION_MAX_CHARS_PER_PART` and the combined context to `CONTEXT_COMPACTION_MAX_TOTAL_CHARS` so the prompt stays within size limits.
+
 See **[Memory flow diagrams](docs/memory.md)** for short-term and long-term flows (Mermaid).
 
 ## Flows
@@ -108,15 +115,33 @@ list_procedures(user_id)   →     add_fact(user_id, fact)
   /api
     routes.py
     schemas.py
+  /context               # Reusable context pipeline, config, persist (see app/context/README.md)
   /services
-    supervisor_service.py  # Chat flow: memory → context → run → persist
+    base_supervisor.py    # BaseSupervisorService: build context → run agent → persist
+    supervisor_service.py # ADK Supervisor (extends BaseSupervisorService)
   /utils
     circuit_breaker.py
   config.py
 /agent_memory          # Reusable memory package (no app dependency)
+/agent_context         # Reusable context pipeline + persist (no app dependency)
 main.py
 .env
 ```
+
+## Common packages (like agent_memory)
+
+- **agent_memory** — Reusable memory layer: short-term, long-term, episodic, semantic, procedural. Config via env or constructor; no app dependency. See [agent_memory/README.md](agent_memory/README.md).
+- **agent_context** — Reusable context pipeline and after-turn persist: config, filter, compaction, cache, pipeline, persist. Use with any memory that implements the protocols; no app dependency. See [agent_context/README.md](agent_context/README.md). The app uses it via `app.context` (re-exports + `ContextConfig.from_settings(get_settings())`).
+
+## Modular context and base supervisor
+
+Context building and persist are **reusable** so you can plug them into any supervisor-style agent:
+
+- **`app/context/`** — Re-exports [agent_context](agent_context/README.md): context pipeline (retrieve → filter → compact), config, and after-turn persist. Uses **protocols** for memory and cache. See [app/context/README.md](app/context/README.md).
+- **`BaseSupervisorService`** (`app/services/base_supervisor.py`) — Abstract base: `_build_context()` (uses `ContextPipeline`), `_run_agent()` (you implement), `_persist_after_turn()` (uses `after_turn`), `chat()` that ties them together. Subclass and implement `_run_agent(user_id, session_id, user_message, flow_id) -> (intent, response_payload)` to use with another agent or runner.
+- **`SupervisorService`** — Extends `BaseSupervisorService`, wires the ADK Supervisor agent, `PENDING_PROCEDURES`, and app exceptions.
+
+To use in another project: depend on the same `app.context` and `BaseSupervisorService` pattern (or copy the package); implement the memory protocols and `_run_agent` for your agent.
 
 ## Run Instructions
 

@@ -97,7 +97,7 @@ def _mem0_result_to_item(item: Any) -> dict[str, Any]:
     meta = (item.get("metadata") if isinstance(item, dict) else getattr(item, "metadata", None)) or {}
     if not isinstance(meta, dict):
         meta = {}
-    return {
+    out = {
         "id": str(item.get("id", "") if isinstance(item, dict) else getattr(item, "id", "")),
         "memory": str(item.get("memory", "") if isinstance(item, dict) else getattr(item, "memory", "")),
         "metadata": meta,
@@ -106,6 +106,10 @@ def _mem0_result_to_item(item: Any) -> dict[str, Any]:
         "created_at": item.get("created_at") if isinstance(item, dict) else getattr(item, "created_at", None),
         "updated_at": item.get("updated_at") if isinstance(item, dict) else getattr(item, "updated_at", None),
     }
+    score = item.get("score") if isinstance(item, dict) else getattr(item, "score", None)
+    if score is not None:
+        out["score"] = float(score)
+    return out
 
 
 class LongTermMemory:
