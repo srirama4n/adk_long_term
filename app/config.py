@@ -28,6 +28,10 @@ class Settings(BaseSettings):
     # mem0 uses a dedicated collection for vector-backed semantic memory
     mem0_collection: str = "mem0_long_memory"
     mem0_embedding_model: str = "gemini-embedding-001"
+    # Episodic, semantic, procedural memory collections
+    episodic_collection: str = "agent_episodic"
+    mem0_semantic_collection: str = "mem0_semantic"
+    procedural_collection: str = "agent_procedural"
 
     # LLM / ADK
     google_api_key: Optional[str] = None

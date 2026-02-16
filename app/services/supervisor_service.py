@@ -22,6 +22,7 @@ from app.exceptions import (
     MemoryError as AppMemoryError,
 )
 from app.memory.memory_manager import MemoryManager
+from app.tools.procedure_tool import PENDING_PROCEDURES
 
 log = structlog.get_logger(__name__)
 
@@ -39,7 +40,25 @@ def _infer_intent_from_events(events: list[Any]) -> str:
             return "weather_query"
         if "Finance" in author:
             return "finance_query"
+        if "Procedure" in author:
+            return "procedure_query"
     return "general_query"
+
+
+def _format_procedures_for_context(procedures: list[dict[str, Any]]) -> str:
+    """Format saved procedures for injection into supervisor context (name, description, steps)."""
+    lines = []
+    for p in procedures:
+        name = p.get("name") or "unnamed"
+        desc = p.get("description") or ""
+        steps = p.get("steps") or []
+        block = f"- Procedure: {name}"
+        if desc:
+            block += f"\n  Description: {desc}"
+        if steps:
+            block += "\n  Steps:\n" + "\n".join(f"    {i + 1}. {s}" for i, s in enumerate(steps))
+        lines.append(block)
+    return "\n\n".join(lines) if lines else ""
 
 
 def _extract_response_payload(events: list[Any]) -> dict[str, Any]:
@@ -141,11 +160,36 @@ class SupervisorService:
             long_term_count=len(long_term),
         )
 
+        # Procedural recall: load user's saved procedures for context (best effort)
+        procedures_for_context: list[dict[str, Any]] = []
+        try:
+            procedures_for_context = await self._memory.list_procedures(
+                user_id, limit=10, include_docs=True
+            )
+            if procedures_for_context:
+                log.info(
+                    "flow_step",
+                    flow_id=flow_id,
+                    step="procedural_retrieved",
+                    procedures_count=len(procedures_for_context),
+                )
+        except Exception as e:
+            log.warning(
+                "procedural_recall_skip",
+                flow_id=flow_id,
+                user_id=user_id,
+                error=str(e),
+                error_type=type(e).__name__,
+            )
+
         context_parts = []
         if short_term and short_term.get("messages"):
             context_parts.append("[Recent context] " + json.dumps(short_term.get("messages", [])[-3:]))
         if long_term:
             context_parts.append("[Relevant history] " + json.dumps([h.get("intent_history", []) for h in long_term[:2]]))
+        if procedures_for_context:
+            procedures_text = _format_procedures_for_context(procedures_for_context)
+            context_parts.append("[Saved procedures]\n" + procedures_text)
 
         user_message = message
         if context_parts:
@@ -178,23 +222,58 @@ class SupervisorService:
                 flow_id=flow_id,
                 step="agent_invoke_start",
                 agent="Supervisor",
-                description="Running Supervisor (routes to WeatherAgent/FinanceAgent)",
+                description="Running Supervisor (routes to WeatherAgent/FinanceAgent/ProcedureAgent)",
             )
             t0 = time.perf_counter()
-            async for event in self._runner.run_async(
-                user_id=user_id,
-                session_id=session_id,
-                new_message=content,
-            ):
-                events_list.append(event)
-                author = getattr(event, "author", None) or ""
-                if author:
-                    log.debug(
-                        "flow_event",
-                        flow_id=flow_id,
-                        event_author=author,
-                        has_content=bool(getattr(event, "content", None)),
-                    )
+            # Set request-scoped list for ProcedureAgent tool so we can persist after run
+            pending_procedures_token = PENDING_PROCEDURES.set([])
+            try:
+                async for event in self._runner.run_async(
+                    user_id=user_id,
+                    session_id=session_id,
+                    new_message=content,
+                ):
+                    events_list.append(event)
+                    author = getattr(event, "author", None) or ""
+                    if author:
+                        log.debug(
+                            "flow_event",
+                            flow_id=flow_id,
+                            event_author=author,
+                            has_content=bool(getattr(event, "content", None)),
+                        )
+            finally:
+                # Persist any procedures recorded by ProcedureAgent during the run
+                try:
+                    pending = PENDING_PROCEDURES.get()
+                except LookupError:
+                    pending = []
+                if pending:
+                    for p in pending:
+                        try:
+                            await self._memory.add_procedure(
+                                user_id,
+                                p.get("name", "unnamed"),
+                                p.get("steps", []),
+                                description=p.get("description"),
+                            )
+                            log.info(
+                                "procedure_saved",
+                                flow_id=flow_id,
+                                user_id=user_id,
+                                name=p.get("name"),
+                                steps_count=len(p.get("steps", [])),
+                            )
+                        except Exception as e:
+                            log.warning(
+                                "procedure_save_skip",
+                                flow_id=flow_id,
+                                user_id=user_id,
+                                name=p.get("name"),
+                                error=str(e),
+                                error_type=type(e).__name__,
+                            )
+                PENDING_PROCEDURES.reset(pending_procedures_token)
             elapsed = time.perf_counter() - t0
             authors = [getattr(e, "author", None) or "" for e in events_list if getattr(e, "author", None)]
             log.info(
@@ -241,6 +320,20 @@ class SupervisorService:
                 "intent_history": [(message, intent)],
             },
         )
+
+        # Episodic: one episode per turn (best effort; do not fail chat)
+        try:
+            content = {"user_message": (message or "")[:300], "intent": intent, "response_preview": str(response_payload)[:200]}
+            await self._memory.add_episode(user_id, session_id, event_type="turn", content=content)
+        except Exception as e:
+            log.warning("episodic_add_skip", flow_id=flow_id, user_id=user_id, error=str(e), error_type=type(e).__name__)
+
+        # Semantic: one short fact per turn (best effort; do not fail chat)
+        try:
+            fact = f"User asked: {(message or '')[:100]}; intent was {intent}."
+            await self._memory.add_fact(user_id, fact)
+        except Exception as e:
+            log.warning("semantic_add_skip", flow_id=flow_id, user_id=user_id, error=str(e), error_type=type(e).__name__)
 
         log.info(
             "flow_end",

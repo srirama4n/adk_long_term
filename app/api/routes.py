@@ -11,7 +11,17 @@ import structlog
 from fastapi import APIRouter, Depends, HTTPException, Request
 from fastapi.responses import StreamingResponse
 
-from app.api.schemas import ChatRequest, ChatResponse, MemoryResponse
+from app.api.schemas import (
+    AddEpisodicRequest,
+    AddProceduralRequest,
+    AddSemanticRequest,
+    ChatRequest,
+    ChatResponse,
+    EpisodicResponse,
+    MemoryResponse,
+    ProceduralResponse,
+    SemanticResponse,
+)
 from app.config import get_settings
 from app.exceptions import AppException
 from app.memory.memory_manager import MemoryManager
@@ -206,6 +216,130 @@ async def get_memory_for_user(
     except Exception as e:
         log.exception("api_error", path="/memory/{user_id}", error=str(e))
         raise HTTPException(status_code=500, detail="Failed to retrieve memory.") from e
+
+
+# --- Episodic memory (populated from chat + optional manual add) ---
+
+
+@router.get("/memory/{user_id}/episodic", response_model=EpisodicResponse)
+async def get_episodic(
+    user_id: str,
+    memory: Annotated[MemoryManager, Depends(get_memory)],
+    session_id: str | None = None,
+    since_iso: str | None = None,
+    event_type: str | None = None,
+    limit: int = 50,
+) -> EpisodicResponse:
+    """Return episodic memory (events) for the user. Populated from chat; optional filters."""
+    try:
+        await memory.connect()
+        episodes = await memory.get_episodes(
+            user_id, session_id=session_id, since_iso=since_iso, event_type=event_type, limit=limit
+        )
+        return EpisodicResponse(user_id=user_id, episodes=episodes)
+    except Exception as e:
+        log.exception("api_error", path="/memory/{user_id}/episodic", error=str(e))
+        raise HTTPException(status_code=500, detail="Failed to retrieve episodic memory.") from e
+
+
+@router.post("/memory/{user_id}/episodic")
+async def add_episodic(
+    user_id: str,
+    body: AddEpisodicRequest,
+    memory: Annotated[MemoryManager, Depends(get_memory)],
+) -> dict:
+    """Manually add one episode (optional; chat already adds one per turn)."""
+    try:
+        await memory.connect()
+        episode_id = await memory.add_episode(
+            user_id, body.session_id, body.event_type, body.content, summary=body.summary, metadata=body.metadata
+        )
+        return {"user_id": user_id, "episode_id": episode_id}
+    except Exception as e:
+        log.exception("api_error", path="POST /memory/{user_id}/episodic", error=str(e))
+        raise HTTPException(status_code=500, detail="Failed to add episode.") from e
+
+
+# --- Semantic memory (populated from chat + optional manual add) ---
+
+
+@router.get("/memory/{user_id}/semantic", response_model=SemanticResponse)
+async def get_semantic(
+    user_id: str,
+    memory: Annotated[MemoryManager, Depends(get_memory)],
+    query: str = "",
+    limit: int = 50,
+) -> SemanticResponse:
+    """Return semantic memory (facts) for the user. Populated from chat; optional search query."""
+    try:
+        await memory.connect()
+        if query.strip():
+            facts = await memory.search_facts(user_id, query.strip(), limit=limit)
+        else:
+            facts = await memory.get_all_facts(user_id, limit=limit)
+        return SemanticResponse(user_id=user_id, facts=facts)
+    except Exception as e:
+        log.exception("api_error", path="/memory/{user_id}/semantic", error=str(e))
+        raise HTTPException(status_code=500, detail="Failed to retrieve semantic memory.") from e
+
+
+@router.post("/memory/{user_id}/semantic")
+async def add_semantic(
+    user_id: str,
+    body: AddSemanticRequest,
+    memory: Annotated[MemoryManager, Depends(get_memory)],
+) -> dict:
+    """Manually add one fact (optional; chat already adds one per turn)."""
+    try:
+        await memory.connect()
+        await memory.add_fact(user_id, body.fact, metadata=body.metadata)
+        return {"user_id": user_id, "status": "added"}
+    except Exception as e:
+        log.exception("api_error", path="POST /memory/{user_id}/semantic", error=str(e))
+        raise HTTPException(status_code=500, detail="Failed to add fact.") from e
+
+
+# --- Procedural memory (separate: not populated from chat; add only via API) ---
+
+
+@router.get("/memory/{user_id}/procedural", response_model=ProceduralResponse)
+async def get_procedural(
+    user_id: str,
+    memory: Annotated[MemoryManager, Depends(get_memory)],
+    include_docs: bool = True,
+    limit: int = 50,
+) -> ProceduralResponse:
+    """Return procedural memory (how-to / skills) for the user. Not auto-populated; add via POST."""
+    try:
+        await memory.connect()
+        procedures = await memory.list_procedures(user_id, limit=limit, include_docs=include_docs)
+        return ProceduralResponse(user_id=user_id, procedures=procedures)
+    except Exception as e:
+        log.exception("api_error", path="/memory/{user_id}/procedural", error=str(e))
+        raise HTTPException(status_code=500, detail="Failed to retrieve procedural memory.") from e
+
+
+@router.post("/memory/{user_id}/procedural")
+async def add_procedural(
+    user_id: str,
+    body: AddProceduralRequest,
+    memory: Annotated[MemoryManager, Depends(get_memory)],
+) -> dict:
+    """Add or update a procedure (procedural is separate from chat; only via this API)."""
+    try:
+        await memory.connect()
+        procedure_id = await memory.add_procedure(
+            user_id,
+            body.name,
+            body.steps,
+            description=body.description,
+            conditions=body.conditions,
+            metadata=body.metadata,
+        )
+        return {"user_id": user_id, "procedure_id": procedure_id, "name": body.name}
+    except Exception as e:
+        log.exception("api_error", path="POST /memory/{user_id}/procedural", error=str(e))
+        raise HTTPException(status_code=500, detail="Failed to add procedure.") from e
 
 
 @router.delete("/session/{session_id}")

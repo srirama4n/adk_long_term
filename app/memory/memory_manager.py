@@ -1,28 +1,40 @@
 """
-Unified memory abstraction: short-term and long-term (reusable modules).
+App wrapper around the reusable agent_memory package.
 
-Delegates to app.memory.short_term (Redis) and app.memory.long_term (MongoDB + mem0).
-Any agent can use ShortTermMemory and/or LongTermMemory directly.
+Builds config from app.config.get_settings() and maps agent_memory exceptions
+to app.exceptions so the rest of the app is unchanged.
 """
 
 from __future__ import annotations
 
 from typing import Any
 
+import structlog
+
 from app.config import get_settings
 from app.exceptions import MemoryConnectionError, MemoryReadError, MemoryWriteError
-from app.memory.long_term import LongTermMemory, LongTermMemoryConfig, LongTermMemoryError
-from app.memory.short_term import ShortTermMemory, ShortTermMemoryConfig, ShortTermMemoryError
-import structlog
+from agent_memory import (
+    EpisodicMemoryConfig,
+    LongTermMemoryConfig,
+    MemoryManager as AgentMemoryManager,
+    ProceduralMemoryConfig,
+    SemanticMemoryConfig,
+    ShortTermMemoryConfig,
+)
+from agent_memory.exceptions import (
+    MemoryConnectionError as AgentMemoryConnectionError,
+    MemoryReadError as AgentMemoryReadError,
+    MemoryWriteError as AgentMemoryWriteError,
+)
 
 log = structlog.get_logger(__name__)
 
 
 class MemoryManager:
     """
-    Short-term (ShortTermMemory) + long-term (LongTermMemory) for this app.
+    Short-term, long-term, episodic, semantic, and procedural memory for this app.
 
-    Both backends are reusable; see app.memory.short_term and app.memory.long_term.
+    Uses the agent_memory package; config from get_settings() or constructor overrides.
     """
 
     def __init__(
@@ -35,9 +47,11 @@ class MemoryManager:
         short_term_max_messages: int | None = None,
         short_term_config: ShortTermMemoryConfig | None = None,
         long_term_config: LongTermMemoryConfig | None = None,
+        episodic_config: EpisodicMemoryConfig | None = None,
+        semantic_config: SemanticMemoryConfig | None = None,
+        procedural_config: ProceduralMemoryConfig | None = None,
     ) -> None:
         settings = get_settings()
-        # Short-term
         st_cfg = short_term_config or ShortTermMemoryConfig.from_settings(settings)
         if redis_url is not None or short_term_ttl_seconds is not None or short_term_max_messages is not None:
             st_cfg = ShortTermMemoryConfig(
@@ -46,8 +60,6 @@ class MemoryManager:
                 max_messages=short_term_max_messages if short_term_max_messages is not None else st_cfg.max_messages,
                 key_prefix=st_cfg.key_prefix,
             )
-        self._short_term = ShortTermMemory(config=st_cfg)
-        # Long-term
         lt_cfg = long_term_config or LongTermMemoryConfig.from_settings(settings)
         if mongodb_url is not None or mongodb_db is not None or mongodb_collection is not None:
             lt_cfg = LongTermMemoryConfig(
@@ -60,255 +72,192 @@ class MemoryManager:
                 google_api_key=lt_cfg.google_api_key,
                 gemini_model=lt_cfg.gemini_model,
             )
-        self._long_term = LongTermMemory(config=lt_cfg)
+        ep_cfg = episodic_config or EpisodicMemoryConfig.from_settings(settings)
+        sem_cfg = semantic_config or SemanticMemoryConfig.from_settings(settings)
+        proc_cfg = procedural_config or ProceduralMemoryConfig.from_settings(settings)
+        self._backend = AgentMemoryManager(
+            short_term_config=st_cfg,
+            long_term_config=lt_cfg,
+            episodic_config=ep_cfg,
+            semantic_config=sem_cfg,
+            procedural_config=proc_cfg,
+        )
+
+    def _map_exception(self, e: Exception, default_message: str = "Memory operation failed.") -> Exception:
+        if isinstance(e, AgentMemoryConnectionError):
+            return MemoryConnectionError(default_message, internal_message=str(e))
+        if isinstance(e, AgentMemoryReadError):
+            return MemoryReadError(default_message, internal_message=str(e))
+        if isinstance(e, AgentMemoryWriteError):
+            return MemoryWriteError(default_message, internal_message=str(e))
+        return MemoryReadError(default_message, internal_message=str(e))
 
     async def connect(self) -> None:
-        """Initialize short-term (Redis). Long-term connects lazily on first use."""
-        log.info("memory_manager_connect_start", backends=["short_term"])
         try:
-            await self._short_term.connect()
-            log.info("memory_manager_connect_ok", backends=["short_term"])
-        except MemoryConnectionError:
-            raise
-        except ShortTermMemoryError as e:
-            log.exception(
-                "memory_manager_connect_failed",
-                backend="short_term",
-                error=str(e),
-                error_type=type(e).__name__,
-            )
+            await self._backend.connect()
+        except AgentMemoryConnectionError as e:
             raise MemoryConnectionError(
                 "Unable to connect to memory storage. Please try again later.",
                 internal_message=str(e),
             ) from e
         except Exception as e:
-            log.exception("memory_manager_connect_failed", backend="short_term", error=str(e), error_type=type(e).__name__)
+            log.exception("memory_manager_connect_failed", error=str(e), error_type=type(e).__name__)
             raise MemoryConnectionError(
                 "Unable to connect to memory storage. Please try again later.",
                 internal_message=str(e),
             ) from e
 
     async def close(self) -> None:
-        """Close short-term and long-term connections."""
-        log.info("memory_manager_close_start", backends=["short_term", "long_term"])
-        try:
-            await self._short_term.close()
-            await self._long_term.close()
-            log.info("memory_manager_close_ok")
-        except Exception as e:
-            log.exception("memory_manager_close_failed", error=str(e), error_type=type(e).__name__)
-            raise
+        await self._backend.close()
 
     async def save_short_term(self, session_id: str, data: dict[str, Any]) -> None:
-        """Save short-term session context via ShortTermMemory."""
-        log.info("memory_manager_save_short_term_start", operation="save_short_term", session_id=session_id)
         try:
-            await self._short_term.save(session_id=session_id, data=data)
-            log.info("memory_manager_save_short_term_ok", operation="save_short_term", session_id=session_id)
-        except MemoryConnectionError:
-            raise
-        except ShortTermMemoryError as e:
-            log.exception(
-                "memory_manager_save_short_term_failed",
-                operation="save_short_term",
-                session_id=session_id,
-                error=str(e),
-                error_type=type(e).__name__,
-            )
-            raise MemoryWriteError(
-                "Failed to save session context.",
-                internal_message=str(e),
-            ) from e
+            await self._backend.save_short_term(session_id=session_id, data=data)
+        except AgentMemoryWriteError as e:
+            raise MemoryWriteError("Failed to save session context.", internal_message=str(e)) from e
         except Exception as e:
-            log.exception(
-                "memory_manager_save_short_term_failed",
-                operation="save_short_term",
-                session_id=session_id,
-                error=str(e),
-                error_type=type(e).__name__,
-            )
-            raise MemoryWriteError(
-                "Failed to save session context.",
-                internal_message=str(e),
-            ) from e
+            log.exception("memory_manager_save_short_term_failed", session_id=session_id, error=str(e))
+            raise MemoryWriteError("Failed to save session context.", internal_message=str(e)) from e
 
     async def get_short_term(self, session_id: str) -> dict[str, Any] | None:
-        """Retrieve short-term context via ShortTermMemory."""
-        log.info("memory_manager_get_short_term_start", operation="get_short_term", session_id=session_id)
         try:
-            data = await self._short_term.get(session_id=session_id)
-            log.info(
-                "memory_manager_get_short_term_ok",
-                operation="get_short_term",
-                session_id=session_id,
-                hit=data is not None,
-                messages_count=len((data or {}).get("messages", [])),
-            )
-            return data
-        except MemoryConnectionError:
-            raise
-        except ShortTermMemoryError as e:
-            log.exception(
-                "memory_manager_get_short_term_failed",
-                operation="get_short_term",
-                session_id=session_id,
-                error=str(e),
-                error_type=type(e).__name__,
-            )
-            raise MemoryReadError(
-                "Failed to retrieve session context.",
-                internal_message=str(e),
-            ) from e
+            return await self._backend.get_short_term(session_id=session_id)
+        except AgentMemoryReadError as e:
+            raise MemoryReadError("Failed to retrieve session context.", internal_message=str(e)) from e
         except Exception as e:
-            log.exception(
-                "memory_manager_get_short_term_failed",
-                operation="get_short_term",
-                session_id=session_id,
-                error=str(e),
-                error_type=type(e).__name__,
-            )
-            raise MemoryReadError(
-                "Failed to retrieve session context.",
-                internal_message=str(e),
-            ) from e
+            log.exception("memory_manager_get_short_term_failed", session_id=session_id, error=str(e))
+            raise MemoryReadError("Failed to retrieve session context.", internal_message=str(e)) from e
 
-    async def save_long_term(
+    async def save_long_term(self, user_id: str, session_id: str, data: dict[str, Any]) -> None:
+        try:
+            await self._backend.save_long_term(user_id=user_id, session_id=session_id, data=data)
+        except AgentMemoryWriteError as e:
+            raise MemoryWriteError("Failed to persist conversation.", internal_message=str(e)) from e
+        except Exception as e:
+            log.exception("memory_manager_save_long_term_failed", user_id=user_id, session_id=session_id, error=str(e))
+            raise MemoryWriteError("Failed to persist conversation.", internal_message=str(e)) from e
+
+    async def get_relevant_history(self, user_id: str, query: str, limit: int = 10) -> list[dict[str, Any]]:
+        try:
+            return await self._backend.get_relevant_history(user_id=user_id, query=query, limit=limit)
+        except AgentMemoryReadError as e:
+            raise MemoryReadError("Failed to retrieve conversation history.", internal_message=str(e)) from e
+        except Exception as e:
+            log.exception("memory_manager_get_relevant_history_failed", user_id=user_id, error=str(e))
+            raise MemoryReadError("Failed to retrieve conversation history.", internal_message=str(e)) from e
+
+    async def clear_session(self, session_id: str) -> None:
+        try:
+            await self._backend.clear_session(session_id=session_id)
+        except AgentMemoryWriteError as e:
+            raise MemoryWriteError("Failed to clear session.", internal_message=str(e)) from e
+        except Exception as e:
+            log.exception("memory_manager_clear_session_failed", session_id=session_id, error=str(e))
+            raise MemoryWriteError("Failed to clear session.", internal_message=str(e)) from e
+
+    async def run_mem0_diagnostic(self) -> dict:
+        return await self._backend.run_mem0_diagnostic()
+
+    async def add_episode(
         self,
         user_id: str,
         session_id: str,
-        data: dict[str, Any],
-    ) -> None:
-        """Persist interaction via LongTermMemory."""
-        messages = data.get("messages", [])
-        log.info(
-            "memory_manager_save_long_term_start",
-            operation="save_long_term",
-            user_id=user_id,
-            session_id=session_id,
-            messages_count=len(messages),
-        )
-        if not messages:
-            log.info("memory_manager_save_long_term_skip", operation="save_long_term", user_id=user_id, reason="no_messages")
-            return
+        event_type: str,
+        content: str | dict[str, Any],
+        *,
+        summary: str | None = None,
+        metadata: dict[str, Any] | None = None,
+    ) -> str:
         try:
-            await self._long_term.save(
+            return await self._backend.add_episode(
                 user_id=user_id,
                 session_id=session_id,
-                messages=messages,
-                extracted_entities=data.get("extracted_entities", {}),
-                user_preferences=data.get("user_preferences", {}),
-                intent_history=data.get("intent_history", []),
+                event_type=event_type,
+                content=content,
+                summary=summary,
+                metadata=metadata,
             )
-            log.info(
-                "memory_manager_save_long_term_ok",
-                operation="save_long_term",
-                user_id=user_id,
-                session_id=session_id,
-                messages_count=len(messages),
-            )
-        except (LongTermMemoryError, RuntimeError) as e:
-            log.exception(
-                "memory_manager_save_long_term_failed",
-                operation="save_long_term",
-                user_id=user_id,
-                session_id=session_id,
-                error=str(e),
-                error_type=type(e).__name__,
-            )
-            raise MemoryWriteError(
-                "Failed to persist conversation.",
-                internal_message=str(e),
-            ) from e
-        except Exception as e:
-            log.exception(
-                "memory_manager_save_long_term_failed",
-                operation="save_long_term",
-                user_id=user_id,
-                session_id=session_id,
-                error=str(e),
-                error_type=type(e).__name__,
-            )
-            raise MemoryWriteError(
-                "Failed to persist conversation.",
-                internal_message=str(e),
-            ) from e
+        except AgentMemoryWriteError as e:
+            raise MemoryWriteError("Failed to store episode.", internal_message=str(e)) from e
 
-    async def get_relevant_history(self, user_id: str, query: str, limit: int = 10) -> list[dict[str, Any]]:
-        """Retrieve relevant long-term history via LongTermMemory."""
-        log.info(
-            "memory_manager_get_relevant_history_start",
-            operation="get_relevant_history",
-            user_id=user_id,
-            query_preview=(query[:80] if query else "") or "(all)",
-            limit=limit,
-        )
+    async def get_episodes(
+        self,
+        user_id: str,
+        *,
+        session_id: str | None = None,
+        since_iso: str | None = None,
+        event_type: str | None = None,
+        limit: int = 50,
+    ) -> list[dict[str, Any]]:
         try:
-            results = await self._long_term.get_relevant(user_id=user_id, query=query, limit=limit)
-            log.info(
-                "memory_manager_get_relevant_history_ok",
-                operation="get_relevant_history",
+            return await self._backend.get_episodes(
                 user_id=user_id,
-                returned_count=len(results),
+                session_id=session_id,
+                since_iso=since_iso,
+                event_type=event_type,
+                limit=limit,
             )
-            return results
-        except LongTermMemoryError as e:
-            log.exception(
-                "memory_manager_get_relevant_history_failed",
-                operation="get_relevant_history",
-                user_id=user_id,
-                error=str(e),
-                error_type=type(e).__name__,
-            )
-            raise MemoryReadError(
-                "Failed to retrieve conversation history.",
-                internal_message=str(e),
-            ) from e
-        except Exception as e:
-            log.exception(
-                "memory_manager_get_relevant_history_failed",
-                operation="get_relevant_history",
-                user_id=user_id,
-                error=str(e),
-                error_type=type(e).__name__,
-            )
-            raise MemoryReadError(
-                "Failed to retrieve conversation history.",
-                internal_message=str(e),
-            ) from e
+        except AgentMemoryReadError as e:
+            raise MemoryReadError("Failed to retrieve episodes.", internal_message=str(e)) from e
 
-    async def clear_session(self, session_id: str) -> None:
-        """Clear short-term memory for the session via ShortTermMemory."""
-        log.info("memory_manager_clear_session_start", operation="clear_session", session_id=session_id)
+    async def add_fact(self, user_id: str, fact: str, *, metadata: dict[str, Any] | None = None) -> None:
         try:
-            await self._short_term.clear(session_id=session_id)
-            log.info("memory_manager_clear_session_ok", operation="clear_session", session_id=session_id)
-        except MemoryConnectionError:
-            raise
-        except ShortTermMemoryError as e:
-            log.exception(
-                "memory_manager_clear_session_failed",
-                operation="clear_session",
-                session_id=session_id,
-                error=str(e),
-                error_type=type(e).__name__,
-            )
-            raise MemoryWriteError(
-                "Failed to clear session.",
-                internal_message=str(e),
-            ) from e
-        except Exception as e:
-            log.exception(
-                "memory_manager_clear_session_failed",
-                operation="clear_session",
-                session_id=session_id,
-                error=str(e),
-                error_type=type(e).__name__,
-            )
-            raise MemoryWriteError(
-                "Failed to clear session.",
-                internal_message=str(e),
-            ) from e
+            await self._backend.add_fact(user_id=user_id, fact=fact, metadata=metadata)
+        except AgentMemoryWriteError as e:
+            raise MemoryWriteError("Failed to store fact.", internal_message=str(e)) from e
 
-    async def run_mem0_diagnostic(self) -> dict:
-        """Run mem0 init + one add and return result or error (for GET /memory/mem0-diagnostic)."""
-        return await self._long_term.diagnose_mem0()
+    async def search_facts(self, user_id: str, query: str, limit: int = 10) -> list[dict[str, Any]]:
+        try:
+            return await self._backend.search_facts(user_id=user_id, query=query, limit=limit)
+        except AgentMemoryReadError as e:
+            raise MemoryReadError("Failed to search facts.", internal_message=str(e)) from e
+
+    async def get_all_facts(self, user_id: str, limit: int = 50) -> list[dict[str, Any]]:
+        try:
+            return await self._backend.get_all_facts(user_id=user_id, limit=limit)
+        except AgentMemoryReadError as e:
+            raise MemoryReadError("Failed to retrieve facts.", internal_message=str(e)) from e
+
+    async def add_procedure(
+        self,
+        user_id: str,
+        name: str,
+        steps: list[str],
+        *,
+        description: str | None = None,
+        conditions: list[str] | None = None,
+        metadata: dict[str, Any] | None = None,
+    ) -> str:
+        try:
+            return await self._backend.add_procedure(
+                user_id=user_id,
+                name=name,
+                steps=steps,
+                description=description,
+                conditions=conditions,
+                metadata=metadata,
+            )
+        except AgentMemoryWriteError as e:
+            raise MemoryWriteError("Failed to store procedure.", internal_message=str(e)) from e
+
+    async def get_procedure(self, user_id: str, name: str) -> dict[str, Any] | None:
+        try:
+            return await self._backend.get_procedure(user_id=user_id, name=name)
+        except AgentMemoryReadError as e:
+            raise MemoryReadError("Failed to retrieve procedure.", internal_message=str(e)) from e
+
+    async def list_procedures(
+        self,
+        user_id: str,
+        limit: int = 50,
+        *,
+        include_docs: bool = False,
+    ) -> list[dict[str, Any]]:
+        try:
+            return await self._backend.list_procedures(
+                user_id=user_id,
+                limit=limit,
+                include_docs=include_docs,
+            )
+        except AgentMemoryReadError as e:
+            raise MemoryReadError("Failed to list procedures.", internal_message=str(e)) from e

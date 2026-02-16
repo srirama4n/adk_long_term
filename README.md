@@ -12,6 +12,9 @@ Production-ready multi-agent system using **ADK (Agent Development Kit)** in Pyt
 
 - **Short-term**: Redis — session context, last N messages, conversation state; TTL 30 minutes.
 - **Long-term**: MongoDB — `agent_long_memory` collection; user_id, session_id, messages, extracted_entities, user_preferences, intent_history; persisted permanently.
+- **Episodic**: MongoDB — one episode per chat turn (event_type, content).
+- **Semantic**: mem0 — one fact per turn (user message + intent).
+- **Procedural**: MongoDB — saved how-to procedures (name, steps, description). Filled when the user says "remember this procedure" (ProcedureAgent); injected into context so the assistant can recall steps when the user asks "how do I do X?".
 
 See **[Memory flow diagrams](docs/memory.md)** for short-term and long-term flows (Mermaid).
 
@@ -65,6 +68,9 @@ uvicorn main:app --reload --host 0.0.0.0 --port 8000
 | POST | `/chat` | Send message → Supervisor → memory → routing → sub-agent → structured response |
 | POST | `/chat/stream` | Same as `/chat` but stream events via SSE |
 | GET | `/memory/{user_id}` | Return long-term memory for user |
+| GET | `/memory/{user_id}/episodic` | Return episodic memory (turn events) for user |
+| GET | `/memory/{user_id}/semantic` | Return semantic memory (facts) for user |
+| GET | `/memory/{user_id}/procedural` | Return procedural memory (saved procedures) for user |
 | DELETE | `/session/{session_id}` | Clear Redis short-term session |
 
 ## Example cURL Requests
@@ -137,6 +143,68 @@ curl -s http://localhost:8000/memory/user123
 ```bash
 curl -X DELETE http://localhost:8000/session/session456
 ```
+
+## Testing each memory type
+
+Use the same `user_id` and `session_id` (e.g. `test-user`, `s1`) so short-term and long-term build up across turns.
+
+| Memory type | How it’s populated | Example utterance / curl |
+|-------------|--------------------|---------------------------|
+| **Short-term** | Every chat turn (same session) | Any message in the same `session_id` |
+| **Long-term** | Every chat turn | Any message; view with `GET /memory/{user_id}` |
+| **Episodic** | One episode per turn | Any message; view with `GET /memory/{user_id}/episodic` |
+| **Semantic** | One fact per turn | Any message; view with `GET /memory/{user_id}/semantic` |
+| **Procedural** | Only when user asks to **save** a procedure | "Remember this procedure: … Call it &lt;name&gt;." |
+
+### Short-term, long-term, episodic, semantic (any chat message)
+
+```bash
+curl -s -X POST http://localhost:8000/chat \
+  -H "Content-Type: application/json" \
+  -d '{"user_id":"test-user","session_id":"s1","message":"Hi, what is the weather in Mumbai?"}'
+```
+
+```bash
+curl -s -X POST http://localhost:8000/chat \
+  -H "Content-Type: application/json" \
+  -d '{"user_id":"test-user","session_id":"s1","message":"What is the stock price of AAPL?"}'
+```
+
+### Procedural (save a procedure)
+
+```bash
+curl -s -X POST http://localhost:8000/chat \
+  -H "Content-Type: application/json" \
+  -d '{"user_id":"test-user","session_id":"s1","message":"Remember this procedure: To check the weather, first get the user location, then call the weather API, then format the response. Call it check_weather."}'
+```
+
+### Procedural recall (ask for saved steps)
+
+After saving a procedure, ask how to do it; the assistant uses saved procedures from context:
+
+```bash
+curl -s -X POST http://localhost:8000/chat \
+  -H "Content-Type: application/json" \
+  -d '{"user_id":"test-user","session_id":"s1","message":"How do I check the weather? What are the steps?"}'
+```
+
+### Inspect stored memory
+
+```bash
+curl -s http://localhost:8000/memory/test-user
+curl -s http://localhost:8000/memory/test-user/episodic
+curl -s http://localhost:8000/memory/test-user/semantic
+curl -s http://localhost:8000/memory/test-user/procedural
+```
+
+### One-shot sequence (all memory types)
+
+Run in order with the same `user_id` and `session_id`:
+
+1. **"Hi, what's up?"** — populates short-term, long-term, episodic, semantic.
+2. **"What's the weather in Delhi?"** — same four.
+3. **"Remember: to order coffee — 1. Open app 2. Select drink 3. Pay. Save as order_coffee."** — populates all five (including procedural).
+4. **"How do I order coffee? What are the steps?"** — tests procedural recall.
 
 ## Session Flow Example
 

@@ -171,12 +171,40 @@ flowchart TB
 
 ---
 
-## MongoDB collection names (long-term)
+## Episodic, semantic, and procedural memory
+
+Three additional internal memory layers are available via `MemoryManager` (no new REST endpoints):
+
+- **Episodic** (`app.memory.episodic`): Event-based experiences with session and timestamp.  
+  - `add_episode(user_id, session_id, event_type, content, summary=..., metadata=...)`  
+  - `get_episodes(user_id, session_id=..., since_iso=..., event_type=..., limit=...)`  
+  - Backed by MongoDB collection `EPISODIC_COLLECTION` (default `agent_episodic`).
+
+- **Semantic** (`app.memory.semantic`): Facts/concepts with vector search (mem0).  
+  - `add_fact(user_id, fact, metadata=...)`  
+  - `search_facts(user_id, query, limit=...)`  
+  - `get_all_facts(user_id, limit=...)`  
+  - Backed by mem0 collection `MEM0_SEMANTIC_COLLECTION` (default `mem0_semantic`). Requires Atlas Search index like long-term mem0.
+
+- **Procedural** (`app.memory.procedural`): How-to and skills (steps, conditions).  
+  - `add_procedure(user_id, name, steps, description=..., conditions=..., metadata=...)`  
+  - `get_procedure(user_id, name)`  
+  - `list_procedures(user_id, limit=..., include_docs=...)`  
+  - Backed by MongoDB collection `PROCEDURAL_COLLECTION` (default `agent_procedural`).
+
+Config for all three can be overridden via env (e.g. `EPISODIC_COLLECTION`, `MEM0_SEMANTIC_COLLECTION`, `PROCEDURAL_COLLECTION`) or by passing `episodic_config`, `semantic_config`, `procedural_config` into `MemoryManager(...)`.
+
+---
+
+## MongoDB collection names (long-term and other layers)
 
 | Purpose        | Env / default           | Where to look in MongoDB        |
 |----------------|-------------------------|----------------------------------|
 | Raw documents  | `MONGODB_COLLECTION` → `agent_long_memory`  | DB: `MONGODB_DB` (e.g. `agent_memory`) |
 | mem0 vectors   | `MEM0_COLLECTION` → `mem0_long_memory`     | Same DB; created on first mem0 write. Requires Atlas Search. |
+| Episodic       | `EPISODIC_COLLECTION` → `agent_episodic`   | Same DB. |
+| Semantic (mem0)| `MEM0_SEMANTIC_COLLECTION` → `mem0_semantic` | Same DB; requires Atlas Search index. |
+| Procedural     | `PROCEDURAL_COLLECTION` → `agent_procedural` | Same DB. |
 
 If the mem0 collection is missing, see [Long-term memory README](../app/memory/long_term/README.md#if-you-dont-see-the-mem0-collection-in-mongodb).
 
