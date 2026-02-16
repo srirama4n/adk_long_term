@@ -18,27 +18,102 @@ Production-ready multi-agent system using **ADK (Agent Development Kit)** in Pyt
 
 See **[Memory flow diagrams](docs/memory.md)** for short-term and long-term flows (Mermaid).
 
+## Flows
+
+### Request flow (POST /chat)
+
+1. **API** receives `POST /chat` with `user_id`, `session_id`, `message`.
+2. **Memory retrieve**  
+   - Short-term: `get_short_term(session_id)` from Redis (last N messages).  
+   - Long-term: `get_relevant_history(user_id, message, limit=5)` from MongoDB/mem0.  
+   - Procedural: `list_procedures(user_id, limit=10)` from MongoDB (saved how-tos).
+3. **Context build**  
+   Assembled into one user message: `[Recent context]` (optional) + `[Relevant history]` (optional) + `[Saved procedures]` (optional) + `[Current user message]`. This is sent to the Supervisor.
+4. **Session resolve**  
+   ADK runner ensures a session exists for `(app_name, user_id, session_id)`; creates one if missing.
+5. **Agent run**  
+   Supervisor runs on the assembled message, classifies intent, and either:
+   - **Delegates** to WeatherAgent, FinanceAgent, or ProcedureAgent (sub-agents call tools and return structured output), or  
+   - **Responds directly** (e.g. general_query, or procedure recall using `[Saved procedures]`).
+6. **Procedure persistence**  
+   If ProcedureAgent called `save_procedure`, each pending procedure is written to procedural memory via `add_procedure(user_id, name, steps, description)`.
+7. **Memory persist**  
+   - Short-term: `save_short_term(session_id, { messages, session_context, current_conversation_state })`.  
+   - Long-term: `save_long_term(user_id, session_id, { messages, intent_history, ... })` (MongoDB + mem0).  
+   - Episodic: `add_episode(user_id, session_id, "turn", content)` (best effort).  
+   - Semantic: `add_fact(user_id, fact)` (best effort).
+8. **Response**  
+   API returns `{ "session_id", "intent", "response" }` where `response` is the sub-agent output or the Supervisor’s message.
+
+### Intent routing flow
+
+| User intent        | Classification   | Behavior |
+|--------------------|------------------|----------|
+| Weather, forecast  | `weather_query`  | Delegate to **WeatherAgent** → `get_weather(location, date)` → return structured weather. |
+| Stock, price, ticker | `finance_query` | Delegate to **FinanceAgent** → `get_stock_price(symbol)` → return structured quote. |
+| “Remember this procedure”, “Save how to…” | `procedure_query` | Delegate to **ProcedureAgent** → `save_procedure(name, steps, description)` → procedure stored after run; return confirmation. |
+| “How do I do X?”, “What are the steps for …?” | `general_query` | Supervisor uses **\[Saved procedures]** in context and replies with the matching procedure’s steps (no delegation). |
+| Greetings, other   | `general_query`  | Supervisor responds briefly (no delegation). |
+
+### Memory flow (per turn)
+
+```
+Retrieve (before agent run)     Persist (after agent run)
+─────────────────────────────   ─────────────────────────────
+short_term(session_id)    →     save_short_term(session_id, …)
+get_relevant_history(user_id,   save_long_term(user_id, session_id, …)
+  message)                 →     add_episode(user_id, session_id, "turn", …)
+list_procedures(user_id)   →     add_fact(user_id, fact)
+                                add_procedure(…) if ProcedureAgent saved any
+```
+
+- **Short-term** and **long-term** are always read and written every turn.  
+- **Procedural** is read every turn (for context) and written only when the user saves a procedure.  
+- **Episodic** and **semantic** are written every turn (best effort); they are not read during the chat flow (used for analytics or future retrieval).
+
+## How to use the flows
+
+| Goal | What to do |
+|------|------------|
+| **Send a message and get a reply** | `POST /chat` with `user_id`, `session_id`, `message`. Use the same `session_id` across turns so short-term context accumulates. |
+| **Stream the reply (SSE)** | `POST /chat/stream` with the same body. Requires an existing ADK session (create one with a non-stream `/chat` first if needed). |
+| **Inspect long-term conversation history** | `GET /memory/{user_id}` — returns mem0 long-term memories (messages, intent_history). |
+| **Inspect turn-level events** | `GET /memory/{user_id}/episodic` — returns episodes (e.g. event_type `turn`, content with user_message, intent, response_preview). |
+| **Inspect stored facts** | `GET /memory/{user_id}/semantic` — returns semantic facts (e.g. “User asked: …; intent was …”). |
+| **Inspect saved procedures** | `GET /memory/{user_id}/procedural` — returns procedures (name, steps, description). |
+| **Clear session buffer** | `DELETE /session/{session_id}` — removes short-term data for that session in Redis. |
+| **Save a procedure via chat** | Send a message like “Remember this procedure: … Call it &lt;name&gt;.” → intent `procedure_query` → ProcedureAgent → procedure stored. |
+| **Recall a procedure via chat** | Send a message like “How do I &lt;X&gt;?” or “What are the steps for &lt;name&gt;?” → Supervisor uses `[Saved procedures]` and replies with steps. |
+
 ## Folder Structure
 
 ```
 /app
   /agents
-    supervisor.py      # Supervisor (orchestrator)
+    supervisor.py       # Supervisor (orchestrator; routes to sub-agents)
     weather_agent.py   # Weather sub-agent
     finance_agent.py   # Finance sub-agent
+    procedure_agent.py # Procedure sub-agent (save how-tos)
   /memory
-    memory_manager.py  # Redis + MongoDB memory
+    memory_manager.py  # Wraps agent_memory; config from get_settings()
+    short_term/        # Re-exports from agent_memory
+    long_term/
+    episodic/
+    semantic/
+    procedural/
   /tools
     weather_tool.py
     finance_tool.py
+    procedure_tool.py  # save_procedure (pending → persisted after run)
   /api
     routes.py
     schemas.py
   /services
-    supervisor_service.py
+    supervisor_service.py  # Chat flow: memory → context → run → persist
   /utils
     circuit_breaker.py
   config.py
+/agent_memory          # Reusable memory package (no app dependency)
 main.py
 .env
 ```
@@ -208,12 +283,7 @@ Run in order with the same `user_id` and `session_id`:
 
 ## Session Flow Example
 
-1. User: "What is weather in Delhi?"
-2. API → Supervisor.
-3. Supervisor: classifies intent, retrieves memory (Redis + MongoDB), calls WeatherAgent.
-4. WeatherAgent: calls `get_weather("Delhi", ...)`, returns structured JSON.
-5. Supervisor: merges context, saves to Redis and MongoDB, returns response.
-6. API: returns `{ "session_id", "intent": "weather_query", "response": { ... } }`.
+For a message like “What is weather in Delhi?”: API → memory retrieve (short-term, long-term, procedures) → context build → Supervisor classifies `weather_query` → delegates to WeatherAgent → `get_weather("Delhi", ...)` → Supervisor persists memory (short-term, long-term, episodic, semantic) → API returns `{ "session_id", "intent": "weather_query", "response": { ... } }`. See **[Flows](#flows)** above for the full step-by-step.
 
 ## Enterprise Features
 
