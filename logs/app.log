@@ -1,0 +1,906 @@
+{"backend": "redis", "url_redacted": "redis://***", "event": "db_connect_start", "level": "info"}
+{"backends": ["redis"], "event": "db_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"backends": ["redis", "mem0"], "event": "db_close", "level": "info"}
+{"event": "memory_closed", "level": "info"}
+{"backend": "redis", "url_redacted": "redis://***", "event": "db_connect_start", "level": "info"}
+{"backends": ["redis"], "event": "db_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"method": "GET", "path": "/health", "event": "request_start", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "GET", "path": "/docs", "event": "request_start", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "GET", "path": "/openapi.json", "event": "request_start", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "GET", "path": "/health", "event": "request_start", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "POST", "path": "/chat", "event": "request_start", "level": "info"}
+{"path": "/chat", "method": "POST", "user_id": "u12345", "session_id": "12345", "message_preview": "What is the weather in delhi?", "event": "api_request", "level": "info"}
+{"flow_id": "12345:1771001710029", "user_id": "u12345", "session_id": "12345", "message_preview": "What is the weather in delhi?", "event": "flow_start", "level": "info"}
+{"backend": "redis", "url_redacted": "redis://***", "event": "db_connect_start", "level": "info"}
+{"backends": ["redis"], "event": "db_connect_ok", "level": "info"}
+{"flow_id": "12345:1771001710029", "step": "memory_retrieve", "description": "Get short-term and long-term context", "event": "flow_step", "level": "info"}
+{"operation": "get_short_term", "backend": "redis", "session_id": "12345", "key": "agent:short:12345", "hit": true, "messages_count": 4, "event": "db_call", "level": "info"}
+{"backend": "mem0", "description": "MongoDB vector store + Gemini", "event": "db_connect_start", "level": "info"}
+{"backends": ["mem0"], "event": "db_connect_ok", "level": "info"}
+{"operation": "get_relevant_history", "backend": "mem0", "user_id": "u12345", "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/text-embedding-004 is not found for API version v1beta, or is not supported for embedContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}", "event": "get_relevant_history_fallback", "level": "warning"}
+{"flow_id": "12345:1771001710029", "step": "memory_retrieved", "short_term_hit": true, "short_term_messages": 4, "long_term_count": 0, "event": "flow_step", "level": "info"}
+{"flow_id": "12345:1771001710029", "step": "session_resolve", "app_name": "supervisor", "event": "flow_step", "level": "info"}
+{"flow_id": "12345:1771001710029", "step": "session_created", "session_id": "12345", "event": "flow_step", "level": "info"}
+{"flow_id": "12345:1771001710029", "step": "agent_invoke_start", "agent": "Supervisor", "description": "Running Supervisor (routes to WeatherAgent/FinanceAgent)", "event": "flow_step", "level": "info"}
+{"flow_id": "12345:1771001710029", "step": "agent_invoke_done", "agent": "Supervisor", "event_count": 7, "event_authors": ["Supervisor", "Supervisor", "WeatherAgent", "WeatherAgent", "WeatherAgent", "WeatherAgent", "WeatherAgent"], "elapsed_seconds": 5.055, "event": "flow_step", "level": "info"}
+{"flow_id": "12345:1771001710029", "step": "intent_and_response", "intent": "weather_query", "response_keys": ["location", "temperature", "condition", "forecast"], "event": "flow_step", "level": "info"}
+{"flow_id": "12345:1771001710029", "step": "memory_persist", "description": "Save short-term (Redis) and long-term (MongoDB)", "event": "flow_step", "level": "info"}
+{"operation": "save_short_term", "backend": "redis", "session_id": "12345", "key": "agent:short:12345", "ttl_seconds": 1800, "messages_count": 6, "event": "db_call", "level": "info"}
+{"operation": "save_long_term", "backend": "mem0", "user_id": "u12345", "session_id": "12345", "messages_count": 2, "memory_ids": [], "event": "db_call", "level": "info"}
+{"flow_id": "12345:1771001710029", "user_id": "u12345", "session_id": "12345", "intent": "weather_query", "response_preview": "{'location': 'Delhi', 'temperature': '21\u00b0C', 'condition': 'Sunny', 'forecast': 'Sunny, 21\u00b0C. Highs in the low 30s, lows in the mid 20s.'}", "event": "flow_end", "level": "info"}
+{"path": "/chat", "session_id": "12345", "intent": "weather_query", "status": "success", "event": "api_response", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "POST", "path": "/chat", "event": "request_start", "level": "info"}
+{"path": "/chat", "method": "POST", "user_id": "u12345", "session_id": "12345", "message_preview": "What is the weather in Hyderabad?", "event": "api_request", "level": "info"}
+{"flow_id": "12345:1771001798365", "user_id": "u12345", "session_id": "12345", "message_preview": "What is the weather in Hyderabad?", "event": "flow_start", "level": "info"}
+{"backend": "redis", "url_redacted": "redis://***", "event": "db_connect_start", "level": "info"}
+{"backends": ["redis"], "event": "db_connect_ok", "level": "info"}
+{"flow_id": "12345:1771001798365", "step": "memory_retrieve", "description": "Get short-term and long-term context", "event": "flow_step", "level": "info"}
+{"operation": "get_short_term", "backend": "redis", "session_id": "12345", "key": "agent:short:12345", "hit": true, "messages_count": 6, "event": "db_call", "level": "info"}
+{"backend": "mem0", "description": "MongoDB vector store + Gemini", "event": "db_connect_start", "level": "info"}
+{"backends": ["mem0"], "event": "db_connect_ok", "level": "info"}
+{"operation": "get_relevant_history", "backend": "mem0", "user_id": "u12345", "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/text-embedding-004 is not found for API version v1beta, or is not supported for embedContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}", "event": "get_relevant_history_fallback", "level": "warning"}
+{"flow_id": "12345:1771001798365", "step": "memory_retrieved", "short_term_hit": true, "short_term_messages": 6, "long_term_count": 0, "event": "flow_step", "level": "info"}
+{"flow_id": "12345:1771001798365", "step": "session_resolve", "app_name": "supervisor", "event": "flow_step", "level": "info"}
+{"flow_id": "12345:1771001798365", "step": "session_created", "session_id": "12345", "event": "flow_step", "level": "info"}
+{"flow_id": "12345:1771001798365", "step": "agent_invoke_start", "agent": "Supervisor", "description": "Running Supervisor (routes to WeatherAgent/FinanceAgent)", "event": "flow_step", "level": "info"}
+{"flow_id": "12345:1771001798365", "step": "agent_invoke_done", "agent": "Supervisor", "event_count": 7, "event_authors": ["Supervisor", "Supervisor", "WeatherAgent", "WeatherAgent", "WeatherAgent", "WeatherAgent", "WeatherAgent"], "elapsed_seconds": 5.116, "event": "flow_step", "level": "info"}
+{"flow_id": "12345:1771001798365", "step": "intent_and_response", "intent": "weather_query", "response_keys": ["location", "temperature", "condition", "forecast"], "event": "flow_step", "level": "info"}
+{"flow_id": "12345:1771001798365", "step": "memory_persist", "description": "Save short-term (Redis) and long-term (MongoDB)", "event": "flow_step", "level": "info"}
+{"operation": "save_short_term", "backend": "redis", "session_id": "12345", "key": "agent:short:12345", "ttl_seconds": 1800, "messages_count": 8, "event": "db_call", "level": "info"}
+{"operation": "save_long_term", "backend": "mem0", "user_id": "u12345", "session_id": "12345", "messages_count": 2, "memory_ids": [], "event": "db_call", "level": "info"}
+{"flow_id": "12345:1771001798365", "user_id": "u12345", "session_id": "12345", "intent": "weather_query", "response_preview": "{'location': 'Hyderabad', 'temperature': '31\u00b0C', 'condition': 'Cloudy', 'forecast': 'Cloudy, 31\u00b0C. Highs in the low 30s, lows in the mid 20s.'}", "event": "flow_end", "level": "info"}
+{"path": "/chat", "session_id": "12345", "intent": "weather_query", "status": "success", "event": "api_response", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "POST", "path": "/chat", "event": "request_start", "level": "info"}
+{"path": "/chat", "method": "POST", "user_id": "u98765", "session_id": "98765", "message_preview": "What is the weather in Hyderabad?", "event": "api_request", "level": "info"}
+{"flow_id": "98765:1771002007092", "user_id": "u98765", "session_id": "98765", "message_preview": "What is the weather in Hyderabad?", "event": "flow_start", "level": "info"}
+{"backend": "redis", "url_redacted": "redis://***", "event": "db_connect_start", "level": "info"}
+{"backends": ["redis"], "event": "db_connect_ok", "level": "info"}
+{"flow_id": "98765:1771002007092", "step": "memory_retrieve", "description": "Get short-term and long-term context", "event": "flow_step", "level": "info"}
+{"operation": "get_short_term", "backend": "redis", "session_id": "98765", "key": "agent:short:98765", "hit": false, "event": "db_call", "level": "info"}
+{"backend": "mem0", "description": "MongoDB vector store + Gemini", "event": "db_connect_start", "level": "info"}
+{"backends": ["mem0"], "event": "db_connect_ok", "level": "info"}
+{"operation": "get_relevant_history", "backend": "mem0", "user_id": "u98765", "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/text-embedding-004 is not found for API version v1beta, or is not supported for embedContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}", "event": "get_relevant_history_fallback", "level": "warning"}
+{"flow_id": "98765:1771002007092", "step": "memory_retrieved", "short_term_hit": false, "short_term_messages": 0, "long_term_count": 0, "event": "flow_step", "level": "info"}
+{"flow_id": "98765:1771002007092", "step": "session_resolve", "app_name": "supervisor", "event": "flow_step", "level": "info"}
+{"flow_id": "98765:1771002007092", "step": "session_created", "session_id": "98765", "event": "flow_step", "level": "info"}
+{"flow_id": "98765:1771002007092", "step": "agent_invoke_start", "agent": "Supervisor", "description": "Running Supervisor (routes to WeatherAgent/FinanceAgent)", "event": "flow_step", "level": "info"}
+{"flow_id": "98765:1771002007092", "step": "agent_invoke_done", "agent": "Supervisor", "event_count": 7, "event_authors": ["Supervisor", "Supervisor", "WeatherAgent", "WeatherAgent", "WeatherAgent", "WeatherAgent", "WeatherAgent"], "elapsed_seconds": 5.249, "event": "flow_step", "level": "info"}
+{"flow_id": "98765:1771002007092", "step": "intent_and_response", "intent": "weather_query", "response_keys": ["location", "temperature", "condition", "forecast"], "event": "flow_step", "level": "info"}
+{"flow_id": "98765:1771002007092", "step": "memory_persist", "description": "Save short-term (Redis) and long-term (MongoDB)", "event": "flow_step", "level": "info"}
+{"operation": "save_short_term", "backend": "redis", "session_id": "98765", "key": "agent:short:98765", "ttl_seconds": 1800, "messages_count": 2, "event": "db_call", "level": "info"}
+{"operation": "save_long_term", "backend": "mem0", "user_id": "u98765", "session_id": "98765", "messages_count": 2, "memory_ids": [], "event": "db_call", "level": "info"}
+{"flow_id": "98765:1771002007092", "user_id": "u98765", "session_id": "98765", "intent": "weather_query", "response_preview": "{'location': 'Hyderabad', 'temperature': '22\u00b0C', 'condition': 'Sunny', 'forecast': 'Sunny, 22\u00b0C. Highs in the low 30s, lows in the mid 20s.'}", "event": "flow_end", "level": "info"}
+{"path": "/chat", "session_id": "98765", "intent": "weather_query", "status": "success", "event": "api_response", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "POST", "path": "/chat", "event": "request_start", "level": "info"}
+{"path": "/chat", "method": "POST", "user_id": "u98765", "session_id": "98765", "message_preview": "What is the weather in Delhi?", "event": "api_request", "level": "info"}
+{"flow_id": "98765:1771002091245", "user_id": "u98765", "session_id": "98765", "message_preview": "What is the weather in Delhi?", "event": "flow_start", "level": "info"}
+{"backend": "redis", "url_redacted": "redis://***", "event": "db_connect_start", "level": "info"}
+{"backends": ["redis"], "event": "db_connect_ok", "level": "info"}
+{"flow_id": "98765:1771002091245", "step": "memory_retrieve", "description": "Get short-term and long-term context", "event": "flow_step", "level": "info"}
+{"operation": "get_short_term", "backend": "redis", "session_id": "98765", "key": "agent:short:98765", "hit": true, "messages_count": 2, "event": "db_call", "level": "info"}
+{"backend": "mem0", "description": "MongoDB vector store + Gemini", "event": "db_connect_start", "level": "info"}
+{"backends": ["mem0"], "event": "db_connect_ok", "level": "info"}
+{"operation": "get_relevant_history", "backend": "mem0", "user_id": "u98765", "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/text-embedding-004 is not found for API version v1beta, or is not supported for embedContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}", "event": "get_relevant_history_fallback", "level": "warning"}
+{"flow_id": "98765:1771002091245", "step": "memory_retrieved", "short_term_hit": true, "short_term_messages": 2, "long_term_count": 0, "event": "flow_step", "level": "info"}
+{"flow_id": "98765:1771002091245", "step": "session_resolve", "app_name": "supervisor", "event": "flow_step", "level": "info"}
+{"flow_id": "98765:1771002091245", "step": "session_created", "session_id": "98765", "event": "flow_step", "level": "info"}
+{"flow_id": "98765:1771002091245", "step": "agent_invoke_start", "agent": "Supervisor", "description": "Running Supervisor (routes to WeatherAgent/FinanceAgent)", "event": "flow_step", "level": "info"}
+{"flow_id": "98765:1771002091245", "step": "agent_invoke_done", "agent": "Supervisor", "event_count": 7, "event_authors": ["Supervisor", "Supervisor", "WeatherAgent", "WeatherAgent", "WeatherAgent", "WeatherAgent", "WeatherAgent"], "elapsed_seconds": 4.968, "event": "flow_step", "level": "info"}
+{"flow_id": "98765:1771002091245", "step": "intent_and_response", "intent": "weather_query", "response_keys": ["location", "temperature", "condition", "forecast"], "event": "flow_step", "level": "info"}
+{"flow_id": "98765:1771002091245", "step": "memory_persist", "description": "Save short-term (Redis) and long-term (MongoDB)", "event": "flow_step", "level": "info"}
+{"operation": "save_short_term", "backend": "redis", "session_id": "98765", "key": "agent:short:98765", "ttl_seconds": 1800, "messages_count": 4, "event": "db_call", "level": "info"}
+{"operation": "save_long_term", "backend": "mem0", "user_id": "u98765", "session_id": "98765", "messages_count": 2, "memory_ids": [], "event": "db_call", "level": "info"}
+{"flow_id": "98765:1771002091245", "user_id": "u98765", "session_id": "98765", "intent": "weather_query", "response_preview": "{'location': 'Delhi', 'temperature': '38\u00b0C', 'condition': 'Cloudy', 'forecast': 'Cloudy, 38\u00b0C. Highs in the low 30s, lows in the mid 20s.'}", "event": "flow_end", "level": "info"}
+{"path": "/chat", "session_id": "98765", "intent": "weather_query", "status": "success", "event": "api_response", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"backend": "redis", "url_redacted": "redis://***", "event": "db_connect_start", "level": "info"}
+{"backends": ["redis"], "event": "db_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"method": "GET", "path": "/health", "event": "request_start", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "GET", "path": "/docs", "event": "request_start", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "GET", "path": "/openapi.json", "event": "request_start", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "GET", "path": "/health", "event": "request_start", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "POST", "path": "/chat", "event": "request_start", "level": "info"}
+{"path": "/chat", "method": "POST", "user_id": "u987654", "session_id": "987654", "message_preview": "What is the temperature in Delhi?", "event": "api_request", "level": "info"}
+{"flow_id": "987654:1771002706513", "user_id": "u987654", "session_id": "987654", "message_preview": "What is the temperature in Delhi?", "event": "flow_start", "level": "info"}
+{"backend": "redis", "url_redacted": "redis://***", "event": "db_connect_start", "level": "info"}
+{"backends": ["redis"], "event": "db_connect_ok", "level": "info"}
+{"flow_id": "987654:1771002706513", "step": "memory_retrieve", "description": "Get short-term and long-term context", "event": "flow_step", "level": "info"}
+{"operation": "get_short_term", "backend": "redis", "session_id": "987654", "key": "agent:short:987654", "hit": false, "event": "db_call", "level": "info"}
+{"backend": "mem0", "description": "MongoDB vector store + Gemini", "event": "db_connect_start", "level": "info"}
+{"backends": ["mem0"], "event": "db_connect_ok", "level": "info"}
+{"operation": "get_relevant_history", "backend": "mem0", "user_id": "u987654", "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/text-embedding-004 is not found for API version v1beta, or is not supported for embedContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}", "event": "get_relevant_history_fallback", "level": "warning"}
+{"flow_id": "987654:1771002706513", "step": "memory_retrieved", "short_term_hit": false, "short_term_messages": 0, "long_term_count": 0, "event": "flow_step", "level": "info"}
+{"flow_id": "987654:1771002706513", "step": "session_resolve", "app_name": "supervisor", "event": "flow_step", "level": "info"}
+{"flow_id": "987654:1771002706513", "step": "session_created", "session_id": "987654", "event": "flow_step", "level": "info"}
+{"flow_id": "987654:1771002706513", "step": "agent_invoke_start", "agent": "Supervisor", "description": "Running Supervisor (routes to WeatherAgent/FinanceAgent)", "event": "flow_step", "level": "info"}
+{"flow_id": "987654:1771002706513", "step": "agent_invoke_done", "agent": "Supervisor", "event_count": 7, "event_authors": ["Supervisor", "Supervisor", "WeatherAgent", "WeatherAgent", "WeatherAgent", "WeatherAgent", "WeatherAgent"], "elapsed_seconds": 6.78, "event": "flow_step", "level": "info"}
+{"flow_id": "987654:1771002706513", "step": "intent_and_response", "intent": "weather_query", "response_keys": ["location", "temperature", "condition", "forecast"], "event": "flow_step", "level": "info"}
+{"flow_id": "987654:1771002706513", "step": "memory_persist", "description": "Save short-term (Redis) and long-term (MongoDB)", "event": "flow_step", "level": "info"}
+{"operation": "save_short_term", "backend": "redis", "session_id": "987654", "key": "agent:short:987654", "ttl_seconds": 1800, "messages_count": 2, "event": "db_call", "level": "info"}
+{"backend": "mongodb_raw", "db": "agent_memory", "collection": "agent_long_memory", "event": "db_connect_ok", "level": "info"}
+{"operation": "save_long_term", "backend": "mongodb", "collection": "agent_long_memory", "user_id": "u987654", "session_id": "987654", "doc_id": "2ef2dfe5-7006-43b5-b5a1-18f9ea1c6c2d", "event": "db_call", "level": "info"}
+{"operation": "save_long_term", "backend": "mem0", "user_id": "u987654", "session_id": "987654", "messages_count": 2, "memory_ids": [], "event": "db_call", "level": "info"}
+{"flow_id": "987654:1771002706513", "user_id": "u987654", "session_id": "987654", "intent": "weather_query", "response_preview": "{'location': 'Delhi', 'temperature': '24\u00b0C', 'condition': 'Sunny', 'forecast': 'Sunny, 24\u00b0C. Highs in the low 30s, lows in the mid 20s.'}", "event": "flow_end", "level": "info"}
+{"path": "/chat", "session_id": "987654", "intent": "weather_query", "status": "success", "event": "api_response", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "POST", "path": "/chat", "event": "request_start", "level": "info"}
+{"path": "/chat", "method": "POST", "user_id": "u987654", "session_id": "987654", "message_preview": "What is the temperature in Hyderabad?", "event": "api_request", "level": "info"}
+{"flow_id": "987654:1771002842429", "user_id": "u987654", "session_id": "987654", "message_preview": "What is the temperature in Hyderabad?", "event": "flow_start", "level": "info"}
+{"backend": "redis", "url_redacted": "redis://***", "event": "db_connect_start", "level": "info"}
+{"backends": ["redis"], "event": "db_connect_ok", "level": "info"}
+{"flow_id": "987654:1771002842429", "step": "memory_retrieve", "description": "Get short-term and long-term context", "event": "flow_step", "level": "info"}
+{"operation": "get_short_term", "backend": "redis", "session_id": "987654", "key": "agent:short:987654", "hit": true, "messages_count": 2, "event": "db_call", "level": "info"}
+{"backend": "mem0", "description": "MongoDB vector store + Gemini", "event": "db_connect_start", "level": "info"}
+{"backends": ["mem0"], "event": "db_connect_ok", "level": "info"}
+{"operation": "get_relevant_history", "backend": "mem0", "user_id": "u987654", "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/text-embedding-004 is not found for API version v1beta, or is not supported for embedContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}", "event": "get_relevant_history_fallback", "level": "warning"}
+{"flow_id": "987654:1771002842429", "step": "memory_retrieved", "short_term_hit": true, "short_term_messages": 2, "long_term_count": 0, "event": "flow_step", "level": "info"}
+{"flow_id": "987654:1771002842429", "step": "session_resolve", "app_name": "supervisor", "event": "flow_step", "level": "info"}
+{"flow_id": "987654:1771002842429", "step": "session_created", "session_id": "987654", "event": "flow_step", "level": "info"}
+{"flow_id": "987654:1771002842429", "step": "agent_invoke_start", "agent": "Supervisor", "description": "Running Supervisor (routes to WeatherAgent/FinanceAgent)", "event": "flow_step", "level": "info"}
+{"flow_id": "987654:1771002842429", "step": "agent_invoke_done", "agent": "Supervisor", "event_count": 7, "event_authors": ["Supervisor", "Supervisor", "WeatherAgent", "WeatherAgent", "WeatherAgent", "WeatherAgent", "WeatherAgent"], "elapsed_seconds": 5.793, "event": "flow_step", "level": "info"}
+{"flow_id": "987654:1771002842429", "step": "intent_and_response", "intent": "weather_query", "response_keys": ["location", "temperature", "condition", "forecast"], "event": "flow_step", "level": "info"}
+{"flow_id": "987654:1771002842429", "step": "memory_persist", "description": "Save short-term (Redis) and long-term (MongoDB)", "event": "flow_step", "level": "info"}
+{"operation": "save_short_term", "backend": "redis", "session_id": "987654", "key": "agent:short:987654", "ttl_seconds": 1800, "messages_count": 4, "event": "db_call", "level": "info"}
+{"backend": "mongodb_raw", "db": "agent_memory", "collection": "agent_long_memory", "event": "db_connect_ok", "level": "info"}
+{"operation": "save_long_term", "backend": "mongodb", "collection": "agent_long_memory", "user_id": "u987654", "session_id": "987654", "doc_id": "15add762-f319-47ce-8a28-097cdb9e54a7", "event": "db_call", "level": "info"}
+{"operation": "save_long_term", "backend": "mem0", "user_id": "u987654", "session_id": "987654", "messages_count": 2, "memory_ids": [], "event": "db_call", "level": "info"}
+{"flow_id": "987654:1771002842429", "user_id": "u987654", "session_id": "987654", "intent": "weather_query", "response_preview": "{'location': 'Hyderabad', 'temperature': '33\u00b0C', 'condition': 'Partly cloudy', 'forecast': 'Partly cloudy, 33\u00b0C. Highs in the low 30s, lows in the mid 20s.'}", "event": "flow_end", "level": "info"}
+{"path": "/chat", "session_id": "987654", "intent": "weather_query", "status": "success", "event": "api_response", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"method": "GET", "path": "/health", "event": "request_start", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "GET", "path": "/docs", "event": "request_start", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "GET", "path": "/openapi.json", "event": "request_start", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "GET", "path": "/health", "event": "request_start", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "GET", "path": "/health", "event": "request_start", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "POST", "path": "/chat", "event": "request_start", "level": "info"}
+{"path": "/chat", "method": "POST", "user_id": "u5678", "session_id": "5678", "message_preview": "What is the weather in Delhi?", "event": "api_request", "level": "info"}
+{"flow_id": "5678:1771004825149", "user_id": "u5678", "session_id": "5678", "message_preview": "What is the weather in Delhi?", "event": "flow_start", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"flow_id": "5678:1771004825149", "step": "memory_retrieve", "description": "Get short-term and long-term context", "event": "flow_step", "level": "info"}
+{"operation": "get_short_term", "session_id": "5678", "event": "memory_manager_get_short_term_start", "level": "info"}
+{"operation": "get", "session_id": "5678", "event": "short_term_get_start", "level": "info"}
+{"operation": "get", "session_id": "5678", "key": "agent:short:5678", "event": "short_term_miss", "level": "info"}
+{"operation": "get_short_term", "session_id": "5678", "hit": false, "messages_count": 0, "event": "memory_manager_get_short_term_ok", "level": "info"}
+{"operation": "get_relevant_history", "user_id": "u5678", "query_preview": "What is the weather in Delhi?", "limit": 5, "event": "memory_manager_get_relevant_history_start", "level": "info"}
+{"operation": "get_relevant", "user_id": "u5678", "query_preview": "What is the weather in Delhi?", "limit": 5, "event": "long_term_get_relevant_start", "level": "info"}
+{"event": "long_term_mem0_connect_start", "level": "info"}
+{"event": "long_term_mem0_connected", "level": "info"}
+{"operation": "get_relevant", "user_id": "u5678", "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/text-embedding-004 is not found for API version v1beta, or is not supported for embedContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}", "error_type": "ClientError", "exc_info": true, "event": "long_term_get_relevant_failed", "level": "error"}
+{"operation": "get_relevant_history", "user_id": "u5678", "returned_count": 0, "event": "memory_manager_get_relevant_history_ok", "level": "info"}
+{"flow_id": "5678:1771004825149", "step": "memory_retrieved", "short_term_hit": false, "short_term_messages": 0, "long_term_count": 0, "event": "flow_step", "level": "info"}
+{"flow_id": "5678:1771004825149", "step": "session_resolve", "app_name": "supervisor", "event": "flow_step", "level": "info"}
+{"flow_id": "5678:1771004825149", "step": "session_created", "session_id": "5678", "event": "flow_step", "level": "info"}
+{"flow_id": "5678:1771004825149", "step": "agent_invoke_start", "agent": "Supervisor", "description": "Running Supervisor (routes to WeatherAgent/FinanceAgent)", "event": "flow_step", "level": "info"}
+{"flow_id": "5678:1771004825149", "step": "agent_invoke_done", "agent": "Supervisor", "event_count": 7, "event_authors": ["Supervisor", "Supervisor", "WeatherAgent", "WeatherAgent", "WeatherAgent", "WeatherAgent", "WeatherAgent"], "elapsed_seconds": 5.634, "event": "flow_step", "level": "info"}
+{"flow_id": "5678:1771004825149", "step": "intent_and_response", "intent": "weather_query", "response_keys": ["location", "temperature", "condition", "forecast"], "event": "flow_step", "level": "info"}
+{"flow_id": "5678:1771004825149", "step": "memory_persist", "description": "Save short-term (Redis) and long-term (MongoDB)", "event": "flow_step", "level": "info"}
+{"operation": "save_short_term", "session_id": "5678", "event": "memory_manager_save_short_term_start", "level": "info"}
+{"operation": "save", "session_id": "5678", "event": "short_term_save_start", "level": "info"}
+{"operation": "save", "session_id": "5678", "key": "agent:short:5678", "ttl_seconds": 1800, "messages_count": 2, "event": "short_term_saved", "level": "info"}
+{"operation": "save_short_term", "session_id": "5678", "event": "memory_manager_save_short_term_ok", "level": "info"}
+{"operation": "save_long_term", "user_id": "u5678", "session_id": "5678", "messages_count": 2, "event": "memory_manager_save_long_term_start", "level": "info"}
+{"operation": "save", "user_id": "u5678", "session_id": "5678", "messages_count": 2, "event": "long_term_save_start", "level": "info"}
+{"db": "agent_memory", "collection": "agent_long_memory", "event": "long_term_mongo_connect_start", "level": "info"}
+{"db": "agent_memory", "collection": "agent_long_memory", "event": "long_term_mongo_connected", "level": "info"}
+{"operation": "save", "user_id": "u5678", "session_id": "5678", "event": "long_term_saved_mongo", "level": "info"}
+{"operation": "save", "user_id": "u5678", "session_id": "5678", "event": "long_term_saved_mem0", "level": "info"}
+{"operation": "save_long_term", "user_id": "u5678", "session_id": "5678", "messages_count": 2, "event": "memory_manager_save_long_term_ok", "level": "info"}
+{"flow_id": "5678:1771004825149", "user_id": "u5678", "session_id": "5678", "intent": "weather_query", "response_preview": "{'location': 'Delhi', 'temperature': '19\u00b0C', 'condition': 'Cloudy', 'forecast': 'Cloudy, 19\u00b0C. Highs in the low 30s, lows in the mid 20s.'}", "event": "flow_end", "level": "info"}
+{"path": "/chat", "session_id": "5678", "intent": "weather_query", "status": "success", "event": "api_response", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"method": "GET", "path": "/docs", "event": "request_start", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "GET", "path": "/openapi.json", "event": "request_start", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "GET", "path": "/health", "event": "request_start", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "POST", "path": "/chat", "event": "request_start", "level": "info"}
+{"path": "/chat", "method": "POST", "user_id": "u12345", "session_id": "12345", "message_preview": "What is the weather in Delhi?", "event": "api_request", "level": "info"}
+{"flow_id": "12345:1771051627873", "user_id": "u12345", "session_id": "12345", "message_preview": "What is the weather in Delhi?", "event": "flow_start", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"flow_id": "12345:1771051627873", "step": "memory_retrieve", "description": "Get short-term and long-term context", "event": "flow_step", "level": "info"}
+{"operation": "get_short_term", "session_id": "12345", "event": "memory_manager_get_short_term_start", "level": "info"}
+{"operation": "get", "session_id": "12345", "event": "short_term_get_start", "level": "info"}
+{"operation": "get", "session_id": "12345", "key": "agent:short:12345", "event": "short_term_miss", "level": "info"}
+{"operation": "get_short_term", "session_id": "12345", "hit": false, "messages_count": 0, "event": "memory_manager_get_short_term_ok", "level": "info"}
+{"operation": "get_relevant_history", "user_id": "u12345", "query_preview": "What is the weather in Delhi?", "limit": 5, "event": "memory_manager_get_relevant_history_start", "level": "info"}
+{"operation": "get_relevant", "user_id": "u12345", "query_preview": "What is the weather in Delhi?", "limit": 5, "event": "long_term_get_relevant_start", "level": "info"}
+{"event": "long_term_mem0_connect_start", "level": "info"}
+{"event": "long_term_mem0_connected", "level": "info"}
+{"operation": "get_relevant", "user_id": "u12345", "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/text-embedding-004 is not found for API version v1beta, or is not supported for embedContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}", "error_type": "ClientError", "exc_info": true, "event": "long_term_get_relevant_failed", "level": "error"}
+{"operation": "get_relevant_history", "user_id": "u12345", "returned_count": 0, "event": "memory_manager_get_relevant_history_ok", "level": "info"}
+{"flow_id": "12345:1771051627873", "step": "memory_retrieved", "short_term_hit": false, "short_term_messages": 0, "long_term_count": 0, "event": "flow_step", "level": "info"}
+{"flow_id": "12345:1771051627873", "step": "session_resolve", "app_name": "supervisor", "event": "flow_step", "level": "info"}
+{"flow_id": "12345:1771051627873", "step": "session_created", "session_id": "12345", "event": "flow_step", "level": "info"}
+{"flow_id": "12345:1771051627873", "step": "agent_invoke_start", "agent": "Supervisor", "description": "Running Supervisor (routes to WeatherAgent/FinanceAgent)", "event": "flow_step", "level": "info"}
+{"flow_id": "12345:1771051627873", "step": "agent_invoke_done", "agent": "Supervisor", "event_count": 7, "event_authors": ["Supervisor", "Supervisor", "WeatherAgent", "WeatherAgent", "WeatherAgent", "WeatherAgent", "WeatherAgent"], "elapsed_seconds": 5.455, "event": "flow_step", "level": "info"}
+{"flow_id": "12345:1771051627873", "step": "intent_and_response", "intent": "weather_query", "response_keys": ["location", "temperature", "condition", "forecast"], "event": "flow_step", "level": "info"}
+{"flow_id": "12345:1771051627873", "step": "memory_persist", "description": "Save short-term (Redis) and long-term (MongoDB)", "event": "flow_step", "level": "info"}
+{"operation": "save_short_term", "session_id": "12345", "event": "memory_manager_save_short_term_start", "level": "info"}
+{"operation": "save", "session_id": "12345", "event": "short_term_save_start", "level": "info"}
+{"operation": "save", "session_id": "12345", "key": "agent:short:12345", "ttl_seconds": 1800, "messages_count": 2, "event": "short_term_saved", "level": "info"}
+{"operation": "save_short_term", "session_id": "12345", "event": "memory_manager_save_short_term_ok", "level": "info"}
+{"operation": "save_long_term", "user_id": "u12345", "session_id": "12345", "messages_count": 2, "event": "memory_manager_save_long_term_start", "level": "info"}
+{"operation": "save", "user_id": "u12345", "session_id": "12345", "messages_count": 2, "event": "long_term_save_start", "level": "info"}
+{"db": "agent_memory", "collection": "agent_long_memory", "event": "long_term_mongo_connect_start", "level": "info"}
+{"db": "agent_memory", "collection": "agent_long_memory", "event": "long_term_mongo_connected", "level": "info"}
+{"operation": "save", "user_id": "u12345", "session_id": "12345", "event": "long_term_saved_mongo", "level": "info"}
+{"operation": "save", "user_id": "u12345", "session_id": "12345", "event": "long_term_saved_mem0", "level": "info"}
+{"operation": "save_long_term", "user_id": "u12345", "session_id": "12345", "messages_count": 2, "event": "memory_manager_save_long_term_ok", "level": "info"}
+{"flow_id": "12345:1771051627873", "user_id": "u12345", "session_id": "12345", "intent": "weather_query", "response_preview": "{'location': 'Delhi', 'temperature': '37\u00b0C', 'condition': 'Partly cloudy', 'forecast': 'Partly cloudy, 37\u00b0C. Highs in the low 30s, lows in the mid 20s.'}", "event": "flow_end", "level": "info"}
+{"path": "/chat", "session_id": "12345", "intent": "weather_query", "status": "success", "event": "api_response", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"backends": ["short_term", "long_term"], "event": "memory_manager_close_start", "level": "info"}
+{"event": "short_term_close_start", "level": "info"}
+{"event": "short_term_closed", "level": "info"}
+{"event": "long_term_close_start", "level": "info"}
+{"event": "long_term_memory_closed", "level": "info"}
+{"event": "memory_manager_close_ok", "level": "info"}
+{"event": "memory_closed", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"backends": ["short_term", "long_term"], "event": "memory_manager_close_start", "level": "info"}
+{"event": "short_term_close_start", "level": "info"}
+{"event": "short_term_closed", "level": "info"}
+{"event": "long_term_close_start", "level": "info"}
+{"event": "long_term_memory_closed", "level": "info"}
+{"event": "memory_manager_close_ok", "level": "info"}
+{"event": "memory_closed", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"backends": ["short_term", "long_term"], "event": "memory_manager_close_start", "level": "info"}
+{"event": "short_term_close_start", "level": "info"}
+{"event": "short_term_closed", "level": "info"}
+{"event": "long_term_close_start", "level": "info"}
+{"event": "long_term_memory_closed", "level": "info"}
+{"event": "memory_manager_close_ok", "level": "info"}
+{"event": "memory_closed", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"method": "GET", "path": "/health", "event": "request_start", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "POST", "path": "/chat", "event": "request_start", "level": "info"}
+{"path": "/chat", "method": "POST", "user_id": "u123456", "session_id": "123456", "message_preview": "What is the weather in Delhi?", "event": "api_request", "level": "info"}
+{"flow_id": "123456:1771053292323", "user_id": "u123456", "session_id": "123456", "message_preview": "What is the weather in Delhi?", "event": "flow_start", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"flow_id": "123456:1771053292323", "step": "memory_retrieve", "description": "Get short-term and long-term context", "event": "flow_step", "level": "info"}
+{"operation": "get_short_term", "session_id": "123456", "event": "memory_manager_get_short_term_start", "level": "info"}
+{"operation": "get", "session_id": "123456", "event": "short_term_get_start", "level": "info"}
+{"operation": "get", "session_id": "123456", "key": "agent:short:123456", "event": "short_term_miss", "level": "info"}
+{"operation": "get_short_term", "session_id": "123456", "hit": false, "messages_count": 0, "event": "memory_manager_get_short_term_ok", "level": "info"}
+{"operation": "get_relevant_history", "user_id": "u123456", "query_preview": "What is the weather in Delhi?", "limit": 5, "event": "memory_manager_get_relevant_history_start", "level": "info"}
+{"operation": "get_relevant", "user_id": "u123456", "query_preview": "What is the weather in Delhi?", "limit": 5, "event": "long_term_get_relevant_start", "level": "info"}
+{"event": "long_term_mem0_connect_start", "level": "info"}
+{"mem0_db": "agent_memory", "mem0_collection": "mem0_long_memory", "event": "long_term_mem0_connected", "level": "info"}
+{"operation": "get_relevant", "user_id": "u123456", "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/text-embedding-004 is not found for API version v1beta, or is not supported for embedContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}", "error_type": "ClientError", "exc_info": true, "event": "long_term_get_relevant_failed", "level": "error"}
+{"operation": "get_relevant_history", "user_id": "u123456", "returned_count": 0, "event": "memory_manager_get_relevant_history_ok", "level": "info"}
+{"flow_id": "123456:1771053292323", "step": "memory_retrieved", "short_term_hit": false, "short_term_messages": 0, "long_term_count": 0, "event": "flow_step", "level": "info"}
+{"flow_id": "123456:1771053292323", "step": "session_resolve", "app_name": "supervisor", "event": "flow_step", "level": "info"}
+{"flow_id": "123456:1771053292323", "step": "session_created", "session_id": "123456", "event": "flow_step", "level": "info"}
+{"flow_id": "123456:1771053292323", "step": "agent_invoke_start", "agent": "Supervisor", "description": "Running Supervisor (routes to WeatherAgent/FinanceAgent)", "event": "flow_step", "level": "info"}
+{"flow_id": "123456:1771053292323", "step": "agent_invoke_done", "agent": "Supervisor", "event_count": 7, "event_authors": ["Supervisor", "Supervisor", "WeatherAgent", "WeatherAgent", "WeatherAgent", "WeatherAgent", "WeatherAgent"], "elapsed_seconds": 5.475, "event": "flow_step", "level": "info"}
+{"flow_id": "123456:1771053292323", "step": "intent_and_response", "intent": "weather_query", "response_keys": ["location", "temperature", "condition", "forecast"], "event": "flow_step", "level": "info"}
+{"flow_id": "123456:1771053292323", "step": "memory_persist", "description": "Save short-term (Redis) and long-term (MongoDB)", "event": "flow_step", "level": "info"}
+{"operation": "save_short_term", "session_id": "123456", "event": "memory_manager_save_short_term_start", "level": "info"}
+{"operation": "save", "session_id": "123456", "event": "short_term_save_start", "level": "info"}
+{"operation": "save", "session_id": "123456", "key": "agent:short:123456", "ttl_seconds": 1800, "messages_count": 2, "event": "short_term_saved", "level": "info"}
+{"operation": "save_short_term", "session_id": "123456", "event": "memory_manager_save_short_term_ok", "level": "info"}
+{"operation": "save_long_term", "user_id": "u123456", "session_id": "123456", "messages_count": 2, "event": "memory_manager_save_long_term_start", "level": "info"}
+{"operation": "save", "user_id": "u123456", "session_id": "123456", "messages_count": 2, "event": "long_term_save_start", "level": "info"}
+{"db": "agent_memory", "collection": "agent_long_memory", "event": "long_term_mongo_connect_start", "level": "info"}
+{"db": "agent_memory", "collection": "agent_long_memory", "event": "long_term_mongo_connected", "level": "info"}
+{"operation": "save", "user_id": "u123456", "session_id": "123456", "event": "long_term_saved_mongo", "level": "info"}
+{"operation": "save", "user_id": "u123456", "session_id": "123456", "event": "long_term_saved_mem0", "level": "info"}
+{"operation": "save_long_term", "user_id": "u123456", "session_id": "123456", "messages_count": 2, "event": "memory_manager_save_long_term_ok", "level": "info"}
+{"flow_id": "123456:1771053292323", "user_id": "u123456", "session_id": "123456", "intent": "weather_query", "response_preview": "{'location': 'Delhi', 'temperature': '30\u00b0C', 'condition': 'Clear', 'forecast': 'Clear, 30\u00b0C. Highs in the low 30s, lows in the mid 20s.'}", "event": "flow_end", "level": "info"}
+{"path": "/chat", "session_id": "123456", "intent": "weather_query", "status": "success", "event": "api_response", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"backends": ["short_term", "long_term"], "event": "memory_manager_close_start", "level": "info"}
+{"event": "short_term_close_start", "level": "info"}
+{"event": "short_term_closed", "level": "info"}
+{"event": "long_term_close_start", "level": "info"}
+{"event": "long_term_memory_closed", "level": "info"}
+{"event": "memory_manager_close_ok", "level": "info"}
+{"event": "memory_closed", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"backends": ["short_term", "long_term"], "event": "memory_manager_close_start", "level": "info"}
+{"event": "short_term_close_start", "level": "info"}
+{"event": "short_term_closed", "level": "info"}
+{"event": "long_term_close_start", "level": "info"}
+{"event": "long_term_memory_closed", "level": "info"}
+{"event": "memory_manager_close_ok", "level": "info"}
+{"event": "memory_closed", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"backends": ["short_term", "long_term"], "event": "memory_manager_close_start", "level": "info"}
+{"event": "short_term_close_start", "level": "info"}
+{"event": "short_term_closed", "level": "info"}
+{"event": "long_term_close_start", "level": "info"}
+{"event": "long_term_memory_closed", "level": "info"}
+{"event": "memory_manager_close_ok", "level": "info"}
+{"event": "memory_closed", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"backends": ["short_term", "long_term"], "event": "memory_manager_close_start", "level": "info"}
+{"event": "short_term_close_start", "level": "info"}
+{"event": "short_term_closed", "level": "info"}
+{"event": "long_term_close_start", "level": "info"}
+{"event": "long_term_memory_closed", "level": "info"}
+{"event": "memory_manager_close_ok", "level": "info"}
+{"event": "memory_closed", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"backends": ["short_term", "long_term"], "event": "memory_manager_close_start", "level": "info"}
+{"event": "short_term_close_start", "level": "info"}
+{"event": "short_term_closed", "level": "info"}
+{"event": "long_term_close_start", "level": "info"}
+{"event": "long_term_memory_closed", "level": "info"}
+{"event": "memory_manager_close_ok", "level": "info"}
+{"event": "memory_closed", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"method": "GET", "path": "/memory/mem0-diagnostic", "event": "request_start", "level": "info"}
+{"event": "long_term_mem0_connect_start", "level": "info"}
+{"mem0_db": "agent_memory", "mem0_collection": "mem0_long_memory", "event": "long_term_mem0_connected", "level": "info"}
+{"method": "GET", "path": "/memory/mem0-diagnostic", "event": "request_start", "level": "info"}
+{"event": "long_term_mem0_connect_start", "level": "info"}
+{"mem0_db": "agent_memory", "mem0_collection": "mem0_long_memory", "event": "long_term_mem0_connected", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "GET", "path": "/memory/mem0-diagnostic", "event": "request_start", "level": "info"}
+{"event": "long_term_mem0_connect_start", "level": "info"}
+{"mem0_db": "agent_memory", "mem0_collection": "mem0_long_memory", "event": "long_term_mem0_connected", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"backends": ["short_term", "long_term"], "event": "memory_manager_close_start", "level": "info"}
+{"event": "short_term_close_start", "level": "info"}
+{"event": "short_term_closed", "level": "info"}
+{"event": "long_term_close_start", "level": "info"}
+{"event": "long_term_memory_closed", "level": "info"}
+{"event": "memory_manager_close_ok", "level": "info"}
+{"event": "memory_closed", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"method": "GET", "path": "/memory/mem0-diagnostic", "event": "request_start", "level": "info"}
+{"event": "long_term_mem0_connect_start", "level": "info"}
+{"mem0_db": "agent_memory", "mem0_collection": "mem0_long_memory", "event": "long_term_mem0_connected", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"method": "GET", "path": "/memory/mem0-diagnostic", "event": "request_start", "level": "info"}
+{"event": "long_term_mem0_connect_start", "level": "info"}
+{"mem0_db": "agent_memory", "mem0_collection": "mem0_long_memory", "event": "long_term_mem0_connected", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "GET", "path": "/memory/mem0-diagnostic", "event": "request_start", "level": "info"}
+{"event": "long_term_mem0_connect_start", "level": "info"}
+{"mem0_db": "agent_memory", "mem0_collection": "mem0_long_memory", "event": "long_term_mem0_connected", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"method": "GET", "path": "/memory/mem0-diagnostic", "event": "request_start", "level": "info"}
+{"event": "long_term_mem0_connect_start", "level": "info"}
+{"mem0_db": "agent_memory", "mem0_collection": "mem0_long_memory", "event": "long_term_mem0_connected", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "GET", "path": "/memory/mem0-diagnostic", "event": "request_start", "level": "info"}
+{"event": "long_term_mem0_connect_start", "level": "info"}
+{"mem0_db": "agent_memory", "mem0_collection": "mem0_long_memory", "event": "long_term_mem0_connected", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"backends": ["short_term", "long_term"], "event": "memory_manager_close_start", "level": "info"}
+{"event": "short_term_close_start", "level": "info"}
+{"event": "short_term_closed", "level": "info"}
+{"event": "long_term_close_start", "level": "info"}
+{"event": "long_term_memory_closed", "level": "info"}
+{"event": "memory_manager_close_ok", "level": "info"}
+{"event": "memory_closed", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"method": "GET", "path": "/memory/mem0-diagnostic", "event": "request_start", "level": "info"}
+{"event": "long_term_mem0_connect_start", "level": "info"}
+{"mem0_db": "agent_memory", "mem0_collection": "mem0_long_memory", "event": "long_term_mem0_connected", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "GET", "path": "/health", "event": "request_start", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "POST", "path": "/chat", "event": "request_start", "level": "info"}
+{"path": "/chat", "method": "POST", "user_id": "u1234567", "session_id": "1234567", "message_preview": "What is the weather in Delhi?", "event": "api_request", "level": "info"}
+{"flow_id": "1234567:1771058412991", "user_id": "u1234567", "session_id": "1234567", "message_preview": "What is the weather in Delhi?", "event": "flow_start", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"flow_id": "1234567:1771058412991", "step": "memory_retrieve", "description": "Get short-term and long-term context", "event": "flow_step", "level": "info"}
+{"operation": "get_short_term", "session_id": "1234567", "event": "memory_manager_get_short_term_start", "level": "info"}
+{"operation": "get", "session_id": "1234567", "event": "short_term_get_start", "level": "info"}
+{"operation": "get", "session_id": "1234567", "key": "agent:short:1234567", "event": "short_term_miss", "level": "info"}
+{"operation": "get_short_term", "session_id": "1234567", "hit": false, "messages_count": 0, "event": "memory_manager_get_short_term_ok", "level": "info"}
+{"operation": "get_relevant_history", "user_id": "u1234567", "query_preview": "What is the weather in Delhi?", "limit": 5, "event": "memory_manager_get_relevant_history_start", "level": "info"}
+{"operation": "get_relevant", "user_id": "u1234567", "query_preview": "What is the weather in Delhi?", "limit": 5, "event": "long_term_get_relevant_start", "level": "info"}
+{"event": "long_term_mem0_connect_start", "level": "info"}
+{"mem0_db": "agent_memory", "mem0_collection": "mem0_long_memory", "event": "long_term_mem0_connected", "level": "info"}
+{"operation": "get_relevant", "user_id": "u1234567", "returned_count": 0, "event": "long_term_get_relevant_ok", "level": "info"}
+{"operation": "get_relevant_history", "user_id": "u1234567", "returned_count": 0, "event": "memory_manager_get_relevant_history_ok", "level": "info"}
+{"flow_id": "1234567:1771058412991", "step": "memory_retrieved", "short_term_hit": false, "short_term_messages": 0, "long_term_count": 0, "event": "flow_step", "level": "info"}
+{"flow_id": "1234567:1771058412991", "step": "session_resolve", "app_name": "supervisor", "event": "flow_step", "level": "info"}
+{"flow_id": "1234567:1771058412991", "step": "session_created", "session_id": "1234567", "event": "flow_step", "level": "info"}
+{"flow_id": "1234567:1771058412991", "step": "agent_invoke_start", "agent": "Supervisor", "description": "Running Supervisor (routes to WeatherAgent/FinanceAgent)", "event": "flow_step", "level": "info"}
+{"flow_id": "1234567:1771058412991", "step": "agent_invoke_done", "agent": "Supervisor", "event_count": 7, "event_authors": ["Supervisor", "Supervisor", "WeatherAgent", "WeatherAgent", "WeatherAgent", "WeatherAgent", "WeatherAgent"], "elapsed_seconds": 5.616, "event": "flow_step", "level": "info"}
+{"flow_id": "1234567:1771058412991", "step": "intent_and_response", "intent": "weather_query", "response_keys": ["location", "temperature", "condition", "forecast"], "event": "flow_step", "level": "info"}
+{"flow_id": "1234567:1771058412991", "step": "memory_persist", "description": "Save short-term (Redis) and long-term (MongoDB)", "event": "flow_step", "level": "info"}
+{"operation": "save_short_term", "session_id": "1234567", "event": "memory_manager_save_short_term_start", "level": "info"}
+{"operation": "save", "session_id": "1234567", "event": "short_term_save_start", "level": "info"}
+{"operation": "save", "session_id": "1234567", "key": "agent:short:1234567", "ttl_seconds": 1800, "messages_count": 2, "event": "short_term_saved", "level": "info"}
+{"operation": "save_short_term", "session_id": "1234567", "event": "memory_manager_save_short_term_ok", "level": "info"}
+{"operation": "save_long_term", "user_id": "u1234567", "session_id": "1234567", "messages_count": 2, "event": "memory_manager_save_long_term_start", "level": "info"}
+{"operation": "save", "user_id": "u1234567", "session_id": "1234567", "messages_count": 2, "event": "long_term_save_start", "level": "info"}
+{"db": "agent_memory", "collection": "agent_long_memory", "event": "long_term_mongo_connect_start", "level": "info"}
+{"db": "agent_memory", "collection": "agent_long_memory", "event": "long_term_mongo_connected", "level": "info"}
+{"operation": "save", "user_id": "u1234567", "session_id": "1234567", "event": "long_term_saved_mongo", "level": "info"}
+{"operation": "save", "user_id": "u1234567", "session_id": "1234567", "event": "long_term_saved_mem0", "level": "info"}
+{"operation": "save_long_term", "user_id": "u1234567", "session_id": "1234567", "messages_count": 2, "event": "memory_manager_save_long_term_ok", "level": "info"}
+{"flow_id": "1234567:1771058412991", "user_id": "u1234567", "session_id": "1234567", "intent": "weather_query", "response_preview": "{'location': 'Delhi', 'temperature': '35\u00b0C', 'condition': 'Sunny', 'forecast': 'Sunny, 35\u00b0C. Highs in the low 30s, lows in the mid 20s.'}", "event": "flow_end", "level": "info"}
+{"path": "/chat", "session_id": "1234567", "intent": "weather_query", "status": "success", "event": "api_response", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "GET", "path": "/memory/mem0-diagnostic", "event": "request_start", "level": "info"}
+{"event": "long_term_mem0_connect_start", "level": "info"}
+{"mem0_db": "agent_memory", "mem0_collection": "mem0_long_memory", "event": "long_term_mem0_connected", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "GET", "path": "/health", "event": "request_start", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "POST", "path": "/chat", "event": "request_start", "level": "info"}
+{"path": "/chat", "method": "POST", "user_id": "u1234567", "session_id": "1234567", "message_preview": "What is the weather in Delhi?", "event": "api_request", "level": "info"}
+{"flow_id": "1234567:1771058615532", "user_id": "u1234567", "session_id": "1234567", "message_preview": "What is the weather in Delhi?", "event": "flow_start", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"flow_id": "1234567:1771058615532", "step": "memory_retrieve", "description": "Get short-term and long-term context", "event": "flow_step", "level": "info"}
+{"operation": "get_short_term", "session_id": "1234567", "event": "memory_manager_get_short_term_start", "level": "info"}
+{"operation": "get", "session_id": "1234567", "event": "short_term_get_start", "level": "info"}
+{"operation": "get", "session_id": "1234567", "key": "agent:short:1234567", "messages_count": 2, "event": "short_term_hit", "level": "info"}
+{"operation": "get_short_term", "session_id": "1234567", "hit": true, "messages_count": 2, "event": "memory_manager_get_short_term_ok", "level": "info"}
+{"operation": "get_relevant_history", "user_id": "u1234567", "query_preview": "What is the weather in Delhi?", "limit": 5, "event": "memory_manager_get_relevant_history_start", "level": "info"}
+{"operation": "get_relevant", "user_id": "u1234567", "query_preview": "What is the weather in Delhi?", "limit": 5, "event": "long_term_get_relevant_start", "level": "info"}
+{"event": "long_term_mem0_connect_start", "level": "info"}
+{"mem0_db": "agent_memory", "mem0_collection": "mem0_long_memory", "event": "long_term_mem0_connected", "level": "info"}
+{"operation": "get_relevant", "user_id": "u1234567", "returned_count": 0, "event": "long_term_get_relevant_ok", "level": "info"}
+{"operation": "get_relevant_history", "user_id": "u1234567", "returned_count": 0, "event": "memory_manager_get_relevant_history_ok", "level": "info"}
+{"flow_id": "1234567:1771058615532", "step": "memory_retrieved", "short_term_hit": true, "short_term_messages": 2, "long_term_count": 0, "event": "flow_step", "level": "info"}
+{"flow_id": "1234567:1771058615532", "step": "session_resolve", "app_name": "supervisor", "event": "flow_step", "level": "info"}
+{"flow_id": "1234567:1771058615532", "step": "session_created", "session_id": "1234567", "event": "flow_step", "level": "info"}
+{"flow_id": "1234567:1771058615532", "step": "agent_invoke_start", "agent": "Supervisor", "description": "Running Supervisor (routes to WeatherAgent/FinanceAgent)", "event": "flow_step", "level": "info"}
+{"flow_id": "1234567:1771058615532", "step": "agent_invoke_done", "agent": "Supervisor", "event_count": 7, "event_authors": ["Supervisor", "Supervisor", "WeatherAgent", "WeatherAgent", "WeatherAgent", "WeatherAgent", "WeatherAgent"], "elapsed_seconds": 5.852, "event": "flow_step", "level": "info"}
+{"flow_id": "1234567:1771058615532", "step": "intent_and_response", "intent": "weather_query", "response_keys": ["location", "temperature", "condition", "forecast"], "event": "flow_step", "level": "info"}
+{"flow_id": "1234567:1771058615532", "step": "memory_persist", "description": "Save short-term (Redis) and long-term (MongoDB)", "event": "flow_step", "level": "info"}
+{"operation": "save_short_term", "session_id": "1234567", "event": "memory_manager_save_short_term_start", "level": "info"}
+{"operation": "save", "session_id": "1234567", "event": "short_term_save_start", "level": "info"}
+{"operation": "save", "session_id": "1234567", "key": "agent:short:1234567", "ttl_seconds": 1800, "messages_count": 4, "event": "short_term_saved", "level": "info"}
+{"operation": "save_short_term", "session_id": "1234567", "event": "memory_manager_save_short_term_ok", "level": "info"}
+{"operation": "save_long_term", "user_id": "u1234567", "session_id": "1234567", "messages_count": 2, "event": "memory_manager_save_long_term_start", "level": "info"}
+{"operation": "save", "user_id": "u1234567", "session_id": "1234567", "messages_count": 2, "event": "long_term_save_start", "level": "info"}
+{"db": "agent_memory", "collection": "agent_long_memory", "event": "long_term_mongo_connect_start", "level": "info"}
+{"db": "agent_memory", "collection": "agent_long_memory", "event": "long_term_mongo_connected", "level": "info"}
+{"operation": "save", "user_id": "u1234567", "session_id": "1234567", "event": "long_term_saved_mongo", "level": "info"}
+{"operation": "save", "user_id": "u1234567", "session_id": "1234567", "event": "long_term_saved_mem0", "level": "info"}
+{"operation": "save_long_term", "user_id": "u1234567", "session_id": "1234567", "messages_count": 2, "event": "memory_manager_save_long_term_ok", "level": "info"}
+{"flow_id": "1234567:1771058615532", "user_id": "u1234567", "session_id": "1234567", "intent": "weather_query", "response_preview": "{'location': 'Delhi', 'temperature': '32\u00b0C', 'condition': 'Sunny', 'forecast': 'Sunny, 32\u00b0C. Highs in the low 30s, lows in the mid 20s.'}", "event": "flow_end", "level": "info"}
+{"path": "/chat", "session_id": "1234567", "intent": "weather_query", "status": "success", "event": "api_response", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "POST", "path": "/chat", "event": "request_start", "level": "info"}
+{"path": "/chat", "method": "POST", "user_id": "u1234567", "session_id": "1234567", "message_preview": "What is the weather in Hyderabad?", "event": "api_request", "level": "info"}
+{"flow_id": "1234567:1771058709556", "user_id": "u1234567", "session_id": "1234567", "message_preview": "What is the weather in Hyderabad?", "event": "flow_start", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"flow_id": "1234567:1771058709556", "step": "memory_retrieve", "description": "Get short-term and long-term context", "event": "flow_step", "level": "info"}
+{"operation": "get_short_term", "session_id": "1234567", "event": "memory_manager_get_short_term_start", "level": "info"}
+{"operation": "get", "session_id": "1234567", "event": "short_term_get_start", "level": "info"}
+{"operation": "get", "session_id": "1234567", "key": "agent:short:1234567", "messages_count": 4, "event": "short_term_hit", "level": "info"}
+{"operation": "get_short_term", "session_id": "1234567", "hit": true, "messages_count": 4, "event": "memory_manager_get_short_term_ok", "level": "info"}
+{"operation": "get_relevant_history", "user_id": "u1234567", "query_preview": "What is the weather in Hyderabad?", "limit": 5, "event": "memory_manager_get_relevant_history_start", "level": "info"}
+{"operation": "get_relevant", "user_id": "u1234567", "query_preview": "What is the weather in Hyderabad?", "limit": 5, "event": "long_term_get_relevant_start", "level": "info"}
+{"event": "long_term_mem0_connect_start", "level": "info"}
+{"mem0_db": "agent_memory", "mem0_collection": "mem0_long_memory", "event": "long_term_mem0_connected", "level": "info"}
+{"operation": "get_relevant", "user_id": "u1234567", "returned_count": 0, "event": "long_term_get_relevant_ok", "level": "info"}
+{"operation": "get_relevant_history", "user_id": "u1234567", "returned_count": 0, "event": "memory_manager_get_relevant_history_ok", "level": "info"}
+{"flow_id": "1234567:1771058709556", "step": "memory_retrieved", "short_term_hit": true, "short_term_messages": 4, "long_term_count": 0, "event": "flow_step", "level": "info"}
+{"flow_id": "1234567:1771058709556", "step": "session_resolve", "app_name": "supervisor", "event": "flow_step", "level": "info"}
+{"flow_id": "1234567:1771058709556", "step": "session_created", "session_id": "1234567", "event": "flow_step", "level": "info"}
+{"flow_id": "1234567:1771058709556", "step": "agent_invoke_start", "agent": "Supervisor", "description": "Running Supervisor (routes to WeatherAgent/FinanceAgent)", "event": "flow_step", "level": "info"}
+{"flow_id": "1234567:1771058709556", "step": "agent_invoke_done", "agent": "Supervisor", "event_count": 7, "event_authors": ["Supervisor", "Supervisor", "WeatherAgent", "WeatherAgent", "WeatherAgent", "WeatherAgent", "WeatherAgent"], "elapsed_seconds": 5.508, "event": "flow_step", "level": "info"}
+{"flow_id": "1234567:1771058709556", "step": "intent_and_response", "intent": "weather_query", "response_keys": ["location", "temperature", "condition", "forecast"], "event": "flow_step", "level": "info"}
+{"flow_id": "1234567:1771058709556", "step": "memory_persist", "description": "Save short-term (Redis) and long-term (MongoDB)", "event": "flow_step", "level": "info"}
+{"operation": "save_short_term", "session_id": "1234567", "event": "memory_manager_save_short_term_start", "level": "info"}
+{"operation": "save", "session_id": "1234567", "event": "short_term_save_start", "level": "info"}
+{"operation": "save", "session_id": "1234567", "key": "agent:short:1234567", "ttl_seconds": 1800, "messages_count": 6, "event": "short_term_saved", "level": "info"}
+{"operation": "save_short_term", "session_id": "1234567", "event": "memory_manager_save_short_term_ok", "level": "info"}
+{"operation": "save_long_term", "user_id": "u1234567", "session_id": "1234567", "messages_count": 2, "event": "memory_manager_save_long_term_start", "level": "info"}
+{"operation": "save", "user_id": "u1234567", "session_id": "1234567", "messages_count": 2, "event": "long_term_save_start", "level": "info"}
+{"db": "agent_memory", "collection": "agent_long_memory", "event": "long_term_mongo_connect_start", "level": "info"}
+{"db": "agent_memory", "collection": "agent_long_memory", "event": "long_term_mongo_connected", "level": "info"}
+{"operation": "save", "user_id": "u1234567", "session_id": "1234567", "event": "long_term_saved_mongo", "level": "info"}
+{"operation": "save", "user_id": "u1234567", "session_id": "1234567", "event": "long_term_saved_mem0", "level": "info"}
+{"operation": "save_long_term", "user_id": "u1234567", "session_id": "1234567", "messages_count": 2, "event": "memory_manager_save_long_term_ok", "level": "info"}
+{"flow_id": "1234567:1771058709556", "user_id": "u1234567", "session_id": "1234567", "intent": "weather_query", "response_preview": "{'location': 'Hyderabad', 'temperature': '19\u00b0C', 'condition': 'Sunny', 'forecast': 'Sunny, 19\u00b0C. Highs in the low 30s, lows in the mid 20s.'}", "event": "flow_end", "level": "info"}
+{"path": "/chat", "session_id": "1234567", "intent": "weather_query", "status": "success", "event": "api_response", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "POST", "path": "/chat", "event": "request_start", "level": "info"}
+{"path": "/chat", "method": "POST", "user_id": "u1234567", "session_id": "1234567", "message_preview": "What is the weather in Banglore?", "event": "api_request", "level": "info"}
+{"flow_id": "1234567:1771058793746", "user_id": "u1234567", "session_id": "1234567", "message_preview": "What is the weather in Banglore?", "event": "flow_start", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"flow_id": "1234567:1771058793746", "step": "memory_retrieve", "description": "Get short-term and long-term context", "event": "flow_step", "level": "info"}
+{"operation": "get_short_term", "session_id": "1234567", "event": "memory_manager_get_short_term_start", "level": "info"}
+{"operation": "get", "session_id": "1234567", "event": "short_term_get_start", "level": "info"}
+{"operation": "get", "session_id": "1234567", "key": "agent:short:1234567", "messages_count": 6, "event": "short_term_hit", "level": "info"}
+{"operation": "get_short_term", "session_id": "1234567", "hit": true, "messages_count": 6, "event": "memory_manager_get_short_term_ok", "level": "info"}
+{"operation": "get_relevant_history", "user_id": "u1234567", "query_preview": "What is the weather in Banglore?", "limit": 5, "event": "memory_manager_get_relevant_history_start", "level": "info"}
+{"operation": "get_relevant", "user_id": "u1234567", "query_preview": "What is the weather in Banglore?", "limit": 5, "event": "long_term_get_relevant_start", "level": "info"}
+{"event": "long_term_mem0_connect_start", "level": "info"}
+{"mem0_db": "agent_memory", "mem0_collection": "mem0_long_memory", "event": "long_term_mem0_connected", "level": "info"}
+{"operation": "get_relevant", "user_id": "u1234567", "returned_count": 0, "event": "long_term_get_relevant_ok", "level": "info"}
+{"operation": "get_relevant_history", "user_id": "u1234567", "returned_count": 0, "event": "memory_manager_get_relevant_history_ok", "level": "info"}
+{"flow_id": "1234567:1771058793746", "step": "memory_retrieved", "short_term_hit": true, "short_term_messages": 6, "long_term_count": 0, "event": "flow_step", "level": "info"}
+{"flow_id": "1234567:1771058793746", "step": "session_resolve", "app_name": "supervisor", "event": "flow_step", "level": "info"}
+{"flow_id": "1234567:1771058793746", "step": "session_created", "session_id": "1234567", "event": "flow_step", "level": "info"}
+{"flow_id": "1234567:1771058793746", "step": "agent_invoke_start", "agent": "Supervisor", "description": "Running Supervisor (routes to WeatherAgent/FinanceAgent)", "event": "flow_step", "level": "info"}
+{"flow_id": "1234567:1771058793746", "step": "agent_invoke_done", "agent": "Supervisor", "event_count": 7, "event_authors": ["Supervisor", "Supervisor", "WeatherAgent", "WeatherAgent", "WeatherAgent", "WeatherAgent", "WeatherAgent"], "elapsed_seconds": 5.109, "event": "flow_step", "level": "info"}
+{"flow_id": "1234567:1771058793746", "step": "intent_and_response", "intent": "weather_query", "response_keys": ["location", "temperature", "condition", "forecast"], "event": "flow_step", "level": "info"}
+{"flow_id": "1234567:1771058793746", "step": "memory_persist", "description": "Save short-term (Redis) and long-term (MongoDB)", "event": "flow_step", "level": "info"}
+{"operation": "save_short_term", "session_id": "1234567", "event": "memory_manager_save_short_term_start", "level": "info"}
+{"operation": "save", "session_id": "1234567", "event": "short_term_save_start", "level": "info"}
+{"operation": "save", "session_id": "1234567", "key": "agent:short:1234567", "ttl_seconds": 1800, "messages_count": 8, "event": "short_term_saved", "level": "info"}
+{"operation": "save_short_term", "session_id": "1234567", "event": "memory_manager_save_short_term_ok", "level": "info"}
+{"operation": "save_long_term", "user_id": "u1234567", "session_id": "1234567", "messages_count": 2, "event": "memory_manager_save_long_term_start", "level": "info"}
+{"operation": "save", "user_id": "u1234567", "session_id": "1234567", "messages_count": 2, "event": "long_term_save_start", "level": "info"}
+{"db": "agent_memory", "collection": "agent_long_memory", "event": "long_term_mongo_connect_start", "level": "info"}
+{"db": "agent_memory", "collection": "agent_long_memory", "event": "long_term_mongo_connected", "level": "info"}
+{"operation": "save", "user_id": "u1234567", "session_id": "1234567", "event": "long_term_saved_mongo", "level": "info"}
+{"operation": "save", "user_id": "u1234567", "session_id": "1234567", "event": "long_term_saved_mem0", "level": "info"}
+{"operation": "save_long_term", "user_id": "u1234567", "session_id": "1234567", "messages_count": 2, "event": "memory_manager_save_long_term_ok", "level": "info"}
+{"flow_id": "1234567:1771058793746", "user_id": "u1234567", "session_id": "1234567", "intent": "weather_query", "response_preview": "{'location': 'Banglore', 'temperature': '24\u00b0C', 'condition': 'Rainy', 'forecast': 'Rainy, 24\u00b0C. Highs in the low 30s, lows in the mid 20s.'}", "event": "flow_end", "level": "info"}
+{"path": "/chat", "session_id": "1234567", "intent": "weather_query", "status": "success", "event": "api_response", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"method": "GET", "path": "/memory/mem0-diagnostic", "event": "request_start", "level": "info"}
+{"event": "long_term_mem0_connect_start", "level": "info"}
+{"mem0_db": "agent_memory", "mem0_collection": "mem0_long_memory", "event": "long_term_mem0_connected", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "POST", "path": "/chat", "event": "request_start", "level": "info"}
+{"path": "/chat", "method": "POST", "user_id": "u98765", "session_id": "98765", "message_preview": "What is the weather in Banglore?", "event": "api_request", "level": "info"}
+{"flow_id": "98765:1771059044102", "user_id": "u98765", "session_id": "98765", "message_preview": "What is the weather in Banglore?", "event": "flow_start", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"flow_id": "98765:1771059044102", "step": "memory_retrieve", "description": "Get short-term and long-term context", "event": "flow_step", "level": "info"}
+{"operation": "get_short_term", "session_id": "98765", "event": "memory_manager_get_short_term_start", "level": "info"}
+{"operation": "get", "session_id": "98765", "event": "short_term_get_start", "level": "info"}
+{"operation": "get", "session_id": "98765", "key": "agent:short:98765", "event": "short_term_miss", "level": "info"}
+{"operation": "get_short_term", "session_id": "98765", "hit": false, "messages_count": 0, "event": "memory_manager_get_short_term_ok", "level": "info"}
+{"operation": "get_relevant_history", "user_id": "u98765", "query_preview": "What is the weather in Banglore?", "limit": 5, "event": "memory_manager_get_relevant_history_start", "level": "info"}
+{"operation": "get_relevant", "user_id": "u98765", "query_preview": "What is the weather in Banglore?", "limit": 5, "event": "long_term_get_relevant_start", "level": "info"}
+{"event": "long_term_mem0_connect_start", "level": "info"}
+{"mem0_db": "agent_memory", "mem0_collection": "mem0_long_memory", "event": "long_term_mem0_connected", "level": "info"}
+{"operation": "get_relevant", "user_id": "u98765", "returned_count": 0, "event": "long_term_get_relevant_ok", "level": "info"}
+{"operation": "get_relevant_history", "user_id": "u98765", "returned_count": 0, "event": "memory_manager_get_relevant_history_ok", "level": "info"}
+{"flow_id": "98765:1771059044102", "step": "memory_retrieved", "short_term_hit": false, "short_term_messages": 0, "long_term_count": 0, "event": "flow_step", "level": "info"}
+{"flow_id": "98765:1771059044102", "step": "session_resolve", "app_name": "supervisor", "event": "flow_step", "level": "info"}
+{"flow_id": "98765:1771059044102", "step": "session_created", "session_id": "98765", "event": "flow_step", "level": "info"}
+{"flow_id": "98765:1771059044102", "step": "agent_invoke_start", "agent": "Supervisor", "description": "Running Supervisor (routes to WeatherAgent/FinanceAgent)", "event": "flow_step", "level": "info"}
+{"flow_id": "98765:1771059044102", "step": "agent_invoke_done", "agent": "Supervisor", "event_count": 7, "event_authors": ["Supervisor", "Supervisor", "WeatherAgent", "WeatherAgent", "WeatherAgent", "WeatherAgent", "WeatherAgent"], "elapsed_seconds": 5.895, "event": "flow_step", "level": "info"}
+{"flow_id": "98765:1771059044102", "step": "intent_and_response", "intent": "weather_query", "response_keys": ["location", "temperature", "condition", "forecast"], "event": "flow_step", "level": "info"}
+{"flow_id": "98765:1771059044102", "step": "memory_persist", "description": "Save short-term (Redis) and long-term (MongoDB)", "event": "flow_step", "level": "info"}
+{"operation": "save_short_term", "session_id": "98765", "event": "memory_manager_save_short_term_start", "level": "info"}
+{"operation": "save", "session_id": "98765", "event": "short_term_save_start", "level": "info"}
+{"operation": "save", "session_id": "98765", "key": "agent:short:98765", "ttl_seconds": 1800, "messages_count": 2, "event": "short_term_saved", "level": "info"}
+{"operation": "save_short_term", "session_id": "98765", "event": "memory_manager_save_short_term_ok", "level": "info"}
+{"operation": "save_long_term", "user_id": "u98765", "session_id": "98765", "messages_count": 2, "event": "memory_manager_save_long_term_start", "level": "info"}
+{"operation": "save", "user_id": "u98765", "session_id": "98765", "messages_count": 2, "event": "long_term_save_start", "level": "info"}
+{"db": "agent_memory", "collection": "agent_long_memory", "event": "long_term_mongo_connect_start", "level": "info"}
+{"db": "agent_memory", "collection": "agent_long_memory", "event": "long_term_mongo_connected", "level": "info"}
+{"operation": "save", "user_id": "u98765", "session_id": "98765", "event": "long_term_saved_mongo", "level": "info"}
+{"operation": "save", "user_id": "u98765", "session_id": "98765", "event": "long_term_saved_mem0", "level": "info"}
+{"operation": "save_long_term", "user_id": "u98765", "session_id": "98765", "messages_count": 2, "event": "memory_manager_save_long_term_ok", "level": "info"}
+{"flow_id": "98765:1771059044102", "user_id": "u98765", "session_id": "98765", "intent": "weather_query", "response_preview": "{'location': 'Banglore', 'temperature': '37\u00b0C', 'condition': 'Cloudy', 'forecast': 'Cloudy, 37\u00b0C. Highs in the low 30s, lows in the mid 20s.'}", "event": "flow_end", "level": "info"}
+{"path": "/chat", "session_id": "98765", "intent": "weather_query", "status": "success", "event": "api_response", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"backends": ["short_term", "long_term"], "event": "memory_manager_close_start", "level": "info"}
+{"event": "short_term_close_start", "level": "info"}
+{"event": "short_term_closed", "level": "info"}
+{"event": "long_term_close_start", "level": "info"}
+{"event": "long_term_memory_closed", "level": "info"}
+{"event": "memory_manager_close_ok", "level": "info"}
+{"event": "memory_closed", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"backends": ["short_term", "long_term"], "event": "memory_manager_close_start", "level": "info"}
+{"event": "short_term_close_start", "level": "info"}
+{"event": "short_term_closed", "level": "info"}
+{"event": "long_term_close_start", "level": "info"}
+{"event": "long_term_memory_closed", "level": "info"}
+{"event": "memory_manager_close_ok", "level": "info"}
+{"event": "memory_closed", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"method": "GET", "path": "/health", "event": "request_start", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "POST", "path": "/chat", "event": "request_start", "level": "info"}
+{"path": "/chat", "method": "POST", "user_id": "u987654", "session_id": "987654", "message_preview": "What is the weather in Banglore?", "event": "api_request", "level": "info"}
+{"flow_id": "987654:1771060291418", "user_id": "u987654", "session_id": "987654", "message_preview": "What is the weather in Banglore?", "event": "flow_start", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"flow_id": "987654:1771060291418", "step": "memory_retrieve", "description": "Get short-term and long-term context", "event": "flow_step", "level": "info"}
+{"operation": "get_short_term", "session_id": "987654", "event": "memory_manager_get_short_term_start", "level": "info"}
+{"operation": "get", "session_id": "987654", "event": "short_term_get_start", "level": "info"}
+{"operation": "get", "session_id": "987654", "key": "agent:short:987654", "event": "short_term_miss", "level": "info"}
+{"operation": "get_short_term", "session_id": "987654", "hit": false, "messages_count": 0, "event": "memory_manager_get_short_term_ok", "level": "info"}
+{"operation": "get_relevant_history", "user_id": "u987654", "query_preview": "What is the weather in Banglore?", "limit": 5, "event": "memory_manager_get_relevant_history_start", "level": "info"}
+{"operation": "get_relevant", "user_id": "u987654", "query_preview": "What is the weather in Banglore?", "limit": 5, "event": "long_term_get_relevant_start", "level": "info"}
+{"event": "long_term_mem0_connect_start", "level": "info"}
+{"mem0_db": "agent_memory", "mem0_collection": "mem0_long_memory", "event": "long_term_mem0_connected", "level": "info"}
+{"operation": "get_relevant", "user_id": "u987654", "returned_count": 0, "event": "long_term_get_relevant_ok", "level": "info"}
+{"operation": "get_relevant_history", "user_id": "u987654", "returned_count": 0, "event": "memory_manager_get_relevant_history_ok", "level": "info"}
+{"flow_id": "987654:1771060291418", "step": "memory_retrieved", "short_term_hit": false, "short_term_messages": 0, "long_term_count": 0, "event": "flow_step", "level": "info"}
+{"flow_id": "987654:1771060291418", "step": "session_resolve", "app_name": "supervisor", "event": "flow_step", "level": "info"}
+{"flow_id": "987654:1771060291418", "step": "session_created", "session_id": "987654", "event": "flow_step", "level": "info"}
+{"flow_id": "987654:1771060291418", "step": "agent_invoke_start", "agent": "Supervisor", "description": "Running Supervisor (routes to WeatherAgent/FinanceAgent)", "event": "flow_step", "level": "info"}
+{"flow_id": "987654:1771060291418", "step": "agent_invoke_done", "agent": "Supervisor", "event_count": 7, "event_authors": ["Supervisor", "Supervisor", "WeatherAgent", "WeatherAgent", "WeatherAgent", "WeatherAgent", "WeatherAgent"], "elapsed_seconds": 5.359, "event": "flow_step", "level": "info"}
+{"flow_id": "987654:1771060291418", "step": "intent_and_response", "intent": "weather_query", "response_keys": ["location", "temperature", "condition", "forecast"], "event": "flow_step", "level": "info"}
+{"flow_id": "987654:1771060291418", "step": "memory_persist", "description": "Save short-term (Redis) and long-term (MongoDB)", "event": "flow_step", "level": "info"}
+{"operation": "save_short_term", "session_id": "987654", "event": "memory_manager_save_short_term_start", "level": "info"}
+{"operation": "save", "session_id": "987654", "event": "short_term_save_start", "level": "info"}
+{"operation": "save", "session_id": "987654", "key": "agent:short:987654", "ttl_seconds": 1800, "messages_count": 2, "event": "short_term_saved", "level": "info"}
+{"operation": "save_short_term", "session_id": "987654", "event": "memory_manager_save_short_term_ok", "level": "info"}
+{"operation": "save_long_term", "user_id": "u987654", "session_id": "987654", "messages_count": 2, "event": "memory_manager_save_long_term_start", "level": "info"}
+{"operation": "save", "user_id": "u987654", "session_id": "987654", "messages_count": 2, "event": "long_term_save_start", "level": "info"}
+{"db": "agent_memory", "collection": "agent_long_memory", "event": "long_term_mongo_connect_start", "level": "info"}
+{"db": "agent_memory", "collection": "agent_long_memory", "event": "long_term_mongo_connected", "level": "info"}
+{"operation": "save", "user_id": "u987654", "session_id": "987654", "event": "long_term_saved_mongo", "level": "info"}
+{"operation": "save", "user_id": "u987654", "session_id": "987654", "event": "long_term_saved_mem0", "level": "info"}
+{"operation": "save_long_term", "user_id": "u987654", "session_id": "987654", "messages_count": 2, "event": "memory_manager_save_long_term_ok", "level": "info"}
+{"flow_id": "987654:1771060291418", "user_id": "u987654", "session_id": "987654", "intent": "weather_query", "response_preview": "{'location': 'Banglore', 'temperature': '37\u00b0C', 'condition': 'Clear', 'forecast': 'Clear, 37\u00b0C. Highs in the low 30s, lows in the mid 20s.'}", "event": "flow_end", "level": "info"}
+{"path": "/chat", "session_id": "987654", "intent": "weather_query", "status": "success", "event": "api_response", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "POST", "path": "/chat", "event": "request_start", "level": "info"}
+{"path": "/chat", "method": "POST", "user_id": "u987654", "session_id": "987654", "message_preview": "What is the weather in Hyderabad?", "event": "api_request", "level": "info"}
+{"flow_id": "987654:1771060345711", "user_id": "u987654", "session_id": "987654", "message_preview": "What is the weather in Hyderabad?", "event": "flow_start", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"flow_id": "987654:1771060345711", "step": "memory_retrieve", "description": "Get short-term and long-term context", "event": "flow_step", "level": "info"}
+{"operation": "get_short_term", "session_id": "987654", "event": "memory_manager_get_short_term_start", "level": "info"}
+{"operation": "get", "session_id": "987654", "event": "short_term_get_start", "level": "info"}
+{"operation": "get", "session_id": "987654", "key": "agent:short:987654", "messages_count": 2, "event": "short_term_hit", "level": "info"}
+{"operation": "get_short_term", "session_id": "987654", "hit": true, "messages_count": 2, "event": "memory_manager_get_short_term_ok", "level": "info"}
+{"operation": "get_relevant_history", "user_id": "u987654", "query_preview": "What is the weather in Hyderabad?", "limit": 5, "event": "memory_manager_get_relevant_history_start", "level": "info"}
+{"operation": "get_relevant", "user_id": "u987654", "query_preview": "What is the weather in Hyderabad?", "limit": 5, "event": "long_term_get_relevant_start", "level": "info"}
+{"event": "long_term_mem0_connect_start", "level": "info"}
+{"mem0_db": "agent_memory", "mem0_collection": "mem0_long_memory", "event": "long_term_mem0_connected", "level": "info"}
+{"operation": "get_relevant", "user_id": "u987654", "returned_count": 2, "event": "long_term_get_relevant_ok", "level": "info"}
+{"operation": "get_relevant_history", "user_id": "u987654", "returned_count": 2, "event": "memory_manager_get_relevant_history_ok", "level": "info"}
+{"flow_id": "987654:1771060345711", "step": "memory_retrieved", "short_term_hit": true, "short_term_messages": 2, "long_term_count": 2, "event": "flow_step", "level": "info"}
+{"flow_id": "987654:1771060345711", "step": "session_resolve", "app_name": "supervisor", "event": "flow_step", "level": "info"}
+{"flow_id": "987654:1771060345711", "step": "session_created", "session_id": "987654", "event": "flow_step", "level": "info"}
+{"flow_id": "987654:1771060345711", "step": "agent_invoke_start", "agent": "Supervisor", "description": "Running Supervisor (routes to WeatherAgent/FinanceAgent)", "event": "flow_step", "level": "info"}
+{"flow_id": "987654:1771060345711", "step": "agent_invoke_done", "agent": "Supervisor", "event_count": 7, "event_authors": ["Supervisor", "Supervisor", "WeatherAgent", "WeatherAgent", "WeatherAgent", "WeatherAgent", "WeatherAgent"], "elapsed_seconds": 5.254, "event": "flow_step", "level": "info"}
+{"flow_id": "987654:1771060345711", "step": "intent_and_response", "intent": "weather_query", "response_keys": ["location", "temperature", "condition", "forecast"], "event": "flow_step", "level": "info"}
+{"flow_id": "987654:1771060345711", "step": "memory_persist", "description": "Save short-term (Redis) and long-term (MongoDB)", "event": "flow_step", "level": "info"}
+{"operation": "save_short_term", "session_id": "987654", "event": "memory_manager_save_short_term_start", "level": "info"}
+{"operation": "save", "session_id": "987654", "event": "short_term_save_start", "level": "info"}
+{"operation": "save", "session_id": "987654", "key": "agent:short:987654", "ttl_seconds": 1800, "messages_count": 4, "event": "short_term_saved", "level": "info"}
+{"operation": "save_short_term", "session_id": "987654", "event": "memory_manager_save_short_term_ok", "level": "info"}
+{"operation": "save_long_term", "user_id": "u987654", "session_id": "987654", "messages_count": 2, "event": "memory_manager_save_long_term_start", "level": "info"}
+{"operation": "save", "user_id": "u987654", "session_id": "987654", "messages_count": 2, "event": "long_term_save_start", "level": "info"}
+{"db": "agent_memory", "collection": "agent_long_memory", "event": "long_term_mongo_connect_start", "level": "info"}
+{"db": "agent_memory", "collection": "agent_long_memory", "event": "long_term_mongo_connected", "level": "info"}
+{"operation": "save", "user_id": "u987654", "session_id": "987654", "event": "long_term_saved_mongo", "level": "info"}
+{"operation": "save", "user_id": "u987654", "session_id": "987654", "event": "long_term_saved_mem0", "level": "info"}
+{"operation": "save_long_term", "user_id": "u987654", "session_id": "987654", "messages_count": 2, "event": "memory_manager_save_long_term_ok", "level": "info"}
+{"flow_id": "987654:1771060345711", "user_id": "u987654", "session_id": "987654", "intent": "weather_query", "response_preview": "{'location': 'Hyderabad', 'temperature': '21\u00b0C', 'condition': 'Rainy', 'forecast': 'Rainy, 21\u00b0C. Highs in the low 30s, lows in the mid 20s.'}", "event": "flow_end", "level": "info"}
+{"path": "/chat", "session_id": "987654", "intent": "weather_query", "status": "success", "event": "api_response", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "POST", "path": "/chat", "event": "request_start", "level": "info"}
+{"path": "/chat", "method": "POST", "user_id": "u12345", "session_id": "12345", "message_preview": "I prefer tea over coffee and my favorite city is Paris.", "event": "api_request", "level": "info"}
+{"flow_id": "12345:1771061068773", "user_id": "u12345", "session_id": "12345", "message_preview": "I prefer tea over coffee and my favorite city is Paris.", "event": "flow_start", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"flow_id": "12345:1771061068773", "step": "memory_retrieve", "description": "Get short-term and long-term context", "event": "flow_step", "level": "info"}
+{"operation": "get_short_term", "session_id": "12345", "event": "memory_manager_get_short_term_start", "level": "info"}
+{"operation": "get", "session_id": "12345", "event": "short_term_get_start", "level": "info"}
+{"operation": "get", "session_id": "12345", "key": "agent:short:12345", "event": "short_term_miss", "level": "info"}
+{"operation": "get_short_term", "session_id": "12345", "hit": false, "messages_count": 0, "event": "memory_manager_get_short_term_ok", "level": "info"}
+{"operation": "get_relevant_history", "user_id": "u12345", "query_preview": "I prefer tea over coffee and my favorite city is Paris.", "limit": 5, "event": "memory_manager_get_relevant_history_start", "level": "info"}
+{"operation": "get_relevant", "user_id": "u12345", "query_preview": "I prefer tea over coffee and my favorite city is Paris.", "limit": 5, "event": "long_term_get_relevant_start", "level": "info"}
+{"event": "long_term_mem0_connect_start", "level": "info"}
+{"mem0_db": "agent_memory", "mem0_collection": "mem0_long_memory", "event": "long_term_mem0_connected", "level": "info"}
+{"operation": "get_relevant", "user_id": "u12345", "returned_count": 0, "event": "long_term_get_relevant_ok", "level": "info"}
+{"operation": "get_relevant_history", "user_id": "u12345", "returned_count": 0, "event": "memory_manager_get_relevant_history_ok", "level": "info"}
+{"flow_id": "12345:1771061068773", "step": "memory_retrieved", "short_term_hit": false, "short_term_messages": 0, "long_term_count": 0, "event": "flow_step", "level": "info"}
+{"flow_id": "12345:1771061068773", "step": "session_resolve", "app_name": "supervisor", "event": "flow_step", "level": "info"}
+{"flow_id": "12345:1771061068773", "step": "session_created", "session_id": "12345", "event": "flow_step", "level": "info"}
+{"flow_id": "12345:1771061068773", "step": "agent_invoke_start", "agent": "Supervisor", "description": "Running Supervisor (routes to WeatherAgent/FinanceAgent)", "event": "flow_step", "level": "info"}
+{"flow_id": "12345:1771061068773", "step": "agent_invoke_done", "agent": "Supervisor", "event_count": 1, "event_authors": ["Supervisor"], "elapsed_seconds": 1.193, "event": "flow_step", "level": "info"}
+{"flow_id": "12345:1771061068773", "step": "intent_and_response", "intent": "general_query", "response_keys": ["message"], "event": "flow_step", "level": "info"}
+{"flow_id": "12345:1771061068773", "step": "memory_persist", "description": "Save short-term (Redis) and long-term (MongoDB)", "event": "flow_step", "level": "info"}
+{"operation": "save_short_term", "session_id": "12345", "event": "memory_manager_save_short_term_start", "level": "info"}
+{"operation": "save", "session_id": "12345", "event": "short_term_save_start", "level": "info"}
+{"operation": "save", "session_id": "12345", "key": "agent:short:12345", "ttl_seconds": 1800, "messages_count": 2, "event": "short_term_saved", "level": "info"}
+{"operation": "save_short_term", "session_id": "12345", "event": "memory_manager_save_short_term_ok", "level": "info"}
+{"operation": "save_long_term", "user_id": "u12345", "session_id": "12345", "messages_count": 2, "event": "memory_manager_save_long_term_start", "level": "info"}
+{"operation": "save", "user_id": "u12345", "session_id": "12345", "messages_count": 2, "event": "long_term_save_start", "level": "info"}
+{"db": "agent_memory", "collection": "agent_long_memory", "event": "long_term_mongo_connect_start", "level": "info"}
+{"db": "agent_memory", "collection": "agent_long_memory", "event": "long_term_mongo_connected", "level": "info"}
+{"operation": "save", "user_id": "u12345", "session_id": "12345", "event": "long_term_saved_mongo", "level": "info"}
+{"operation": "save", "user_id": "u12345", "session_id": "12345", "event": "long_term_saved_mem0", "level": "info"}
+{"operation": "save_long_term", "user_id": "u12345", "session_id": "12345", "messages_count": 2, "event": "memory_manager_save_long_term_ok", "level": "info"}
+{"flow_id": "12345:1771061068773", "user_id": "u12345", "session_id": "12345", "intent": "general_query", "response_preview": "{'message': \"That's interesting! It's always nice to know a bit about people's preferences.\"}", "event": "flow_end", "level": "info"}
+{"path": "/chat", "session_id": "12345", "intent": "general_query", "status": "success", "event": "api_response", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "POST", "path": "/chat", "event": "request_start", "level": "info"}
+{"path": "/chat", "method": "POST", "user_id": "u12345", "session_id": "12345", "message_preview": "What drink do I like?", "event": "api_request", "level": "info"}
+{"flow_id": "12345:1771061091227", "user_id": "u12345", "session_id": "12345", "message_preview": "What drink do I like?", "event": "flow_start", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"flow_id": "12345:1771061091227", "step": "memory_retrieve", "description": "Get short-term and long-term context", "event": "flow_step", "level": "info"}
+{"operation": "get_short_term", "session_id": "12345", "event": "memory_manager_get_short_term_start", "level": "info"}
+{"operation": "get", "session_id": "12345", "event": "short_term_get_start", "level": "info"}
+{"operation": "get", "session_id": "12345", "key": "agent:short:12345", "messages_count": 2, "event": "short_term_hit", "level": "info"}
+{"operation": "get_short_term", "session_id": "12345", "hit": true, "messages_count": 2, "event": "memory_manager_get_short_term_ok", "level": "info"}
+{"operation": "get_relevant_history", "user_id": "u12345", "query_preview": "What drink do I like?", "limit": 5, "event": "memory_manager_get_relevant_history_start", "level": "info"}
+{"operation": "get_relevant", "user_id": "u12345", "query_preview": "What drink do I like?", "limit": 5, "event": "long_term_get_relevant_start", "level": "info"}
+{"event": "long_term_mem0_connect_start", "level": "info"}
+{"mem0_db": "agent_memory", "mem0_collection": "mem0_long_memory", "event": "long_term_mem0_connected", "level": "info"}
+{"operation": "get_relevant", "user_id": "u12345", "returned_count": 2, "event": "long_term_get_relevant_ok", "level": "info"}
+{"operation": "get_relevant_history", "user_id": "u12345", "returned_count": 2, "event": "memory_manager_get_relevant_history_ok", "level": "info"}
+{"flow_id": "12345:1771061091227", "step": "memory_retrieved", "short_term_hit": true, "short_term_messages": 2, "long_term_count": 2, "event": "flow_step", "level": "info"}
+{"flow_id": "12345:1771061091227", "step": "session_resolve", "app_name": "supervisor", "event": "flow_step", "level": "info"}
+{"flow_id": "12345:1771061091227", "step": "session_created", "session_id": "12345", "event": "flow_step", "level": "info"}
+{"flow_id": "12345:1771061091227", "step": "agent_invoke_start", "agent": "Supervisor", "description": "Running Supervisor (routes to WeatherAgent/FinanceAgent)", "event": "flow_step", "level": "info"}
+{"flow_id": "12345:1771061091227", "step": "agent_invoke_done", "agent": "Supervisor", "event_count": 1, "event_authors": ["Supervisor"], "elapsed_seconds": 1.603, "event": "flow_step", "level": "info"}
+{"flow_id": "12345:1771061091227", "step": "intent_and_response", "intent": "general_query", "response_keys": ["message"], "event": "flow_step", "level": "info"}
+{"flow_id": "12345:1771061091227", "step": "memory_persist", "description": "Save short-term (Redis) and long-term (MongoDB)", "event": "flow_step", "level": "info"}
+{"operation": "save_short_term", "session_id": "12345", "event": "memory_manager_save_short_term_start", "level": "info"}
+{"operation": "save", "session_id": "12345", "event": "short_term_save_start", "level": "info"}
+{"operation": "save", "session_id": "12345", "key": "agent:short:12345", "ttl_seconds": 1800, "messages_count": 4, "event": "short_term_saved", "level": "info"}
+{"operation": "save_short_term", "session_id": "12345", "event": "memory_manager_save_short_term_ok", "level": "info"}
+{"operation": "save_long_term", "user_id": "u12345", "session_id": "12345", "messages_count": 2, "event": "memory_manager_save_long_term_start", "level": "info"}
+{"operation": "save", "user_id": "u12345", "session_id": "12345", "messages_count": 2, "event": "long_term_save_start", "level": "info"}
+{"db": "agent_memory", "collection": "agent_long_memory", "event": "long_term_mongo_connect_start", "level": "info"}
+{"db": "agent_memory", "collection": "agent_long_memory", "event": "long_term_mongo_connected", "level": "info"}
+{"operation": "save", "user_id": "u12345", "session_id": "12345", "event": "long_term_saved_mongo", "level": "info"}
+{"operation": "save", "user_id": "u12345", "session_id": "12345", "event": "long_term_saved_mem0", "level": "info"}
+{"operation": "save_long_term", "user_id": "u12345", "session_id": "12345", "messages_count": 2, "event": "memory_manager_save_long_term_ok", "level": "info"}
+{"flow_id": "12345:1771061091227", "user_id": "u12345", "session_id": "12345", "intent": "general_query", "response_preview": "{'message': 'You like tea.'}", "event": "flow_end", "level": "info"}
+{"path": "/chat", "session_id": "12345", "intent": "general_query", "status": "success", "event": "api_response", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"backends": ["short_term", "long_term"], "event": "memory_manager_close_start", "level": "info"}
+{"event": "short_term_close_start", "level": "info"}
+{"event": "short_term_closed", "level": "info"}

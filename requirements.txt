@@ -1,0 +1,32 @@
+# ADK & LLM
+google-adk>=0.1.0
+google-genai>=1.0.0
+
+# API
+fastapi>=0.115.0
+uvicorn[standard]>=0.32.0
+
+# Memory
+redis>=5.0.0
+pymongo>=4.10.0
+motor>=3.3.0
+certifi>=2024.0.0
+# Long-term semantic memory (MongoDB vector store + Gemini embedder)
+mem0ai>=0.1.0
+
+# Config & env
+pydantic>=2.0.0
+pydantic-settings>=2.0.0
+python-dotenv>=1.0.0
+
+# Async
+httpx>=0.27.0
+
+# Observability
+opentelemetry-api>=1.28.0
+opentelemetry-sdk>=1.28.0
+opentelemetry-instrumentation-fastapi>=0.49b0
+
+# Utilities
+tenacity>=8.0.0
+structlog>=24.0.0
