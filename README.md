@@ -117,7 +117,7 @@ list_procedures(user_id)   →     add_fact(user_id, fact)
     schemas.py
   /context               # Reusable context pipeline, config, persist (see app/context/README.md)
   /services
-    base_supervisor.py    # BaseSupervisorService: build context → run agent → persist
+    base_supervisor_service.py    # BaseSupervisorService: build context → run agent → persist
     supervisor_service.py # ADK Supervisor (extends BaseSupervisorService)
   /utils
     circuit_breaker.py
@@ -138,7 +138,7 @@ main.py
 Context building and persist are **reusable** so you can plug them into any supervisor-style agent:
 
 - **`app/context/`** — Re-exports [agent_context](agent_context/README.md): context pipeline (retrieve → filter → compact), config, and after-turn persist. Uses **protocols** for memory and cache. See [app/context/README.md](app/context/README.md).
-- **`BaseSupervisorService`** (`app/services/base_supervisor.py`) — Abstract base: `_build_context()` (uses `ContextPipeline`), `_run_agent()` (you implement), `_persist_after_turn()` (uses `after_turn`), `chat()` that ties them together. Subclass and implement `_run_agent(user_id, session_id, user_message, flow_id) -> (intent, response_payload)` to use with another agent or runner.
+- **`BaseSupervisorService`** (`app/services/base_supervisor_service.py`) — Abstract base: `_build_context()` (uses `ContextPipeline`), `_run_agent()` (you implement), `_persist_after_turn()` (uses `after_turn`), `chat()` that ties them together. Subclass and implement `_run_agent(user_id, session_id, user_message, flow_id) -> (intent, response_payload)` to use with another agent or runner.
 - **`SupervisorService`** — Extends `BaseSupervisorService`, wires the ADK Supervisor agent, `PENDING_PROCEDURES`, and app exceptions.
 
 To use in another project: depend on the same `app.context` and `BaseSupervisorService` pattern (or copy the package); implement the memory protocols and `_run_agent` for your agent.

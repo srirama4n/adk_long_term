@@ -27,7 +27,7 @@ from app.exceptions import (
     MemoryError as AppMemoryError,
 )
 from app.memory.memory_manager import MemoryManager
-from app.services.base_supervisor import BaseSupervisorService
+from app.services.base_supervisor_service import BaseSupervisorService
 from app.tools.procedure_tool import PENDING_PROCEDURES
 from app.utils.context_cache import ContextCache
 

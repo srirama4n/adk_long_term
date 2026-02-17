@@ -3,6 +3,7 @@
 from functools import lru_cache
 from typing import Optional
 
+from pydantic import field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -67,6 +68,13 @@ class Settings(BaseSettings):
     context_filter_enabled: bool = True
     context_long_term_max_items: int = 5
     context_long_term_min_score: Optional[float] = None  # filter mem0 results by score (e.g. 0.3)
+
+    @field_validator("context_long_term_min_score", mode="before")
+    @classmethod
+    def empty_str_to_none_float(cls, v: object) -> Optional[float]:
+        if v is None or v == "":
+            return None
+        return v
     context_procedure_max_items: int = 10
     context_short_term_recent_n: int = 3  # how many recent messages to include
 

@@ -4,7 +4,7 @@ This package **re-exports** the [agent_context](../agent_context/README.md) pack
 
 ## Use in this app
 
-- **BaseSupervisorService** (`app.services.base_supervisor`) runs: build context → run agent → persist. Subclass it and implement `_run_agent()`.
+- **BaseSupervisorService** (`app.services.base_supervisor_service`) runs: build context → run agent → persist. Subclass it and implement `_run_agent()`.
 - **SupervisorService** extends `BaseSupervisorService` and wires the ADK Supervisor, procedure tool, and app exceptions.
 
 ## Use in another supervisor agent
