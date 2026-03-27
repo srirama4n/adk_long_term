@@ -3,7 +3,7 @@
 > * **Page title:** Set the Confluence page title to *End-to-end agentic systems with self-improving behavior* (or your standard naming). Avoid adding a separate Heading 1 in the page body—Confluence uses the page title as the main heading.
 > * **Paste / import:** Use your site’s Markdown import or paste (e.g. *Paste markdown* in the floating toolbar, or a Markdown macro) if available. Plain paste from this file may require minor cleanup in the visual editor.
 > * **Diagrams (Mermaid):** Confluence does **not** render ` ```mermaid ` code blocks by default. Options: install a **Mermaid** (or diagram) app from Marketplace and use its **macro**—paste **only** the diagram text *inside* the macro, **without** the triple backticks or `mermaid` language tag. Alternatively, recreate diagrams in **draw.io**, **Excalidraw**, or Whimsical and embed images.
-> * **Mermaid tips for macros:** Use simple double-quoted labels, avoid special characters in labels where possible, and keep one diagram per macro.
+> * **Mermaid tips for macros:** Use simple double-quoted labels, avoid special characters in labels where possible, and keep one diagram per macro. Diagrams use **fill and stroke colors** (`style`, `classDef`, and `rect rgb(...)`) for readability; if your Confluence Mermaid app ignores custom styles, diagrams still render as plain boxes.
 > * **Checklist:** The rollout section uses a **table** with ☐ so it works when Markdown task lists do not import.
 
 ## Overview
@@ -56,6 +56,16 @@ flowchart LR
     A["Assemble context from memory"] --> B["Orchestrator plans and acts"]
     B --> C["Persist session and durable updates"]
     C --> D["Return to user"]
+
+    classDef context fill:#E3F2FD,stroke:#1565C0,stroke-width:2px,color:#0D47A1
+    classDef orchestrate fill:#F3E5F5,stroke:#7B1FA2,stroke-width:2px,color:#4A148C
+    classDef persist fill:#FFF3E0,stroke:#E65100,stroke-width:2px,color:#BF360C
+    classDef output fill:#E0F7FA,stroke:#00838F,stroke-width:2px,color:#006064
+
+    class A context
+    class B orchestrate
+    class C persist
+    class D output
 ```
 
 
@@ -132,6 +142,15 @@ flowchart TB
     Orch --> EP
     Orch -.-> SM
     Orch -.-> PR
+
+    style session fill:#E1F5FE,stroke:#0277BD,stroke-width:2px
+    style durable fill:#F5F5F5,stroke:#616161,stroke-width:2px
+    style ST fill:#B3E5FC,stroke:#0277BD,stroke-width:2px,color:#01579B
+    style LT fill:#FCE4EC,stroke:#AD1457,stroke-width:2px,color:#880E4F
+    style SM fill:#DCEDC8,stroke:#558B2F,stroke-width:2px,color:#33691E
+    style PR fill:#D1C4E9,stroke:#5E35B1,stroke-width:2px,color:#4527A0
+    style EP fill:#FFECB3,stroke:#F9A825,stroke-width:2px,color:#FF6F00
+    style Orch fill:#E1BEE7,stroke:#7B1FA2,stroke-width:3px,color:#4A148C
 ```
 
 Solid arrows: common every-turn read/write paths. Dotted arrows: **promotional** or **conditional** writes (not every message should become a fact or a new procedure).
@@ -160,6 +179,15 @@ flowchart TB
     S3 --> O
     O --> R["User-facing response"]
     S3 -.-> PM["Procedural store after turn completes"]
+
+    style U fill:#E3F2FD,stroke:#1565C0,stroke-width:2px,color:#0D47A1
+    style CA fill:#E8F5E9,stroke:#2E7D32,stroke-width:2px,color:#1B5E20
+    style O fill:#F3E5F5,stroke:#7B1FA2,stroke-width:3px,color:#4A148C
+    style S1 fill:#ECEFF1,stroke:#455A64,stroke-width:2px,color:#263238
+    style S2 fill:#ECEFF1,stroke:#455A64,stroke-width:2px,color:#263238
+    style S3 fill:#FFF8E1,stroke:#FF8F00,stroke-width:2px,color:#E65100
+    style R fill:#E0F7FA,stroke:#00838F,stroke-width:2px,color:#006064
+    style PM fill:#D1C4E9,stroke:#5E35B1,stroke-width:2px,color:#4527A0
 ```
 
 
@@ -176,33 +204,41 @@ sequenceDiagram
     participant EP as Episodic memory
     participant Orch as Orchestrator model
 
-    User->>Gateway: message + session identifier
+    rect rgb(227, 242, 253)
+        User->>Gateway: message + session identifier
+    end
 
-    Gateway->>ST: load recent turns
-    ST-->>Gateway: session context
+    rect rgb(225, 245, 254)
+        Gateway->>ST: load recent turns
+        ST-->>Gateway: session context
+    end
 
-    Gateway->>LT: retrieve relevant past interactions optional
-    LT-->>Gateway: ranked snippets
+    rect rgb(245, 245, 245)
+        Gateway->>LT: retrieve relevant past interactions optional
+        LT-->>Gateway: ranked snippets
+        Gateway->>SM: retrieve relevant facts optional
+        SM-->>Gateway: facts
+        Gateway->>PR: list or fetch playbooks optional
+        PR-->>Gateway: procedures
+        Gateway->>EP: recent events optional
+        EP-->>Gateway: timeline
+    end
 
-    Gateway->>SM: retrieve relevant facts optional
-    SM-->>Gateway: facts
+    rect rgb(243, 229, 245)
+        Gateway->>Orch: single prompt with delimited context blocks
+        Orch-->>Gateway: reply and tool calls
+    end
 
-    Gateway->>PR: list or fetch playbooks optional
-    PR-->>Gateway: procedures
+    rect rgb(255, 243, 224)
+        Gateway->>ST: update session buffer
+        Gateway->>LT: persist turn optional
+        Gateway->>EP: append outcome event
+        Note over Gateway: Facts and new playbooks written when policy allows
+    end
 
-    Gateway->>EP: recent events optional
-    EP-->>Gateway: timeline
-
-    Gateway->>Orch: single prompt with delimited context blocks
-    Orch-->>Gateway: reply and tool calls
-
-    Gateway->>ST: update session buffer
-    Gateway->>LT: persist turn optional
-    Gateway->>EP: append outcome event
-
-    Note over Gateway: Facts and new playbooks written when policy allows
-
-    Gateway-->>User: response
+    rect rgb(224, 247, 250)
+        Gateway-->>User: response
+    end
 ```
 
 
@@ -221,6 +257,16 @@ flowchart LR
     F -->|no| I["Stop or transcript only"]
     G --> I
     H --> I
+
+    style A fill:#E3F2FD,stroke:#1565C0,stroke-width:2px,color:#0D47A1
+    style B fill:#F3E5F5,stroke:#7B1FA2,stroke-width:2px,color:#4A148C
+    style C fill:#FFF9C4,stroke:#F9A825,stroke-width:2px,color:#F57F17
+    style D fill:#C8E6C9,stroke:#2E7D32,stroke-width:2px,color:#1B5E20
+    style E fill:#FFCDD2,stroke:#C62828,stroke-width:2px,color:#B71C1C
+    style F fill:#FFE0B2,stroke:#EF6C00,stroke-width:2px,color:#E65100
+    style G fill:#DCEDC8,stroke:#558B2F,stroke-width:2px,color:#33691E
+    style H fill:#D1C4E9,stroke:#5E35B1,stroke-width:2px,color:#4527A0
+    style I fill:#ECEFF1,stroke:#546E7A,stroke-width:2px,color:#37474F
 ```
 
 
@@ -239,6 +285,14 @@ flowchart TB
     W3 --> Done
     W4 --> Done
     W5 --> Done
+
+    style T fill:#F3E5F5,stroke:#7B1FA2,stroke-width:2px,color:#4A148C
+    style W1 fill:#B3E5FC,stroke:#0277BD,stroke-width:2px,color:#01579B
+    style W2 fill:#F8BBD0,stroke:#AD1457,stroke-width:2px,color:#880E4F
+    style W3 fill:#FFECB3,stroke:#F9A825,stroke-width:2px,color:#FF6F00
+    style W4 fill:#C5E1A5,stroke:#689F38,stroke-width:2px,color:#33691E
+    style W5 fill:#D1C4E9,stroke:#5E35B1,stroke-width:2px,color:#4527A0
+    style Done fill:#E0F7FA,stroke:#00838F,stroke-width:3px,color:#006064
 ```
 
 Not every product needs all five every time; define **triggers** (e.g. only promote procedures after *k* similar successes).
@@ -261,6 +315,13 @@ flowchart LR
     API -->|get / save / clear| MW
     MW --> Store
     Store --> Backing
+
+    style App fill:#E8F5E9,stroke:#2E7D32,stroke-width:2px
+    style Session fill:#E1F5FE,stroke:#0277BD,stroke-width:2px
+    style API fill:#C8E6C9,stroke:#388E3C,stroke-width:2px,color:#1B5E20
+    style MW fill:#A5D6A7,stroke:#2E7D32,stroke-width:2px,color:#1B5E20
+    style Store fill:#B3E5FC,stroke:#0288D1,stroke-width:2px,color:#01579B
+    style Backing fill:#81D4FA,stroke:#0277BD,stroke-width:2px,color:#01579B
 ```
 
 
@@ -286,6 +347,14 @@ flowchart LR
     Logic --> Docs
     Logic --> Vec
     Vec --> Docs
+
+    style App fill:#E8F5E9,stroke:#2E7D32,stroke-width:2px
+    style LT fill:#FCE4EC,stroke:#AD1457,stroke-width:2px
+    style API2 fill:#C8E6C9,stroke:#388E3C,stroke-width:2px,color:#1B5E20
+    style MW2 fill:#A5D6A7,stroke:#2E7D32,stroke-width:2px,color:#1B5E20
+    style Logic fill:#F8BBD0,stroke:#C2185B,stroke-width:2px,color:#880E4F
+    style Docs fill:#F48FB1,stroke:#AD1457,stroke-width:2px,color:#880E4F
+    style Vec fill:#F06292,stroke:#880E4F,stroke-width:2px,color:#4A148C
 ```
 
 **Save path (conceptual):** normalize text → embed → write document and vector pointer → index for search.
@@ -314,6 +383,15 @@ flowchart TB
     Load --> Long
     Save --> Sess
     Save --> Long
+
+    style Req fill:#E3F2FD,stroke:#1565C0,stroke-width:2px,color:#0D47A1
+    style Load fill:#E8F5E9,stroke:#2E7D32,stroke-width:2px,color:#1B5E20
+    style Run fill:#F3E5F5,stroke:#7B1FA2,stroke-width:3px,color:#4A148C
+    style Save fill:#FFF3E0,stroke:#E65100,stroke-width:2px,color:#BF360C
+    style Resp fill:#E0F7FA,stroke:#00838F,stroke-width:2px,color:#006064
+    style Memory fill:#FAFAFA,stroke:#757575,stroke-width:2px
+    style Sess fill:#B3E5FC,stroke:#0277BD,stroke-width:2px,color:#01579B
+    style Long fill:#F8BBD0,stroke:#AD1457,stroke-width:2px,color:#880E4F
 ```
 
 
@@ -372,6 +450,18 @@ flowchart TD
     Log1 --> Out["Explain to user"]
     Log2 --> Out
     Log2 --> Learn["Optionally promote repeated success to playbook"]
+
+    style Start fill:#E3F2FD,stroke:#1565C0,stroke-width:2px,color:#0D47A1
+    style Load fill:#DCEDC8,stroke:#558B2F,stroke-width:2px,color:#33691E
+    style PB fill:#D1C4E9,stroke:#5E35B1,stroke-width:2px,color:#4527A0
+    style Follow fill:#ECEFF1,stroke:#455A64,stroke-width:2px,color:#263238
+    style Reason fill:#ECEFF1,stroke:#455A64,stroke-width:2px,color:#263238
+    style Check fill:#FFF9C4,stroke:#F9A825,stroke-width:2px,color:#F57F17
+    style Log1 fill:#FFCDD2,stroke:#C62828,stroke-width:2px,color:#B71C1C
+    style Exec fill:#C8E6C9,stroke:#2E7D32,stroke-width:2px,color:#1B5E20
+    style Log2 fill:#A5D6A7,stroke:#388E3C,stroke-width:2px,color:#1B5E20
+    style Out fill:#E0F7FA,stroke:#00838F,stroke-width:2px,color:#006064
+    style Learn fill:#FFE0B2,stroke:#EF6C00,stroke-width:2px,color:#E65100
 ```
 
 
