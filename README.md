@@ -23,7 +23,7 @@ Production-ready multi-agent system using **ADK (Agent Development Kit)** in Pyt
 - **Context caching**: Redis cache for long-term and procedure lookups (keyed by `user_id` and optionally message hash) with `CONTEXT_CACHE_TTL_SECONDS`. Procedure cache is invalidated when a new procedure is saved.
 - **Context compaction**: Truncates each context part to `CONTEXT_COMPACTION_MAX_CHARS_PER_PART` and the combined context to `CONTEXT_COMPACTION_MAX_TOTAL_CHARS` so the prompt stays within size limits.
 
-See **[Memory flow diagrams](docs/memory.md)** for short-term and long-term flows (Mermaid).
+See **[Agentic architecture and self-improving memory playbook](docs/doc.md)** for a generalized end-to-end pattern (layered memory, orchestration, diagrams)—suitable for internal wiki or Confluence; this repo is one possible implementation.
 
 ## Flows
 

@@ -904,3 +904,999 @@
 {"backends": ["short_term", "long_term"], "event": "memory_manager_close_start", "level": "info"}
 {"event": "short_term_close_start", "level": "info"}
 {"event": "short_term_closed", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"backends": ["short_term", "long_term"], "event": "memory_manager_close_start", "level": "info"}
+{"event": "short_term_close_start", "level": "info"}
+{"event": "short_term_closed", "level": "info"}
+{"event": "long_term_close_start", "level": "info"}
+{"event": "long_term_memory_closed", "level": "info"}
+{"event": "memory_manager_close_ok", "level": "info"}
+{"event": "memory_closed", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"method": "GET", "path": "/docs", "event": "request_start", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "GET", "path": "/health", "event": "request_start", "level": "info"}
+{"method": "GET", "path": "/openapi.json", "event": "request_start", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "GET", "path": "/docs", "event": "request_start", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "GET", "path": "/openapi.json", "event": "request_start", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "GET", "path": "/docs", "event": "request_start", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "GET", "path": "/openapi.json", "event": "request_start", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "GET", "path": "/health", "event": "request_start", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "POST", "path": "/chat", "event": "request_start", "level": "info"}
+{"path": "/chat", "method": "POST", "user_id": "alice", "session_id": "session-1", "message_preview": "Remember: my favorite color is blue and I live in Tokyo.", "event": "api_request", "level": "info"}
+{"flow_id": "session-1:1771225829060", "user_id": "alice", "session_id": "session-1", "message_preview": "Remember: my favorite color is blue and I live in Tokyo.", "event": "flow_start", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"flow_id": "session-1:1771225829060", "step": "memory_retrieve", "description": "Get short-term and long-term context", "event": "flow_step", "level": "info"}
+{"operation": "get_short_term", "session_id": "session-1", "event": "memory_manager_get_short_term_start", "level": "info"}
+{"operation": "get", "session_id": "session-1", "event": "short_term_get_start", "level": "info"}
+{"operation": "get", "session_id": "session-1", "key": "agent:short:session-1", "event": "short_term_miss", "level": "info"}
+{"operation": "get_short_term", "session_id": "session-1", "hit": false, "messages_count": 0, "event": "memory_manager_get_short_term_ok", "level": "info"}
+{"operation": "get_relevant_history", "user_id": "alice", "query_preview": "Remember: my favorite color is blue and I live in Tokyo.", "limit": 5, "event": "memory_manager_get_relevant_history_start", "level": "info"}
+{"operation": "get_relevant", "user_id": "alice", "query_preview": "Remember: my favorite color is blue and I live in Tokyo.", "limit": 5, "event": "long_term_get_relevant_start", "level": "info"}
+{"event": "long_term_mem0_connect_start", "level": "info"}
+{"mem0_db": "agent_memory", "mem0_collection": "mem0_long_memory", "event": "long_term_mem0_connected", "level": "info"}
+{"operation": "get_relevant", "user_id": "alice", "returned_count": 0, "event": "long_term_get_relevant_ok", "level": "info"}
+{"operation": "get_relevant_history", "user_id": "alice", "returned_count": 0, "event": "memory_manager_get_relevant_history_ok", "level": "info"}
+{"flow_id": "session-1:1771225829060", "step": "memory_retrieved", "short_term_hit": false, "short_term_messages": 0, "long_term_count": 0, "event": "flow_step", "level": "info"}
+{"flow_id": "session-1:1771225829060", "step": "session_resolve", "app_name": "supervisor", "event": "flow_step", "level": "info"}
+{"flow_id": "session-1:1771225829060", "step": "session_created", "session_id": "session-1", "event": "flow_step", "level": "info"}
+{"flow_id": "session-1:1771225829060", "step": "agent_invoke_start", "agent": "Supervisor", "description": "Running Supervisor (routes to WeatherAgent/FinanceAgent)", "event": "flow_step", "level": "info"}
+{"flow_id": "session-1:1771225829060", "step": "agent_invoke_done", "agent": "Supervisor", "event_count": 1, "event_authors": ["Supervisor"], "elapsed_seconds": 1.805, "event": "flow_step", "level": "info"}
+{"flow_id": "session-1:1771225829060", "step": "intent_and_response", "intent": "general_query", "response_keys": ["message"], "event": "flow_step", "level": "info"}
+{"flow_id": "session-1:1771225829060", "step": "memory_persist", "description": "Save short-term (Redis) and long-term (MongoDB)", "event": "flow_step", "level": "info"}
+{"operation": "save_short_term", "session_id": "session-1", "event": "memory_manager_save_short_term_start", "level": "info"}
+{"operation": "save", "session_id": "session-1", "event": "short_term_save_start", "level": "info"}
+{"operation": "save", "session_id": "session-1", "key": "agent:short:session-1", "ttl_seconds": 1800, "messages_count": 2, "event": "short_term_saved", "level": "info"}
+{"operation": "save_short_term", "session_id": "session-1", "event": "memory_manager_save_short_term_ok", "level": "info"}
+{"operation": "save_long_term", "user_id": "alice", "session_id": "session-1", "messages_count": 2, "event": "memory_manager_save_long_term_start", "level": "info"}
+{"operation": "save", "user_id": "alice", "session_id": "session-1", "messages_count": 2, "event": "long_term_save_start", "level": "info"}
+{"db": "agent_memory", "collection": "agent_long_memory", "event": "long_term_mongo_connect_start", "level": "info"}
+{"db": "agent_memory", "collection": "agent_long_memory", "event": "long_term_mongo_connected", "level": "info"}
+{"operation": "save", "user_id": "alice", "session_id": "session-1", "event": "long_term_saved_mongo", "level": "info"}
+{"operation": "save", "user_id": "alice", "session_id": "session-1", "event": "long_term_saved_mem0", "level": "info"}
+{"operation": "save_long_term", "user_id": "alice", "session_id": "session-1", "messages_count": 2, "event": "memory_manager_save_long_term_ok", "level": "info"}
+{"flow_id": "session-1:1771225829060", "user_id": "alice", "session_id": "session-1", "intent": "general_query", "response_preview": "{'message': \"That's good to know! I'll remember that your favorite color is blue and you live in Tokyo.\"}", "event": "flow_end", "level": "info"}
+{"path": "/chat", "session_id": "session-1", "intent": "general_query", "status": "success", "event": "api_response", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "POST", "path": "/chat", "event": "request_start", "level": "info"}
+{"path": "/chat", "method": "POST", "user_id": "alice", "session_id": "session-1", "message_preview": "What is my favorite color and where do I live?", "event": "api_request", "level": "info"}
+{"flow_id": "session-1:1771225850152", "user_id": "alice", "session_id": "session-1", "message_preview": "What is my favorite color and where do I live?", "event": "flow_start", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"flow_id": "session-1:1771225850152", "step": "memory_retrieve", "description": "Get short-term and long-term context", "event": "flow_step", "level": "info"}
+{"operation": "get_short_term", "session_id": "session-1", "event": "memory_manager_get_short_term_start", "level": "info"}
+{"operation": "get", "session_id": "session-1", "event": "short_term_get_start", "level": "info"}
+{"operation": "get", "session_id": "session-1", "key": "agent:short:session-1", "messages_count": 2, "event": "short_term_hit", "level": "info"}
+{"operation": "get_short_term", "session_id": "session-1", "hit": true, "messages_count": 2, "event": "memory_manager_get_short_term_ok", "level": "info"}
+{"operation": "get_relevant_history", "user_id": "alice", "query_preview": "What is my favorite color and where do I live?", "limit": 5, "event": "memory_manager_get_relevant_history_start", "level": "info"}
+{"operation": "get_relevant", "user_id": "alice", "query_preview": "What is my favorite color and where do I live?", "limit": 5, "event": "long_term_get_relevant_start", "level": "info"}
+{"event": "long_term_mem0_connect_start", "level": "info"}
+{"mem0_db": "agent_memory", "mem0_collection": "mem0_long_memory", "event": "long_term_mem0_connected", "level": "info"}
+{"operation": "get_relevant", "user_id": "alice", "returned_count": 2, "event": "long_term_get_relevant_ok", "level": "info"}
+{"operation": "get_relevant_history", "user_id": "alice", "returned_count": 2, "event": "memory_manager_get_relevant_history_ok", "level": "info"}
+{"flow_id": "session-1:1771225850152", "step": "memory_retrieved", "short_term_hit": true, "short_term_messages": 2, "long_term_count": 2, "event": "flow_step", "level": "info"}
+{"flow_id": "session-1:1771225850152", "step": "session_resolve", "app_name": "supervisor", "event": "flow_step", "level": "info"}
+{"flow_id": "session-1:1771225850152", "step": "session_created", "session_id": "session-1", "event": "flow_step", "level": "info"}
+{"flow_id": "session-1:1771225850152", "step": "agent_invoke_start", "agent": "Supervisor", "description": "Running Supervisor (routes to WeatherAgent/FinanceAgent)", "event": "flow_step", "level": "info"}
+{"flow_id": "session-1:1771225850152", "step": "agent_invoke_done", "agent": "Supervisor", "event_count": 1, "event_authors": ["Supervisor"], "elapsed_seconds": 1.599, "event": "flow_step", "level": "info"}
+{"flow_id": "session-1:1771225850152", "step": "intent_and_response", "intent": "general_query", "response_keys": ["message"], "event": "flow_step", "level": "info"}
+{"flow_id": "session-1:1771225850152", "step": "memory_persist", "description": "Save short-term (Redis) and long-term (MongoDB)", "event": "flow_step", "level": "info"}
+{"operation": "save_short_term", "session_id": "session-1", "event": "memory_manager_save_short_term_start", "level": "info"}
+{"operation": "save", "session_id": "session-1", "event": "short_term_save_start", "level": "info"}
+{"operation": "save", "session_id": "session-1", "key": "agent:short:session-1", "ttl_seconds": 1800, "messages_count": 4, "event": "short_term_saved", "level": "info"}
+{"operation": "save_short_term", "session_id": "session-1", "event": "memory_manager_save_short_term_ok", "level": "info"}
+{"operation": "save_long_term", "user_id": "alice", "session_id": "session-1", "messages_count": 2, "event": "memory_manager_save_long_term_start", "level": "info"}
+{"operation": "save", "user_id": "alice", "session_id": "session-1", "messages_count": 2, "event": "long_term_save_start", "level": "info"}
+{"db": "agent_memory", "collection": "agent_long_memory", "event": "long_term_mongo_connect_start", "level": "info"}
+{"db": "agent_memory", "collection": "agent_long_memory", "event": "long_term_mongo_connected", "level": "info"}
+{"operation": "save", "user_id": "alice", "session_id": "session-1", "event": "long_term_saved_mongo", "level": "info"}
+{"operation": "save", "user_id": "alice", "session_id": "session-1", "event": "long_term_saved_mem0", "level": "info"}
+{"operation": "save_long_term", "user_id": "alice", "session_id": "session-1", "messages_count": 2, "event": "memory_manager_save_long_term_ok", "level": "info"}
+{"flow_id": "session-1:1771225850152", "user_id": "alice", "session_id": "session-1", "intent": "general_query", "response_preview": "{'message': \"That's good to know! I'll remember that your favorite color is blue and you live in Tokyo.\"}", "event": "flow_end", "level": "info"}
+{"path": "/chat", "session_id": "session-1", "intent": "general_query", "status": "success", "event": "api_response", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"backends": ["short_term", "long_term"], "event": "memory_manager_close_start", "level": "info"}
+{"event": "short_term_close_start", "level": "info"}
+{"event": "short_term_closed", "level": "info"}
+{"event": "long_term_close_start", "level": "info"}
+{"event": "long_term_memory_closed", "level": "info"}
+{"event": "memory_manager_close_ok", "level": "info"}
+{"event": "memory_closed", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"backends": ["short_term", "long_term"], "event": "memory_manager_close_start", "level": "info"}
+{"event": "short_term_close_start", "level": "info"}
+{"event": "short_term_closed", "level": "info"}
+{"event": "long_term_close_start", "level": "info"}
+{"event": "long_term_memory_closed", "level": "info"}
+{"event": "memory_manager_close_ok", "level": "info"}
+{"event": "memory_closed", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"backends": ["short_term", "long_term"], "event": "memory_manager_close_start", "level": "info"}
+{"event": "short_term_close_start", "level": "info"}
+{"event": "short_term_closed", "level": "info"}
+{"event": "long_term_close_start", "level": "info"}
+{"event": "long_term_memory_closed", "level": "info"}
+{"event": "memory_manager_close_ok", "level": "info"}
+{"event": "memory_closed", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"backends": ["short_term", "long_term"], "event": "memory_manager_close_start", "level": "info"}
+{"event": "short_term_close_start", "level": "info"}
+{"event": "short_term_closed", "level": "info"}
+{"event": "long_term_close_start", "level": "info"}
+{"event": "long_term_memory_closed", "level": "info"}
+{"event": "memory_manager_close_ok", "level": "info"}
+{"event": "memory_closed", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"backends": ["short_term", "long_term"], "event": "memory_manager_close_start", "level": "info"}
+{"event": "short_term_close_start", "level": "info"}
+{"event": "short_term_closed", "level": "info"}
+{"event": "long_term_close_start", "level": "info"}
+{"event": "long_term_memory_closed", "level": "info"}
+{"event": "memory_manager_close_ok", "level": "info"}
+{"event": "memory_closed", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"backends": ["short_term", "long_term"], "event": "memory_manager_close_start", "level": "info"}
+{"event": "short_term_close_start", "level": "info"}
+{"event": "short_term_closed", "level": "info"}
+{"event": "long_term_close_start", "level": "info"}
+{"event": "long_term_memory_closed", "level": "info"}
+{"event": "memory_manager_close_ok", "level": "info"}
+{"event": "memory_closed", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"backends": ["short_term", "long_term"], "event": "memory_manager_close_start", "level": "info"}
+{"event": "short_term_close_start", "level": "info"}
+{"event": "short_term_closed", "level": "info"}
+{"event": "long_term_close_start", "level": "info"}
+{"event": "long_term_memory_closed", "level": "info"}
+{"event": "memory_manager_close_ok", "level": "info"}
+{"event": "memory_closed", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"backends": ["short_term", "long_term"], "event": "memory_manager_close_start", "level": "info"}
+{"event": "short_term_close_start", "level": "info"}
+{"event": "short_term_closed", "level": "info"}
+{"event": "long_term_close_start", "level": "info"}
+{"event": "long_term_memory_closed", "level": "info"}
+{"event": "memory_manager_close_ok", "level": "info"}
+{"event": "memory_closed", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"backends": ["short_term", "long_term", "episodic", "semantic", "procedural"], "event": "memory_manager_close_start", "level": "info"}
+{"event": "short_term_close_start", "level": "info"}
+{"event": "short_term_closed", "level": "info"}
+{"event": "long_term_close_start", "level": "info"}
+{"event": "long_term_memory_closed", "level": "info"}
+{"event": "episodic_close_start", "level": "info"}
+{"event": "episodic_close_ok", "level": "info"}
+{"event": "semantic_close_start", "level": "info"}
+{"event": "semantic_close_ok", "level": "info"}
+{"event": "procedural_close_start", "level": "info"}
+{"event": "procedural_close_ok", "level": "info"}
+{"event": "memory_manager_close_ok", "level": "info"}
+{"event": "memory_closed", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"backends": ["short_term", "long_term", "episodic", "semantic", "procedural"], "event": "memory_manager_close_start", "level": "info"}
+{"event": "short_term_close_start", "level": "info"}
+{"event": "short_term_closed", "level": "info"}
+{"event": "long_term_close_start", "level": "info"}
+{"event": "long_term_memory_closed", "level": "info"}
+{"event": "episodic_close_start", "level": "info"}
+{"event": "episodic_close_ok", "level": "info"}
+{"event": "semantic_close_start", "level": "info"}
+{"event": "semantic_close_ok", "level": "info"}
+{"event": "procedural_close_start", "level": "info"}
+{"event": "procedural_close_ok", "level": "info"}
+{"event": "memory_manager_close_ok", "level": "info"}
+{"event": "memory_closed", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"backends": ["short_term", "long_term", "episodic", "semantic", "procedural"], "event": "memory_manager_close_start", "level": "info"}
+{"event": "short_term_close_start", "level": "info"}
+{"event": "short_term_closed", "level": "info"}
+{"event": "long_term_close_start", "level": "info"}
+{"event": "long_term_memory_closed", "level": "info"}
+{"event": "episodic_close_start", "level": "info"}
+{"event": "episodic_close_ok", "level": "info"}
+{"event": "semantic_close_start", "level": "info"}
+{"event": "semantic_close_ok", "level": "info"}
+{"event": "procedural_close_start", "level": "info"}
+{"event": "procedural_close_ok", "level": "info"}
+{"event": "memory_manager_close_ok", "level": "info"}
+{"event": "memory_closed", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"backends": ["short_term", "long_term", "episodic", "semantic", "procedural"], "event": "memory_manager_close_start", "level": "info"}
+{"event": "short_term_close_start", "level": "info"}
+{"event": "short_term_closed", "level": "info"}
+{"event": "long_term_close_start", "level": "info"}
+{"event": "long_term_memory_closed", "level": "info"}
+{"event": "episodic_close_start", "level": "info"}
+{"event": "episodic_close_ok", "level": "info"}
+{"event": "semantic_close_start", "level": "info"}
+{"event": "semantic_close_ok", "level": "info"}
+{"event": "procedural_close_start", "level": "info"}
+{"event": "procedural_close_ok", "level": "info"}
+{"event": "memory_manager_close_ok", "level": "info"}
+{"event": "memory_closed", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"backends": ["short_term", "long_term", "episodic", "semantic", "procedural"], "event": "memory_manager_close_start", "level": "info"}
+{"event": "short_term_close_start", "level": "info"}
+{"event": "short_term_closed", "level": "info"}
+{"event": "long_term_close_start", "level": "info"}
+{"event": "long_term_memory_closed", "level": "info"}
+{"event": "episodic_close_start", "level": "info"}
+{"event": "episodic_close_ok", "level": "info"}
+{"event": "semantic_close_start", "level": "info"}
+{"event": "semantic_close_ok", "level": "info"}
+{"event": "procedural_close_start", "level": "info"}
+{"event": "procedural_close_ok", "level": "info"}
+{"event": "memory_manager_close_ok", "level": "info"}
+{"event": "memory_closed", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"backends": ["short_term", "long_term", "episodic", "semantic", "procedural"], "event": "memory_manager_close_start", "level": "info"}
+{"event": "short_term_close_start", "level": "info"}
+{"event": "short_term_closed", "level": "info"}
+{"event": "long_term_close_start", "level": "info"}
+{"event": "long_term_memory_closed", "level": "info"}
+{"event": "episodic_close_start", "level": "info"}
+{"event": "episodic_close_ok", "level": "info"}
+{"event": "semantic_close_start", "level": "info"}
+{"event": "semantic_close_ok", "level": "info"}
+{"event": "procedural_close_start", "level": "info"}
+{"event": "procedural_close_ok", "level": "info"}
+{"event": "memory_manager_close_ok", "level": "info"}
+{"event": "memory_closed", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"backends": ["short_term", "long_term", "episodic", "semantic", "procedural"], "event": "memory_manager_close_start", "level": "info"}
+{"event": "short_term_close_start", "level": "info"}
+{"event": "short_term_closed", "level": "info"}
+{"event": "long_term_close_start", "level": "info"}
+{"event": "long_term_memory_closed", "level": "info"}
+{"event": "episodic_close_start", "level": "info"}
+{"event": "episodic_close_ok", "level": "info"}
+{"event": "semantic_close_start", "level": "info"}
+{"event": "semantic_close_ok", "level": "info"}
+{"event": "procedural_close_start", "level": "info"}
+{"event": "procedural_close_ok", "level": "info"}
+{"event": "memory_manager_close_ok", "level": "info"}
+{"event": "memory_closed", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"backends": ["short_term", "long_term", "episodic", "semantic", "procedural"], "event": "memory_manager_close_start", "level": "info"}
+{"event": "short_term_close_start", "level": "info"}
+{"event": "short_term_closed", "level": "info"}
+{"event": "long_term_close_start", "level": "info"}
+{"event": "long_term_memory_closed", "level": "info"}
+{"event": "episodic_close_start", "level": "info"}
+{"event": "episodic_close_ok", "level": "info"}
+{"event": "semantic_close_start", "level": "info"}
+{"event": "semantic_close_ok", "level": "info"}
+{"event": "procedural_close_start", "level": "info"}
+{"event": "procedural_close_ok", "level": "info"}
+{"event": "memory_manager_close_ok", "level": "info"}
+{"event": "memory_closed", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"backends": ["short_term", "long_term", "episodic", "semantic", "procedural"], "event": "memory_manager_close_start", "level": "info"}
+{"event": "short_term_close_start", "level": "info"}
+{"event": "short_term_closed", "level": "info"}
+{"event": "long_term_close_start", "level": "info"}
+{"event": "long_term_memory_closed", "level": "info"}
+{"event": "episodic_close_start", "level": "info"}
+{"event": "episodic_close_ok", "level": "info"}
+{"event": "semantic_close_start", "level": "info"}
+{"event": "semantic_close_ok", "level": "info"}
+{"event": "procedural_close_start", "level": "info"}
+{"event": "procedural_close_ok", "level": "info"}
+{"event": "memory_manager_close_ok", "level": "info"}
+{"event": "memory_closed", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"backends": ["short_term", "long_term", "episodic", "semantic", "procedural"], "event": "memory_manager_close_start", "level": "info"}
+{"event": "short_term_close_start", "level": "info"}
+{"event": "short_term_closed", "level": "info"}
+{"event": "long_term_close_start", "level": "info"}
+{"event": "long_term_memory_closed", "level": "info"}
+{"event": "episodic_close_start", "level": "info"}
+{"event": "episodic_close_ok", "level": "info"}
+{"event": "semantic_close_start", "level": "info"}
+{"event": "semantic_close_ok", "level": "info"}
+{"event": "procedural_close_start", "level": "info"}
+{"event": "procedural_close_ok", "level": "info"}
+{"event": "memory_manager_close_ok", "level": "info"}
+{"event": "memory_closed", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"backends": ["short_term", "long_term", "episodic", "semantic", "procedural"], "event": "memory_manager_close_start", "level": "info"}
+{"event": "short_term_close_start", "level": "info"}
+{"event": "short_term_closed", "level": "info"}
+{"event": "long_term_close_start", "level": "info"}
+{"event": "long_term_memory_closed", "level": "info"}
+{"event": "episodic_close_start", "level": "info"}
+{"event": "episodic_close_ok", "level": "info"}
+{"event": "semantic_close_start", "level": "info"}
+{"event": "semantic_close_ok", "level": "info"}
+{"event": "procedural_close_start", "level": "info"}
+{"event": "procedural_close_ok", "level": "info"}
+{"event": "memory_manager_close_ok", "level": "info"}
+{"event": "memory_closed", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"backends": ["short_term", "long_term", "episodic", "semantic", "procedural"], "event": "memory_manager_close_start", "level": "info"}
+{"event": "short_term_close_start", "level": "info"}
+{"event": "short_term_closed", "level": "info"}
+{"event": "long_term_close_start", "level": "info"}
+{"event": "long_term_memory_closed", "level": "info"}
+{"event": "episodic_close_start", "level": "info"}
+{"event": "episodic_close_ok", "level": "info"}
+{"event": "semantic_close_start", "level": "info"}
+{"event": "semantic_close_ok", "level": "info"}
+{"event": "procedural_close_start", "level": "info"}
+{"event": "procedural_close_ok", "level": "info"}
+{"event": "memory_manager_close_ok", "level": "info"}
+{"event": "memory_closed", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"backends": ["short_term", "long_term", "episodic", "semantic", "procedural"], "event": "memory_manager_close_start", "level": "info"}
+{"event": "short_term_close_start", "level": "info"}
+{"event": "short_term_closed", "level": "info"}
+{"event": "long_term_close_start", "level": "info"}
+{"event": "long_term_memory_closed", "level": "info"}
+{"event": "episodic_close_start", "level": "info"}
+{"event": "episodic_close_ok", "level": "info"}
+{"event": "semantic_close_start", "level": "info"}
+{"event": "semantic_close_ok", "level": "info"}
+{"event": "procedural_close_start", "level": "info"}
+{"event": "procedural_close_ok", "level": "info"}
+{"event": "memory_manager_close_ok", "level": "info"}
+{"event": "memory_closed", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"backends": ["short_term", "long_term", "episodic", "semantic", "procedural"], "event": "memory_manager_close_start", "level": "info"}
+{"event": "short_term_close_start", "level": "info"}
+{"event": "short_term_closed", "level": "info"}
+{"event": "long_term_close_start", "level": "info"}
+{"event": "long_term_memory_closed", "level": "info"}
+{"event": "episodic_close_start", "level": "info"}
+{"event": "episodic_close_ok", "level": "info"}
+{"event": "semantic_close_start", "level": "info"}
+{"event": "semantic_close_ok", "level": "info"}
+{"event": "procedural_close_start", "level": "info"}
+{"event": "procedural_close_ok", "level": "info"}
+{"event": "memory_manager_close_ok", "level": "info"}
+{"event": "memory_closed", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"backends": ["short_term", "long_term", "episodic", "semantic", "procedural"], "event": "memory_manager_close_start", "level": "info"}
+{"event": "short_term_close_start", "level": "info"}
+{"event": "short_term_closed", "level": "info"}
+{"event": "long_term_close_start", "level": "info"}
+{"event": "long_term_memory_closed", "level": "info"}
+{"event": "episodic_close_start", "level": "info"}
+{"event": "episodic_close_ok", "level": "info"}
+{"event": "semantic_close_start", "level": "info"}
+{"event": "semantic_close_ok", "level": "info"}
+{"event": "procedural_close_start", "level": "info"}
+{"event": "procedural_close_ok", "level": "info"}
+{"event": "memory_manager_close_ok", "level": "info"}
+{"event": "memory_closed", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"backends": ["short_term", "long_term", "episodic", "semantic", "procedural"], "event": "memory_manager_close_start", "level": "info"}
+{"event": "short_term_close_start", "level": "info"}
+{"event": "short_term_closed", "level": "info"}
+{"event": "long_term_close_start", "level": "info"}
+{"event": "long_term_memory_closed", "level": "info"}
+{"event": "episodic_close_start", "level": "info"}
+{"event": "episodic_close_ok", "level": "info"}
+{"event": "semantic_close_start", "level": "info"}
+{"event": "semantic_close_ok", "level": "info"}
+{"event": "procedural_close_start", "level": "info"}
+{"event": "procedural_close_ok", "level": "info"}
+{"event": "memory_manager_close_ok", "level": "info"}
+{"event": "memory_closed", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"backends": ["short_term", "long_term", "episodic", "semantic", "procedural"], "event": "memory_manager_close_start", "level": "info"}
+{"event": "short_term_close_start", "level": "info"}
+{"event": "short_term_closed", "level": "info"}
+{"event": "long_term_close_start", "level": "info"}
+{"event": "long_term_memory_closed", "level": "info"}
+{"event": "episodic_close_start", "level": "info"}
+{"event": "episodic_close_ok", "level": "info"}
+{"event": "semantic_close_start", "level": "info"}
+{"event": "semantic_close_ok", "level": "info"}
+{"event": "procedural_close_start", "level": "info"}
+{"event": "procedural_close_ok", "level": "info"}
+{"event": "memory_manager_close_ok", "level": "info"}
+{"event": "memory_closed", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"backends": ["short_term", "long_term", "episodic", "semantic", "procedural"], "event": "memory_manager_close_start", "level": "info"}
+{"event": "short_term_close_start", "level": "info"}
+{"event": "short_term_closed", "level": "info"}
+{"event": "long_term_close_start", "level": "info"}
+{"event": "long_term_memory_closed", "level": "info"}
+{"event": "episodic_close_start", "level": "info"}
+{"event": "episodic_close_ok", "level": "info"}
+{"event": "semantic_close_start", "level": "info"}
+{"event": "semantic_close_ok", "level": "info"}
+{"event": "procedural_close_start", "level": "info"}
+{"event": "procedural_close_ok", "level": "info"}
+{"event": "memory_manager_close_ok", "level": "info"}
+{"event": "memory_closed", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"backends": ["short_term", "long_term", "episodic", "semantic", "procedural"], "event": "memory_manager_close_start", "level": "info"}
+{"event": "short_term_close_start", "level": "info"}
+{"event": "short_term_closed", "level": "info"}
+{"event": "long_term_close_start", "level": "info"}
+{"event": "long_term_memory_closed", "level": "info"}
+{"event": "episodic_close_start", "level": "info"}
+{"event": "episodic_close_ok", "level": "info"}
+{"event": "semantic_close_start", "level": "info"}
+{"event": "semantic_close_ok", "level": "info"}
+{"event": "procedural_close_start", "level": "info"}
+{"event": "procedural_close_ok", "level": "info"}
+{"event": "memory_manager_close_ok", "level": "info"}
+{"event": "memory_closed", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"backends": ["short_term", "long_term", "episodic", "semantic", "procedural"], "event": "memory_manager_close_start", "level": "info"}
+{"event": "short_term_close_start", "level": "info"}
+{"event": "short_term_closed", "level": "info"}
+{"event": "long_term_close_start", "level": "info"}
+{"event": "long_term_memory_closed", "level": "info"}
+{"event": "episodic_close_start", "level": "info"}
+{"event": "episodic_close_ok", "level": "info"}
+{"event": "semantic_close_start", "level": "info"}
+{"event": "semantic_close_ok", "level": "info"}
+{"event": "procedural_close_start", "level": "info"}
+{"event": "procedural_close_ok", "level": "info"}
+{"event": "memory_manager_close_ok", "level": "info"}
+{"event": "memory_closed", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"backends": ["short_term"], "event": "memory_manager_connect_ok", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"backends": ["short_term", "long_term", "episodic", "semantic", "procedural"], "event": "memory_manager_close_start", "level": "info"}
+{"event": "short_term_close_start", "level": "info"}
+{"event": "short_term_closed", "level": "info"}
+{"event": "long_term_close_start", "level": "info"}
+{"event": "long_term_memory_closed", "level": "info"}
+{"event": "episodic_close_start", "level": "info"}
+{"event": "episodic_close_ok", "level": "info"}
+{"event": "semantic_close_start", "level": "info"}
+{"event": "semantic_close_ok", "level": "info"}
+{"event": "procedural_close_start", "level": "info"}
+{"event": "procedural_close_ok", "level": "info"}
+{"event": "memory_manager_close_ok", "level": "info"}
+{"event": "memory_closed", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"event": "short_term_close_start", "level": "info"}
+{"event": "short_term_closed", "level": "info"}
+{"event": "memory_closed", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"event": "short_term_close_start", "level": "info"}
+{"event": "short_term_closed", "level": "info"}
+{"event": "memory_closed", "level": "info"}
+{"event": "short_term_close_start", "level": "info"}
+{"event": "short_term_closed", "level": "info"}
+{"event": "memory_closed", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"method": "GET", "path": "/docs", "event": "request_start", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "GET", "path": "/openapi.json", "event": "request_start", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "GET", "path": "/health", "event": "request_start", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "POST", "path": "/chat", "event": "request_start", "level": "info"}
+{"path": "/chat", "method": "POST", "user_id": "test-user", "session_id": "s1", "message_preview": "What's the weather in Mumbai?", "event": "api_request", "level": "info"}
+{"flow_id": "s1:1771239635663", "user_id": "test-user", "session_id": "s1", "message_preview": "What's the weather in Mumbai?", "event": "flow_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"flow_id": "s1:1771239635663", "step": "memory_retrieve", "description": "Get short-term and long-term context", "event": "flow_step", "level": "info"}
+{"operation": "get", "session_id": "s1", "event": "short_term_get_start", "level": "info"}
+{"operation": "get", "session_id": "s1", "key": "agent:short:s1", "event": "short_term_miss", "level": "info"}
+{"flow_id": "s1:1771239635663", "step": "memory_retrieved", "short_term_hit": false, "short_term_messages": 0, "long_term_count": 0, "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771239635663", "step": "session_resolve", "app_name": "supervisor", "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771239635663", "step": "session_created", "session_id": "s1", "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771239635663", "step": "agent_invoke_start", "agent": "Supervisor", "description": "Running Supervisor (routes to WeatherAgent/FinanceAgent/ProcedureAgent)", "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771239635663", "step": "agent_invoke_done", "agent": "Supervisor", "event_count": 7, "event_authors": ["Supervisor", "Supervisor", "WeatherAgent", "WeatherAgent", "WeatherAgent", "WeatherAgent", "WeatherAgent"], "elapsed_seconds": 5.179, "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771239635663", "step": "intent_and_response", "intent": "weather_query", "response_keys": ["location", "temperature", "condition", "forecast"], "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771239635663", "step": "memory_persist", "description": "Save short-term (Redis) and long-term (MongoDB)", "event": "flow_step", "level": "info"}
+{"operation": "save", "session_id": "s1", "event": "short_term_save_start", "level": "info"}
+{"operation": "save", "session_id": "s1", "key": "agent:short:s1", "ttl_seconds": 1800, "messages_count": 2, "event": "short_term_saved", "level": "info"}
+{"flow_id": "s1:1771239635663", "user_id": "test-user", "session_id": "s1", "intent": "weather_query", "response_preview": "{'location': 'Mumbai', 'temperature': '25\u00b0C', 'condition': 'Rainy', 'forecast': 'Rainy, 25\u00b0C. Highs in the low 30s, lows in the mid 20s.'}", "event": "flow_end", "level": "info"}
+{"path": "/chat", "session_id": "s1", "intent": "weather_query", "status": "success", "event": "api_response", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "POST", "path": "/chat", "event": "request_start", "level": "info"}
+{"path": "/chat", "method": "POST", "user_id": "test-user", "session_id": "s1", "message_preview": "What's the stock price of AAPL?", "event": "api_request", "level": "info"}
+{"flow_id": "s1:1771239667478", "user_id": "test-user", "session_id": "s1", "message_preview": "What's the stock price of AAPL?", "event": "flow_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"flow_id": "s1:1771239667478", "step": "memory_retrieve", "description": "Get short-term and long-term context", "event": "flow_step", "level": "info"}
+{"operation": "get", "session_id": "s1", "event": "short_term_get_start", "level": "info"}
+{"operation": "get", "session_id": "s1", "key": "agent:short:s1", "messages_count": 2, "event": "short_term_hit", "level": "info"}
+{"flow_id": "s1:1771239667478", "step": "memory_retrieved", "short_term_hit": true, "short_term_messages": 2, "long_term_count": 1, "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771239667478", "step": "session_resolve", "app_name": "supervisor", "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771239667478", "step": "session_created", "session_id": "s1", "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771239667478", "step": "agent_invoke_start", "agent": "Supervisor", "description": "Running Supervisor (routes to WeatherAgent/FinanceAgent/ProcedureAgent)", "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771239667478", "step": "agent_invoke_done", "agent": "Supervisor", "event_count": 7, "event_authors": ["Supervisor", "Supervisor", "FinanceAgent", "FinanceAgent", "FinanceAgent", "FinanceAgent", "FinanceAgent"], "elapsed_seconds": 5.666, "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771239667478", "step": "intent_and_response", "intent": "finance_query", "response_keys": ["symbol", "price", "change"], "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771239667478", "step": "memory_persist", "description": "Save short-term (Redis) and long-term (MongoDB)", "event": "flow_step", "level": "info"}
+{"operation": "save", "session_id": "s1", "event": "short_term_save_start", "level": "info"}
+{"operation": "save", "session_id": "s1", "key": "agent:short:s1", "ttl_seconds": 1800, "messages_count": 4, "event": "short_term_saved", "level": "info"}
+{"flow_id": "s1:1771239667478", "user_id": "test-user", "session_id": "s1", "intent": "finance_query", "response_preview": "{'symbol': 'AAPL', 'price': '$187.52', 'change': '+1.36%'}", "event": "flow_end", "level": "info"}
+{"path": "/chat", "session_id": "s1", "intent": "finance_query", "status": "success", "event": "api_response", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "POST", "path": "/chat", "event": "request_start", "level": "info"}
+{"path": "/chat", "method": "POST", "user_id": "test-user", "session_id": "s1", "message_preview": "Hi, how are you?", "event": "api_request", "level": "info"}
+{"flow_id": "s1:1771239715398", "user_id": "test-user", "session_id": "s1", "message_preview": "Hi, how are you?", "event": "flow_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"flow_id": "s1:1771239715398", "step": "memory_retrieve", "description": "Get short-term and long-term context", "event": "flow_step", "level": "info"}
+{"operation": "get", "session_id": "s1", "event": "short_term_get_start", "level": "info"}
+{"operation": "get", "session_id": "s1", "key": "agent:short:s1", "messages_count": 4, "event": "short_term_hit", "level": "info"}
+{"flow_id": "s1:1771239715398", "step": "memory_retrieved", "short_term_hit": true, "short_term_messages": 4, "long_term_count": 0, "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771239715398", "step": "session_resolve", "app_name": "supervisor", "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771239715398", "step": "session_created", "session_id": "s1", "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771239715398", "step": "agent_invoke_start", "agent": "Supervisor", "description": "Running Supervisor (routes to WeatherAgent/FinanceAgent/ProcedureAgent)", "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771239715398", "step": "agent_invoke_done", "agent": "Supervisor", "event_count": 1, "event_authors": ["Supervisor"], "elapsed_seconds": 1.536, "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771239715398", "step": "intent_and_response", "intent": "general_query", "response_keys": ["message"], "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771239715398", "step": "memory_persist", "description": "Save short-term (Redis) and long-term (MongoDB)", "event": "flow_step", "level": "info"}
+{"operation": "save", "session_id": "s1", "event": "short_term_save_start", "level": "info"}
+{"operation": "save", "session_id": "s1", "key": "agent:short:s1", "ttl_seconds": 1800, "messages_count": 6, "event": "short_term_saved", "level": "info"}
+{"flow_id": "s1:1771239715398", "user_id": "test-user", "session_id": "s1", "intent": "general_query", "response_preview": "{'message': \"Hi there! I'm doing well, just ready to assist you. How can I help you today?\"}", "event": "flow_end", "level": "info"}
+{"path": "/chat", "session_id": "s1", "intent": "general_query", "status": "success", "event": "api_response", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "POST", "path": "/chat", "event": "request_start", "level": "info"}
+{"path": "/chat", "method": "POST", "user_id": "test-user", "session_id": "s1", "message_preview": "Remember this procedure: To check the weather, first get the user's location, th", "event": "api_request", "level": "info"}
+{"flow_id": "s1:1771239753338", "user_id": "test-user", "session_id": "s1", "message_preview": "Remember this procedure: To check the weather, first get the user's location, then call the weather ", "event": "flow_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"flow_id": "s1:1771239753338", "step": "memory_retrieve", "description": "Get short-term and long-term context", "event": "flow_step", "level": "info"}
+{"operation": "get", "session_id": "s1", "event": "short_term_get_start", "level": "info"}
+{"operation": "get", "session_id": "s1", "key": "agent:short:s1", "messages_count": 6, "event": "short_term_hit", "level": "info"}
+{"flow_id": "s1:1771239753338", "step": "memory_retrieved", "short_term_hit": true, "short_term_messages": 6, "long_term_count": 1, "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771239753338", "step": "session_resolve", "app_name": "supervisor", "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771239753338", "step": "session_created", "session_id": "s1", "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771239753338", "step": "agent_invoke_start", "agent": "Supervisor", "description": "Running Supervisor (routes to WeatherAgent/FinanceAgent/ProcedureAgent)", "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771239753338", "user_id": "test-user", "name": "check_weather", "steps_count": 3, "event": "procedure_saved", "level": "info"}
+{"flow_id": "s1:1771239753338", "step": "agent_invoke_done", "agent": "Supervisor", "event_count": 7, "event_authors": ["Supervisor", "Supervisor", "ProcedureAgent", "ProcedureAgent", "ProcedureAgent", "ProcedureAgent", "ProcedureAgent"], "elapsed_seconds": 6.075, "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771239753338", "step": "intent_and_response", "intent": "procedure_query", "response_keys": ["name", "steps_count", "message"], "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771239753338", "step": "memory_persist", "description": "Save short-term (Redis) and long-term (MongoDB)", "event": "flow_step", "level": "info"}
+{"operation": "save", "session_id": "s1", "event": "short_term_save_start", "level": "info"}
+{"operation": "save", "session_id": "s1", "key": "agent:short:s1", "ttl_seconds": 1800, "messages_count": 8, "event": "short_term_saved", "level": "info"}
+{"flow_id": "s1:1771239753338", "user_id": "test-user", "session_id": "s1", "intent": "procedure_query", "response_preview": "{'name': 'check_weather', 'steps_count': 3, 'message': \"Procedure 'check_weather' saved with 3 steps.\"}", "event": "flow_end", "level": "info"}
+{"path": "/chat", "session_id": "s1", "intent": "procedure_query", "status": "success", "event": "api_response", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"event": "short_term_close_start", "level": "info"}
+{"event": "short_term_closed", "level": "info"}
+{"event": "memory_closed", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"event": "short_term_close_start", "level": "info"}
+{"event": "short_term_closed", "level": "info"}
+{"event": "memory_closed", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"event": "short_term_close_start", "level": "info"}
+{"event": "short_term_closed", "level": "info"}
+{"event": "memory_closed", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"method": "POST", "path": "/chat", "event": "request_start", "level": "info"}
+{"method": "GET", "path": "/health", "event": "request_start", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"path": "/chat", "method": "POST", "user_id": "test-user", "session_id": "s1", "message_preview": "Hi, what is the weather in Mumbai?", "event": "api_request", "level": "info"}
+{"flow_id": "s1:1771241817925", "user_id": "test-user", "session_id": "s1", "message_preview": "Hi, what is the weather in Mumbai?", "event": "flow_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"flow_id": "s1:1771241817925", "step": "memory_retrieve", "description": "Get short-term and long-term context", "event": "flow_step", "level": "info"}
+{"operation": "get", "session_id": "s1", "event": "short_term_get_start", "level": "info"}
+{"operation": "get", "session_id": "s1", "key": "agent:short:s1", "event": "short_term_miss", "level": "info"}
+{"flow_id": "s1:1771241817925", "step": "memory_retrieved", "short_term_hit": false, "short_term_messages": 0, "long_term_count": 2, "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771241817925", "step": "procedural_retrieved", "procedures_count": 1, "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771241817925", "step": "session_resolve", "app_name": "supervisor", "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771241817925", "step": "session_created", "session_id": "s1", "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771241817925", "step": "agent_invoke_start", "agent": "Supervisor", "description": "Running Supervisor (routes to WeatherAgent/FinanceAgent/ProcedureAgent)", "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771241817925", "step": "agent_invoke_done", "agent": "Supervisor", "event_count": 7, "event_authors": ["Supervisor", "Supervisor", "WeatherAgent", "WeatherAgent", "WeatherAgent", "WeatherAgent", "WeatherAgent"], "elapsed_seconds": 4.391, "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771241817925", "step": "intent_and_response", "intent": "weather_query", "response_keys": ["location", "temperature", "condition", "forecast"], "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771241817925", "step": "memory_persist", "description": "Save short-term (Redis) and long-term (MongoDB)", "event": "flow_step", "level": "info"}
+{"operation": "save", "session_id": "s1", "event": "short_term_save_start", "level": "info"}
+{"operation": "save", "session_id": "s1", "key": "agent:short:s1", "ttl_seconds": 1800, "messages_count": 2, "event": "short_term_saved", "level": "info"}
+{"flow_id": "s1:1771241817925", "user_id": "test-user", "session_id": "s1", "intent": "weather_query", "response_preview": "{'location': 'Mumbai', 'temperature': '24\u00b0C', 'condition': 'Clear', 'forecast': 'Clear, 24\u00b0C. Highs in the low 30s, lows in the mid 20s.'}", "event": "flow_end", "level": "info"}
+{"path": "/chat", "session_id": "s1", "intent": "weather_query", "status": "success", "event": "api_response", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "POST", "path": "/chat", "event": "request_start", "level": "info"}
+{"path": "/chat", "method": "POST", "user_id": "test-user", "session_id": "s1", "message_preview": "What is the stock price of AAPL?", "event": "api_request", "level": "info"}
+{"flow_id": "s1:1771241838432", "user_id": "test-user", "session_id": "s1", "message_preview": "What is the stock price of AAPL?", "event": "flow_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"flow_id": "s1:1771241838432", "step": "memory_retrieve", "description": "Get short-term and long-term context", "event": "flow_step", "level": "info"}
+{"operation": "get", "session_id": "s1", "event": "short_term_get_start", "level": "info"}
+{"operation": "get", "session_id": "s1", "key": "agent:short:s1", "messages_count": 2, "event": "short_term_hit", "level": "info"}
+{"method": "POST", "path": "/chat", "event": "request_start", "level": "info"}
+{"path": "/chat", "method": "POST", "user_id": "test-user", "session_id": "s1", "message_preview": "Remember this procedure: To check the weather, first get the user location, then", "event": "api_request", "level": "info"}
+{"flow_id": "s1:1771241840443", "user_id": "test-user", "session_id": "s1", "message_preview": "Remember this procedure: To check the weather, first get the user location, then call the weather AP", "event": "flow_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"flow_id": "s1:1771241840443", "step": "memory_retrieve", "description": "Get short-term and long-term context", "event": "flow_step", "level": "info"}
+{"operation": "get", "session_id": "s1", "event": "short_term_get_start", "level": "info"}
+{"operation": "get", "session_id": "s1", "key": "agent:short:s1", "messages_count": 2, "event": "short_term_hit", "level": "info"}
+{"method": "POST", "path": "/chat", "event": "request_start", "level": "info"}
+{"path": "/chat", "method": "POST", "user_id": "test-user", "session_id": "s1", "message_preview": "How do I check the weather? What are the steps?", "event": "api_request", "level": "info"}
+{"flow_id": "s1:1771241842763", "user_id": "test-user", "session_id": "s1", "message_preview": "How do I check the weather? What are the steps?", "event": "flow_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"flow_id": "s1:1771241842763", "step": "memory_retrieve", "description": "Get short-term and long-term context", "event": "flow_step", "level": "info"}
+{"operation": "get", "session_id": "s1", "event": "short_term_get_start", "level": "info"}
+{"operation": "get", "session_id": "s1", "key": "agent:short:s1", "messages_count": 2, "event": "short_term_hit", "level": "info"}
+{"flow_id": "s1:1771241838432", "step": "memory_retrieved", "short_term_hit": true, "short_term_messages": 2, "long_term_count": 4, "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771241840443", "step": "memory_retrieved", "short_term_hit": true, "short_term_messages": 2, "long_term_count": 4, "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771241842763", "step": "memory_retrieved", "short_term_hit": true, "short_term_messages": 2, "long_term_count": 4, "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771241838432", "step": "procedural_retrieved", "procedures_count": 1, "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771241838432", "step": "session_resolve", "app_name": "supervisor", "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771241838432", "step": "session_created", "session_id": "s1", "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771241838432", "step": "agent_invoke_start", "agent": "Supervisor", "description": "Running Supervisor (routes to WeatherAgent/FinanceAgent/ProcedureAgent)", "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771241840443", "step": "procedural_retrieved", "procedures_count": 1, "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771241840443", "step": "session_resolve", "app_name": "supervisor", "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771241840443", "step": "session_created", "session_id": "s1", "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771241840443", "step": "agent_invoke_start", "agent": "Supervisor", "description": "Running Supervisor (routes to WeatherAgent/FinanceAgent/ProcedureAgent)", "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771241842763", "step": "procedural_retrieved", "procedures_count": 1, "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771241842763", "step": "session_resolve", "app_name": "supervisor", "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771241842763", "step": "session_created", "session_id": "s1", "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771241842763", "step": "agent_invoke_start", "agent": "Supervisor", "description": "Running Supervisor (routes to WeatherAgent/FinanceAgent/ProcedureAgent)", "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771241842763", "step": "agent_invoke_done", "agent": "Supervisor", "event_count": 1, "event_authors": ["Supervisor"], "elapsed_seconds": 1.247, "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771241842763", "step": "intent_and_response", "intent": "general_query", "response_keys": ["message"], "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771241842763", "step": "memory_persist", "description": "Save short-term (Redis) and long-term (MongoDB)", "event": "flow_step", "level": "info"}
+{"operation": "save", "session_id": "s1", "event": "short_term_save_start", "level": "info"}
+{"operation": "save", "session_id": "s1", "key": "agent:short:s1", "ttl_seconds": 1800, "messages_count": 4, "event": "short_term_saved", "level": "info"}
+{"flow_id": "s1:1771241838432", "step": "agent_invoke_done", "agent": "Supervisor", "event_count": 7, "event_authors": ["Supervisor", "Supervisor", "FinanceAgent", "FinanceAgent", "FinanceAgent", "FinanceAgent", "FinanceAgent"], "elapsed_seconds": 6.665, "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771241838432", "step": "intent_and_response", "intent": "finance_query", "response_keys": ["symbol", "price", "change"], "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771241838432", "step": "memory_persist", "description": "Save short-term (Redis) and long-term (MongoDB)", "event": "flow_step", "level": "info"}
+{"operation": "save", "session_id": "s1", "event": "short_term_save_start", "level": "info"}
+{"operation": "save", "session_id": "s1", "key": "agent:short:s1", "ttl_seconds": 1800, "messages_count": 4, "event": "short_term_saved", "level": "info"}
+{"flow_id": "s1:1771241840443", "user_id": "test-user", "name": "check_weather", "steps_count": 3, "event": "procedure_saved", "level": "info"}
+{"flow_id": "s1:1771241840443", "step": "agent_invoke_done", "agent": "Supervisor", "event_count": 7, "event_authors": ["Supervisor", "Supervisor", "ProcedureAgent", "ProcedureAgent", "ProcedureAgent", "ProcedureAgent", "ProcedureAgent"], "elapsed_seconds": 6.578, "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771241840443", "step": "intent_and_response", "intent": "procedure_query", "response_keys": ["name", "steps_count", "message"], "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771241840443", "step": "memory_persist", "description": "Save short-term (Redis) and long-term (MongoDB)", "event": "flow_step", "level": "info"}
+{"operation": "save", "session_id": "s1", "event": "short_term_save_start", "level": "info"}
+{"operation": "save", "session_id": "s1", "key": "agent:short:s1", "ttl_seconds": 1800, "messages_count": 4, "event": "short_term_saved", "level": "info"}
+{"flow_id": "s1:1771241842763", "user_id": "test-user", "session_id": "s1", "intent": "general_query", "response_preview": "{'message': \"To check the weather:\\n1. get the user's location\\n2. call the weather API\\n3. format the result\"}", "event": "flow_end", "level": "info"}
+{"path": "/chat", "session_id": "s1", "intent": "general_query", "status": "success", "event": "api_response", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"flow_id": "s1:1771241838432", "user_id": "test-user", "session_id": "s1", "intent": "finance_query", "response_preview": "{'symbol': 'AAPL', 'price': '$182.03', 'change': '-1.61%'}", "event": "flow_end", "level": "info"}
+{"path": "/chat", "session_id": "s1", "intent": "finance_query", "status": "success", "event": "api_response", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"flow_id": "s1:1771241840443", "user_id": "test-user", "session_id": "s1", "intent": "procedure_query", "response_preview": "{'name': 'check_weather', 'steps_count': 3, 'message': \"Procedure 'check_weather' saved with 3 steps.\"}", "event": "flow_end", "level": "info"}
+{"path": "/chat", "session_id": "s1", "intent": "procedure_query", "status": "success", "event": "api_response", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "GET", "path": "/memory/test-user", "event": "request_start", "level": "info"}
+{"path": "/memory/{user_id}", "method": "GET", "user_id": "test-user", "event": "api_request", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"method": "GET", "path": "/memory/test-user/episodic", "event": "request_start", "level": "info"}
+{"method": "GET", "path": "/memory/test-user/semantic", "event": "request_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"method": "GET", "path": "/memory/test-user/procedural", "event": "request_start", "level": "info"}
+{"path": "/memory/{user_id}", "user_id": "test-user", "memories_count": 16, "event": "api_response", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "DELETE", "path": "/session/s1", "event": "request_start", "level": "info"}
+{"path": "/session/{session_id}", "method": "DELETE", "session_id": "s1", "event": "api_request", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"operation": "clear", "session_id": "s1", "event": "short_term_clear_start", "level": "info"}
+{"operation": "clear", "session_id": "s1", "key": "agent:short:s1", "event": "short_term_cleared", "level": "info"}
+{"path": "/session/{session_id}", "session_id": "s1", "status": "cleared", "event": "api_response", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "POST", "path": "/chat/stream", "event": "request_start", "level": "info"}
+{"path": "/chat/stream", "method": "POST", "user_id": "test-user", "session_id": "s2", "message_preview": "What is the weather in Delhi?", "event": "api_request", "level": "info"}
+{"user_id": "test-user", "session_id": "s2", "message_preview": "What is the weather in Delhi?", "event": "stream_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"user_id": "test-user", "session_id": "s2", "error": "Session not found: s2", "exc_info": true, "event": "stream_chat_failed", "level": "error"}
+{"path": "/chat/stream", "error": "Invalid or expired session. Please start a new conversation.", "status_code": 400, "event": "api_error", "level": "warning"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"event": "short_term_close_start", "level": "info"}
+{"event": "short_term_closed", "level": "info"}
+{"event": "memory_closed", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"method": "GET", "path": "/health", "event": "request_start", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "GET", "path": "/health", "event": "request_start", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "POST", "path": "/chat", "event": "request_start", "level": "info"}
+{"path": "/chat", "method": "POST", "user_id": "test-user", "session_id": "s1", "message_preview": "Hi, what is the weather in Mumbai?", "event": "api_request", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"operation": "get", "session_id": "s1", "event": "short_term_get_start", "level": "info"}
+{"operation": "get", "session_id": "s1", "key": "agent:short:s1", "event": "short_term_miss", "level": "info"}
+{"method": "POST", "path": "/chat", "event": "request_start", "level": "info"}
+{"path": "/chat", "method": "POST", "user_id": "test-user", "session_id": "s1", "message_preview": "What is the stock price of AAPL?", "event": "api_request", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"operation": "get", "session_id": "s1", "event": "short_term_get_start", "level": "info"}
+{"operation": "get", "session_id": "s1", "key": "agent:short:s1", "event": "short_term_miss", "level": "info"}
+{"flow_id": "s1:1771253562414", "step": "session_resolve", "app_name": "supervisor", "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771253562414", "step": "session_created", "session_id": "s1", "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771253562414", "step": "agent_invoke_start", "agent": "Supervisor", "description": "Running Supervisor (routes to WeatherAgent/FinanceAgent/ProcedureAgent)", "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771253567582", "step": "session_resolve", "app_name": "supervisor", "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771253567582", "step": "session_created", "session_id": "s1", "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771253567582", "step": "agent_invoke_start", "agent": "Supervisor", "description": "Running Supervisor (routes to WeatherAgent/FinanceAgent/ProcedureAgent)", "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771253562414", "step": "agent_invoke_done", "agent": "Supervisor", "event_count": 7, "elapsed_seconds": 5.332, "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771253562414", "step": "intent_and_response", "intent": "weather_query", "response_keys": ["location", "temperature", "condition", "forecast"], "event": "flow_step", "level": "info"}
+{"operation": "save", "session_id": "s1", "event": "short_term_save_start", "level": "info"}
+{"operation": "save", "session_id": "s1", "key": "agent:short:s1", "ttl_seconds": 1800, "messages_count": 2, "event": "short_term_saved", "level": "info"}
+{"flow_id": "s1:1771253567582", "step": "agent_invoke_done", "agent": "Supervisor", "event_count": 7, "elapsed_seconds": 5.737, "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771253567582", "step": "intent_and_response", "intent": "finance_query", "response_keys": ["symbol", "price", "change"], "event": "flow_step", "level": "info"}
+{"operation": "save", "session_id": "s1", "event": "short_term_save_start", "level": "info"}
+{"operation": "save", "session_id": "s1", "key": "agent:short:s1", "ttl_seconds": 1800, "messages_count": 2, "event": "short_term_saved", "level": "info"}
+{"path": "/chat", "session_id": "s1", "intent": "weather_query", "status": "success", "event": "api_response", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"path": "/chat", "session_id": "s1", "intent": "finance_query", "status": "success", "event": "api_response", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "POST", "path": "/chat", "event": "request_start", "level": "info"}
+{"path": "/chat", "method": "POST", "user_id": "test-user", "session_id": "s1", "message_preview": "Remember this procedure: To check the weather, first get the user location, then", "event": "api_request", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"operation": "get", "session_id": "s1", "event": "short_term_get_start", "level": "info"}
+{"operation": "get", "session_id": "s1", "key": "agent:short:s1", "messages_count": 2, "event": "short_term_hit", "level": "info"}
+{"method": "POST", "path": "/chat", "event": "request_start", "level": "info"}
+{"path": "/chat", "method": "POST", "user_id": "test-user", "session_id": "s1", "message_preview": "How do I check the weather? What are the steps?", "event": "api_request", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"operation": "get", "session_id": "s1", "event": "short_term_get_start", "level": "info"}
+{"operation": "get", "session_id": "s1", "key": "agent:short:s1", "messages_count": 2, "event": "short_term_hit", "level": "info"}
+{"flow_id": "s1:1771253591161", "step": "session_resolve", "app_name": "supervisor", "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771253591161", "step": "session_created", "session_id": "s1", "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771253591161", "step": "agent_invoke_start", "agent": "Supervisor", "description": "Running Supervisor (routes to WeatherAgent/FinanceAgent/ProcedureAgent)", "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771253593431", "step": "session_resolve", "app_name": "supervisor", "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771253593431", "step": "session_created", "session_id": "s1", "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771253593431", "step": "agent_invoke_start", "agent": "Supervisor", "description": "Running Supervisor (routes to WeatherAgent/FinanceAgent/ProcedureAgent)", "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771253593431", "step": "agent_invoke_done", "agent": "Supervisor", "event_count": 1, "elapsed_seconds": 1.924, "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771253593431", "step": "intent_and_response", "intent": "general_query", "response_keys": ["message"], "event": "flow_step", "level": "info"}
+{"operation": "save", "session_id": "s1", "event": "short_term_save_start", "level": "info"}
+{"operation": "save", "session_id": "s1", "key": "agent:short:s1", "ttl_seconds": 1800, "messages_count": 4, "event": "short_term_saved", "level": "info"}
+{"flow_id": "s1:1771253591161", "step": "agent_invoke_done", "agent": "Supervisor", "event_count": 7, "elapsed_seconds": 5.265, "event": "flow_step", "level": "info"}
+{"flow_id": "s1:1771253591161", "step": "intent_and_response", "intent": "procedure_query", "response_keys": ["name", "steps_count", "message"], "event": "flow_step", "level": "info"}
+{"operation": "save", "session_id": "s1", "event": "short_term_save_start", "level": "info"}
+{"operation": "save", "session_id": "s1", "key": "agent:short:s1", "ttl_seconds": 1800, "messages_count": 4, "event": "short_term_saved", "level": "info"}
+{"path": "/chat", "session_id": "s1", "intent": "general_query", "status": "success", "event": "api_response", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"path": "/chat", "session_id": "s1", "intent": "procedure_query", "status": "success", "event": "api_response", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "GET", "path": "/memory/test-user", "event": "request_start", "level": "info"}
+{"path": "/memory/{user_id}", "method": "GET", "user_id": "test-user", "event": "api_request", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"method": "GET", "path": "/memory/test-user/episodic", "event": "request_start", "level": "info"}
+{"method": "GET", "path": "/memory/test-user/semantic", "event": "request_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"method": "GET", "path": "/memory/test-user/procedural", "event": "request_start", "level": "info"}
+{"path": "/memory/{user_id}", "user_id": "test-user", "memories_count": 24, "event": "api_response", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "POST", "path": "/chat/stream", "event": "request_start", "level": "info"}
+{"path": "/chat/stream", "method": "POST", "user_id": "test-user", "session_id": "s2", "message_preview": "Hello", "event": "api_request", "level": "info"}
+{"user_id": "test-user", "session_id": "s2", "message_preview": "Hello", "event": "stream_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"user_id": "test-user", "session_id": "s2", "error": "Session not found: s2", "exc_info": true, "event": "stream_chat_failed", "level": "error"}
+{"path": "/chat/stream", "error": "Invalid or expired session. Please start a new conversation.", "status_code": 400, "event": "api_error", "level": "warning"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "DELETE", "path": "/session/s1", "event": "request_start", "level": "info"}
+{"path": "/session/{session_id}", "method": "DELETE", "session_id": "s1", "event": "api_request", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"operation": "clear", "session_id": "s1", "event": "short_term_clear_start", "level": "info"}
+{"operation": "clear", "session_id": "s1", "key": "agent:short:s1", "event": "short_term_cleared", "level": "info"}
+{"path": "/session/{session_id}", "session_id": "s1", "status": "cleared", "event": "api_response", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"event": "short_term_close_start", "level": "info"}
+{"event": "short_term_closed", "level": "info"}
+{"event": "memory_closed", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"event": "memory_connected", "level": "info"}
+{"method": "GET", "path": "/health", "event": "request_start", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"method": "POST", "path": "/chat", "event": "request_start", "level": "info"}
+{"path": "/chat", "method": "POST", "user_id": "test-user", "session_id": "test-session-1", "message_preview": "Hello, what can you do?", "event": "api_request", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"operation": "get", "session_id": "test-session-1", "event": "short_term_get_start", "level": "info"}
+{"operation": "get", "session_id": "test-session-1", "key": "agent:short:test-session-1", "event": "short_term_miss", "level": "info"}
+{"method": "GET", "path": "/memory/test-user", "event": "request_start", "level": "info"}
+{"method": "GET", "path": "/memory/test-user/episodic", "event": "request_start", "level": "info"}
+{"path": "/memory/{user_id}", "method": "GET", "user_id": "test-user", "event": "api_request", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connect_start", "level": "info"}
+{"url_redacted": "redis://***", "event": "short_term_connected", "level": "info"}
+{"path": "/memory/{user_id}", "user_id": "test-user", "memories_count": 24, "event": "api_response", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"flow_id": "test-session-1:1771308357288", "step": "session_resolve", "app_name": "supervisor", "event": "flow_step", "level": "info"}
+{"flow_id": "test-session-1:1771308357288", "step": "session_created", "session_id": "test-session-1", "event": "flow_step", "level": "info"}
+{"flow_id": "test-session-1:1771308357288", "step": "agent_invoke_start", "agent": "Supervisor", "description": "Running Supervisor (routes to WeatherAgent/FinanceAgent/ProcedureAgent)", "event": "flow_step", "level": "info"}
+{"flow_id": "test-session-1:1771308357288", "step": "agent_invoke_done", "agent": "Supervisor", "event_count": 1, "elapsed_seconds": 2.313, "event": "flow_step", "level": "info"}
+{"flow_id": "test-session-1:1771308357288", "step": "intent_and_response", "intent": "general_query", "response_keys": ["message"], "event": "flow_step", "level": "info"}
+{"operation": "save", "session_id": "test-session-1", "event": "short_term_save_start", "level": "info"}
+{"operation": "save", "session_id": "test-session-1", "key": "agent:short:test-session-1", "ttl_seconds": 1800, "messages_count": 2, "event": "short_term_saved", "level": "info"}
+{"path": "/chat", "session_id": "test-session-1", "intent": "general_query", "status": "success", "event": "api_response", "level": "info"}
+{"status_code": 200, "event": "request_end", "level": "info"}
+{"event": "short_term_close_start", "level": "info"}
+{"event": "short_term_closed", "level": "info"}
+{"event": "memory_closed", "level": "info"}
